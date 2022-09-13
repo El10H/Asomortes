@@ -19,7 +19,8 @@ class CreateBenefitDeliveriesTable extends Migration
             $table->string('id_partners',50);
             $table->string('id_beneficiaries',50);
             $table->date('fecha_entrega');
-            $table->string('tipo_beneficio', 20);
+            $table->string('tipo_beneficio', 30);
+            $table->string('estado', 18);
 
             $table->timestamps();
         });

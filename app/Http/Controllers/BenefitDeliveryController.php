@@ -157,13 +157,32 @@ class BenefitDeliveryController extends Controller
 
         //return $tipo_beneficio;
 
+        $estadoEntrega = 'Entrega finalizada';
+
+        if ($request->idOpcionesServicios > 0){
+            foreach ($request->idOpcionesServicios as $idOpcionesServicios){
+                foreach ($option_services as $option_service){
+                    if($option_service->id == $idOpcionesServicios){
+                        foreach ($services as $service){
+                            if($option_service->id_services == $service->id && $service->devolucion === 'on'){   
+                                $estadoEntrega='Entrega pendiente';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
         benefit_delivery::create([
             'id_partners' => $request->idSocio,
             'id_beneficiaries' => $request->idBeneficiario,
             'fecha_entrega' => $date,
             'tipo_beneficio' => $tipo_beneficio,
-
+            'estado' => $estadoEntrega,
         ]);
+
+        
 
         //agregamos datos de los sku y id a la tabla benefit
         $id_benefit = benefit_delivery::select('id')->orderBy('id', 'desc')->first();
