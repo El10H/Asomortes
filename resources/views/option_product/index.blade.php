@@ -24,6 +24,7 @@
                     console.log(response);
 
                     var incluyeVeinte = response.includes('color');
+                    document.getElementById("cantidad").value = 1;
 
                     if (response.includes('modelo')) {
                         document.getElementById('modelo').disabled = false;
