@@ -19,6 +19,7 @@ class CreateSanctionedsTable extends Migration
             $table->unsignedBigInteger('partner_id');
             $table->date('fecha_pago');
             $table->date('fecha_habilitacion');
+
             $table->foreign('partner_id')->references('id')->on('partners');
             
             $table->timestamps();

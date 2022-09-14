@@ -17,11 +17,13 @@ class CreateOptionServicesTable extends Migration
             $table->bigIncrements('id');
 
             //Datos del servicio
-            $table->string('id_services',50);
+            $table->unsignedBigInteger('id_services',10);
             $table->string('nombre',50);
             $table->double('valor');
             $table->double('stock');
             $table->string('descripcion', 200);
+
+            $table->foreign('id_services')->references('id')->on('services');
 
             $table->timestamps();
         });

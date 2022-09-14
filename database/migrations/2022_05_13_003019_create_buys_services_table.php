@@ -16,15 +16,18 @@ class CreateBuysServicesTable extends Migration
         Schema::create('buys_services', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('id_services',50);
-            $table->string('id_providers',50);
+            $table->unsignedBigInteger('id_services',10);
+            $table->unsignedBigInteger('id_providers',10);
             $table->date('fecha_compra');
             $table->integer('cantidad');
             $table->double('valor_unitario');
             $table->double('valor_total');
             $table->string('boletaFactura', 7);
             $table->string('n_comprobante', 20);
-            $table->string('estado');
+            $table->string('estado', 10);
+
+            $table->foreign('id_services')->references('id')->on('services');
+            $table->foreign('id_providers')->references('id')->on('providers');
 
             $table->timestamps();
         });

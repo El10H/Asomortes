@@ -20,13 +20,11 @@ class CreateOptionProductsTable extends Migration
             $table->unsignedBigInteger('id_attribute_products');
             $table->integer('sku');
             //$table->string('nombre',50);
-            $table->string('opcion',100);
+            $table->string('opcion',30);
 
-            $table->foreign('id_vouchers')->references('id')->on('buys_products')
-            ->onDelete('cascade');
+            $table->foreign('id_vouchers')->references('id')->on('buys_products');
 
-            $table->foreign('id_attribute_products')->references('id')->on('attribute_products')
-            ->onDelete('cascade');
+            $table->foreign('id_attribute_products')->references('id')->on('attribute_products');
 
             $table->timestamps();
         });

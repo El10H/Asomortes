@@ -16,11 +16,14 @@ class CreateBenefitDeliveriesTable extends Migration
         Schema::create('benefit_deliveries', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('id_partners',50);
-            $table->string('id_beneficiaries',50);
+            $table->string('id_partners',10);
+            $table->string('id_beneficiaries',10);
             $table->date('fecha_entrega');
-            $table->string('tipo_beneficio', 30);
-            $table->string('estado', 18);
+            $table->string('tipo_beneficio', 35);
+            $table->string('estado', 20);
+
+            $table->foreign('id_partners')->references('id')->on('partners');
+            $table->foreign('id_beneficiaries')->references('id')->on('beneficiaries');
 
             $table->timestamps();
         });

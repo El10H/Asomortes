@@ -19,8 +19,7 @@ class CreateAttributeProductsTable extends Migration
             $table->unsignedBigInteger('id_products');
             $table->string('atributo',20);
 
-            $table->foreign('id_products')->references('id')->on('products')
-            ->onDelete('cascade');
+            $table->foreign('id_products')->references('id')->on('products');
 
             $table->timestamps();
         });

@@ -15,12 +15,14 @@ class CreateMonthsTable extends Migration
     {
         Schema::create('months', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('payment_id');
-            $table->string('mes',50);
+            $table->unsignedBigInteger('payment_id', 10);
+            $table->string('mes',15);
             $table->string('año');
             $table->string('monto');
 
-            $table->foreign('payment_id')->references('id')->on('payments');
+            $table->foreign('payment_id')->references('id')->on('payments')
+            ->onDelete('cascade');
+
             $table->timestamps();
 
         });

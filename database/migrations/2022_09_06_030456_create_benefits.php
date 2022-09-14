@@ -16,10 +16,14 @@ class CreateBenefits extends Migration
         Schema::create('benefits', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('id_benefit_deliveries',50);
-            $table->string('sku_option_products',50);
-            $table->string('id_option_services',50);
+            $table->unsignedBigInteger('id_benefit_deliveries',10);
+            $table->String('sku_option_products',10);
+            $table->unsignedBigInteger('id_option_services',10);
             $table->double('efectivo');
+
+            $table->foreign('id_benefit_deliveries')->references('id')->on('benefit_deliveries');
+            //$table->foreign('sku_option_products')->references('id')->on('option_products');
+            $table->foreign('id_option_services')->references('id')->on('option_services');
 
             $table->timestamps();
         });

@@ -17,7 +17,7 @@ class CreateBeneficiariesTable extends Migration
 
         
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('partner_id');
+            $table->unsignedBigInteger('partner_id', 10);
             $table->string('nombres_apellidos',200);
             $table->string('dni',8);
             $table->string('celular',9);
@@ -27,6 +27,7 @@ class CreateBeneficiariesTable extends Migration
 
             //Asignar a la llave creada, la relacion la tabla beneficiarios
             $table->foreign('partner_id')->references('id')->on('partners');
+
             $table->timestamps();
         });
     }
