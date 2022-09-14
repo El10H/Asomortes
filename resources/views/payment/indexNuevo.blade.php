@@ -27,7 +27,7 @@
                                             <div class="d-flex">
                                                 <div class="col-8">
                                                     <input type="search" class="form-control mr-2"
-                                                        placeholder="Nombre del socio" id="buscador" name="searchNuevo">
+                                                        placeholder="Carné del socio" id="buscador" name="searchNuevo">
                                                 </div>
 
                                                 <div class="input-group-append col-5">
@@ -46,6 +46,16 @@
                     </div>
 
                     <div class="card-body">
+                        @if (isset($mensaje))
+                            <div class="alert alert-success" role="alert">
+                                <h4 class="alert-heading">Pago registrado correctamente</h4>
+                                <p> El reporte de pagos se actualizo y puede descargar la boleta</p>
+                                <hr>
+                                <a href="{{ route('boleta.payment') }}" target="_blank" class="btn btn-success"
+                                    role="button">Descargar Boleta de pago</a>
+                            </div>
+                        @endif
+                        
                         <form action="{{ route('pagosguardar') }}" class="row g-3" method="POST">
                             @csrf
                             <div class="col-md-6 mt-2">
@@ -192,8 +202,15 @@
                     inputId.setAttribute("type", "hidden");
                     inputId.setAttribute("name", "idNombre");
                     inputId.value = datos.id;
+
+                    var inputDni = document.createElement("input");
+                    inputDni.setAttribute("type", "hidden");
+                    inputDni.setAttribute("name", "dni");
+                    inputDni.value = datos.dni;
+
                     var holaNew = document.getElementById('agrega');
                     holaNew.appendChild(inputId);
+                    holaNew.appendChild(inputDni);
 
 
                     if (datos.estado == 'Retirado') {

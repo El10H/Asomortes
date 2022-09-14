@@ -16,7 +16,7 @@ use function PHPUnit\Framework\isNull;
 
 class PaymentController extends Controller
 {
-    
+
     public function nuevoIndex()
     {
         return view('payment.indexNuevo');
@@ -25,7 +25,7 @@ class PaymentController extends Controller
     {
         $datos = array();
 
-        $socios = partner::where('carne', $dni)->select('id', 'nombre', 'apellido_paterno', 'apellido_materno', 'carne','estado')->first();
+        $socios = partner::where('carne', $dni)->select('id', 'nombre', 'apellido_paterno', 'apellido_materno', 'carne', 'estado', 'dni')->first();
 
         array_push($datos, $socios);
 
@@ -39,7 +39,7 @@ class PaymentController extends Controller
             $mes = [];
             array_push($datos, $mes);
         }
-        
+
         if (count($pagosVerifica) > 0) {
 
             $pagos = Payment::orderBy('created_at', 'DESC')
@@ -49,7 +49,7 @@ class PaymentController extends Controller
                 ->first();
 
             $mes = month::orderBy('id', 'desc')
-                ->select('mes','año')
+                ->select('mes', 'año')
                 ->where('payment_id', $pagos->id)
                 ->take(1)
                 ->get();
@@ -74,9 +74,9 @@ class PaymentController extends Controller
         return $data;
     }
 
-    public function guardar(Request $request){
+    public function guardar(Request $request)
+    {
 
-        
         Payment::create([
             'partner_id' => $request->idNombre,
             'fecha_de_pago' => $request->fecha_de_pago,
@@ -84,134 +84,205 @@ class PaymentController extends Controller
         ]);
 
         $ultimoRegistro = payment::where('created_at', payment::max('created_at'))->orderBy('created_at', 'desc')->firstOrFail();
+
         $meses = $request->mesesPagados;
         $arregloMeses = explode(",", $meses);
 
-        foreach($arregloMeses as $unico){
-            $mesAño=explode('-',$unico);
-            if($mesAño[0]=='0'){
-                $mesGuardar='Enero';
+
+        $datosBoleta = array();
+        foreach ($arregloMeses as $unico) {
+            $mesAño = explode('-', $unico);
+            if ($mesAño[0] == '0') {
+                $mesGuardar = 'Enero';
                 month::create([
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
                     'monto' => '20'
                 ]);
+
+                array_push(
+                    $datosBoleta,
+                    [
+                        'Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1],
+                        'monto_unitario' => '20',
+                        'cantidad' => '1'
+                    ]
+                );
             }
-            if($mesAño[0]=='1'){
-                $mesGuardar='Febrero';
+            if ($mesAño[0] == '1') {
+                $mesGuardar = 'Febrero';
                 month::create([
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
                     'monto' => '20'
                 ]);
+
+                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
             }
-            if($mesAño[0]=='2'){
-                $mesGuardar='Marzo';
+            if ($mesAño[0] == '2') {
+                $mesGuardar = 'Marzo';
                 month::create([
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
                     'monto' => '20'
                 ]);
+
+                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
             }
-            if($mesAño[0]=='3'){
-                $mesGuardar='Abril';
+            if ($mesAño[0] == '3') {
+                $mesGuardar = 'Abril';
                 month::create([
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
                     'monto' => '20'
                 ]);
+
+                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
             }
-            if($mesAño[0]=='4'){
-                $mesGuardar='Mayo';
+            if ($mesAño[0] == '4') {
+                $mesGuardar = 'Mayo';
                 month::create([
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
                     'monto' => '20'
                 ]);
+
+                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
             }
-            if($mesAño[0]=='5'){
-                $mesGuardar='Junio';
+            if ($mesAño[0] == '5') {
+                $mesGuardar = 'Junio';
                 month::create([
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
                     'monto' => '20'
                 ]);
+
+                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
             }
-            if($mesAño[0]=='6'){
-                $mesGuardar='Julio';
+            if ($mesAño[0] == '6') {
+                $mesGuardar = 'Julio';
                 month::create([
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
                     'monto' => '20'
                 ]);
+
+                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
             }
-            if($mesAño[0]=='7'){
-                $mesGuardar='Agosto';
+            if ($mesAño[0] == '7') {
+                $mesGuardar = 'Agosto';
                 month::create([
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
                     'monto' => '20'
                 ]);
+
+                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
             }
-            if($mesAño[0]=='8'){
-                $mesGuardar='Setiembre';
+            if ($mesAño[0] == '8') {
+                $mesGuardar = 'Setiembre';
                 month::create([
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
                     'monto' => '20'
                 ]);
+                array_push(
+                    $datosBoleta,
+                    [
+                        'Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1],
+                        'monto_unitario' => '20',
+                        'cantidad' => '1'
+                    ]
+                );
             }
-            if($mesAño[0]=='9'){
-                $mesGuardar='Octubre';
+            if ($mesAño[0] == '9') {
+                $mesGuardar = 'Octubre';
                 month::create([
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
                     'monto' => '20'
                 ]);
+
+                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
             }
-            if($mesAño[0]=='10'){
-                $mesGuardar='Noviembre';
+            if ($mesAño[0] == '10') {
+                $mesGuardar = 'Noviembre';
                 month::create([
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
                     'monto' => '20'
                 ]);
+
+                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
             }
-            if($mesAño[0]=='11'){
-                $mesGuardar='Diciembre';
+            if ($mesAño[0] == '11') {
+                $mesGuardar = 'Diciembre';
                 month::create([
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
                     'monto' => '20'
                 ]);
+
+                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
             }
         }
 
-        if(isset($request->castigadoGuardar)){
+        //array_push($datosBoleta, $request->dni);
+
+
+
+        if (isset($request->castigadoGuardar)) {
             sanctioned::create([
                 'partner_id' => $request->idNombre,
                 'fecha_pago' => $request->fecha_de_pago,
                 'fecha_habilitacion' => $request->castigadoGuardar
             ]);
+        } else {
+            return view('payment.indexNuevo', ['mensaje' => 'Pago registrado correctamente']);
         }
-        else{
-            return view('payment.indexNuevo',['mensaje'=>'Pago registrado correctamente']);
-        }
+
+        return view('payment.indexNuevo', ['mensaje' => 'Pago registrado correctamente']);
+
+
+
+        //Datos solicitados:
+        $dni = $request->dni;
+        $nombreCompleto = $request->nombre . ' ' . $request->apellidos;
+        $tipoDocumento = 'DNI';
+        $datosBoleta;
+
+        //DATOS BOLETA ES EL PRODUCTO Y PRECIO UNITARIO
+        //LA DESCRIPCION VA SEPARADO POR CADA MES. EJEMPLO:
+        //SI SE PAGAN 2 MESES SERIAN 2 LINEA DE "MENSUALIDAD MES DE SEPTIEMBRE DEL 2022" Y "MENSUALIDAD DEL MES DE AGOSTO DEL 2022"
         
-        return view('payment.indexNuevo',['mensaje'=>'Pago registrado correctamente']);
-      
+
+        //Datos de la Asociación
+        $ruc = '20316643061';
+        $razonSocial = 'ASOCIACIÓN PARA EL SERVICIO MORTUORIO DE LA TERCERA EDAD';
+        $nombreComercial = 'ASOMORTES';
+
+        $ubigueo = '200606';
+        $codigoPais = 'PE';
+        $departamento = 'PIURA';
+        $provincia = 'SULLANA';
+        $distrito = 'SULLANA';
+        $direccion = 'Calle San Martín N° 224 - 238';
+
+        //IMPORTANTE!!! LA ASOCIACIÓN ESTA EXONERADA DE IMPUESTOS, EL PAGO VA DIRECTO EN LA BOLETA, SIN IGV.
+
+
     }
 
 
