@@ -79,7 +79,7 @@
     <script>
           
 
-        if (!$.fn.DataTable.isDataTable('#data')) {
+          if (!$.fn.DataTable.isDataTable('#data')) {
             $('#data').dataTable({
                 "language": {
                     "lengthMenu": "Mostrar _MENU_ registros por página",

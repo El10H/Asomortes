@@ -434,8 +434,15 @@
                                         selectServicios.appendChild(opcion2);
                                     }
 
-                                    if (opcionesDeServicios[i].stock = 0) {
-                                        console.log('stock 0');
+                                    if (opcionesDeServicios[i].stock == 0) {
+                                        console.log('hola');
+                                        var opcion3 = document.createElement("option");
+                                        opcion3.setAttribute('value', opcionesDeServicios[i].id)
+                                        opcion3Texto = document.createTextNode(opcionesDeServicios[
+                                            i].nombre);
+                                        opcion3.disabled=true;
+                                        opcion3.appendChild(opcion3Texto);
+                                        selectServicios.appendChild(opcion3);
                                     }
                                 }
                             }

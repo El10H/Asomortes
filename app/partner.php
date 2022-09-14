@@ -13,5 +13,9 @@ class partner extends Model
         return $this->hasMany(beneficiary::class);
     }
 
+    public function executive(){
+        return $this->belongsTo(executive::class);
+    }
+
     
 }
