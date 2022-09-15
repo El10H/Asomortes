@@ -16,8 +16,8 @@ class CreateBuysProductsTable extends Migration
         Schema::create('buys_products', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedBigInteger('id_products',10);
-            $table->unsignedBigInteger('id_providers',10);
+            $table->unsignedBigInteger('id_products');
+            $table->unsignedBigInteger('id_providers');
             $table->string('boletaFactura', 7);
             $table->string('n_comprobante', 20);
             $table->date('fecha_compra');

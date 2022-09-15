@@ -14,7 +14,9 @@ use App\option_service;
 use App\buys_service;
 use App\partner;
 use App\benefit_delivery;
-use App\benefit;
+use App\benefit_product;
+use App\benefit_service;
+use App\benefit_cash;
 use App\partner_deCeased;
 use Illuminate\Auth\Events\Validated;
 //use Illuminate\Http\Request;
@@ -189,11 +191,11 @@ class BenefitDeliveryController extends Controller
 
         if ($request->skuOpcionesProductos > 0){
             foreach ($request->skuOpcionesProductos as $skuOpcionesProductos){
-                benefit::create([
+                benefit_product::create([
                     'id_benefit_deliveries' => $id_benefit->id,
                     'sku_option_products' => $skuOpcionesProductos,
-                    'id_option_services' => 0,
-                    'efectivo' => 0,
+                    //'id_option_services' => 0,
+                    //'efectivo' => 0,
                 ]);
                 
                 foreach ($option_products as $option_product){
@@ -221,11 +223,11 @@ class BenefitDeliveryController extends Controller
         
         if ($request->idOpcionesServicios > 0){
             foreach ($request->idOpcionesServicios as $idOpcionesServicios){
-                benefit::create([
+                benefit_service::create([
                     'id_benefit_deliveries' => $id_benefit->id,
-                    'sku_option_products' => 0,
+                    //'sku_option_products' => 0,
                     'id_option_services' => $idOpcionesServicios,
-                    'efectivo' => 0,
+                    //'efectivo' => 0,
                 ]);
 
                 foreach ($option_services as $option_service){
@@ -250,10 +252,10 @@ class BenefitDeliveryController extends Controller
 
 
         if($request->entregaEnEfectivo > 0){
-            benefit::create([
+            benefit_cash::create([
                 'id_benefit_deliveries' => $id_benefit->id,
-                'sku_option_products' => 0,
-                'id_option_services' => 0,
+                //'sku_option_products' => 0,
+                //'id_option_services' => 0,
                 'efectivo' => $request->entregaEnEfectivo,
             ]);
         }

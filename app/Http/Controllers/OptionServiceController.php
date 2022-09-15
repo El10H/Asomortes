@@ -9,6 +9,7 @@ use App\provider;
 use App\service;
 use App\option_service;
 use App\buys_service;
+use App\benefit_delivery;
 
 class OptionServiceController extends Controller
 {
@@ -17,8 +18,9 @@ class OptionServiceController extends Controller
 
         $services=service::all();
         $providers=provider::all();
-        $opton_services=option_service::all();
+        $option_services=option_service::all();
         $buys_services=buys_service::all();
+        $benefit_deliveries=benefit_delivery::all();
 
         if($request){
             $query=trim($request->get('search'));
@@ -26,7 +28,7 @@ class OptionServiceController extends Controller
             $option_services=option_service::where('nombre','LIKE','%'.$query.'%')
             ->orderby('id','desc')->get();
             
-            return view('option_service.index', ['option_services'=>$option_services, 'services'=>$services, 'buys_services'=>$buys_services, 'providers'=>$providers], ['now' => $now]);
+            return view('option_service.index', ['option_services'=>$option_services, 'services'=>$services, 'buys_services'=>$buys_services, 'providers'=>$providers, 'benefit_deliveries'=>$benefit_deliveries], ['now' => $now]);
         }   
     }
 
@@ -227,5 +229,16 @@ class OptionServiceController extends Controller
             ->where('id',$id)->firstOrFail();
 
         echo json_encode($dev);
+    }
+
+    public function receptionDelivery(Request $request){
+        //$benefit_deliveries=benefit_delivery::findOrFail();
+
+        benefit_delivery::where("id", $request->codigoEntrega) 
+            ->update(['estado' => 'Entrega finalizada',
+        ]);
+
+        return redirect('/option_services'); 
+
     }
 }

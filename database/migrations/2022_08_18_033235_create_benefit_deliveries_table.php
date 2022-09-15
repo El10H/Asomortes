@@ -16,8 +16,8 @@ class CreateBenefitDeliveriesTable extends Migration
         Schema::create('benefit_deliveries', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('id_partners',10);
-            $table->string('id_beneficiaries',10);
+            $table->unsignedBigInteger('id_partners');
+            $table->unsignedBigInteger('id_beneficiaries');
             $table->date('fecha_entrega');
             $table->string('tipo_beneficio', 35);
             $table->string('estado', 20);

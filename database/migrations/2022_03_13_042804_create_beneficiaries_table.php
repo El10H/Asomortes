@@ -17,7 +17,7 @@ class CreateBeneficiariesTable extends Migration
 
         
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('partner_id', 10);
+            $table->unsignedBigInteger('partner_id');
             $table->string('nombres_apellidos',200);
             $table->string('dni',8);
             $table->string('celular',9);

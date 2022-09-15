@@ -17,7 +17,7 @@ class CreateOptionServicesTable extends Migration
             $table->bigIncrements('id');
 
             //Datos del servicio
-            $table->unsignedBigInteger('id_services',10);
+            $table->unsignedBigInteger('id_services');
             $table->string('nombre',50);
             $table->double('valor');
             $table->double('stock');

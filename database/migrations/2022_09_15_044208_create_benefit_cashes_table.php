@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBenefits extends Migration
+class CreateBenefitCashesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,13 @@ class CreateBenefits extends Migration
      */
     public function up()
     {
-        Schema::create('benefits', function (Blueprint $table) {
+        Schema::create('benefit_cashes', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedBigInteger('id_benefit_deliveries',10);
-            $table->String('sku_option_products',10);
-            $table->unsignedBigInteger('id_option_services',10);
+            $table->unsignedBigInteger('id_benefit_deliveries');
             $table->double('efectivo');
 
             $table->foreign('id_benefit_deliveries')->references('id')->on('benefit_deliveries');
-            //$table->foreign('sku_option_products')->references('id')->on('option_products');
-            $table->foreign('id_option_services')->references('id')->on('option_services');
 
             $table->timestamps();
         });
@@ -36,6 +32,6 @@ class CreateBenefits extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('benefits');
+        Schema::dropIfExists('benefit_cashes');
     }
 }

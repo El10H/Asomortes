@@ -15,7 +15,7 @@ class CreateMonthsTable extends Migration
     {
         Schema::create('months', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('payment_id', 10);
+            $table->unsignedBigInteger('payment_id');
             $table->string('mes',15);
             $table->string('año');
             $table->string('monto');

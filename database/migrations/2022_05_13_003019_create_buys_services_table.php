@@ -16,8 +16,8 @@ class CreateBuysServicesTable extends Migration
         Schema::create('buys_services', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedBigInteger('id_services',10);
-            $table->unsignedBigInteger('id_providers',10);
+            $table->unsignedBigInteger('id_services');
+            $table->unsignedBigInteger('id_providers');
             $table->date('fecha_compra');
             $table->integer('cantidad');
             $table->double('valor_unitario');

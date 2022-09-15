@@ -75,6 +75,11 @@
                                             data-bs-target="#verComprasServicio">
                                             Ver Compras
                                         </button>
+
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                            data-bs-target="#recepcionEntrega">
+                                            Recepción de Servicios post Entrega
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -463,6 +468,47 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <!-- Modal para recepcionar Servicio de entrega de beneficio -->
+                    
+                    <div class="modal fade" id="recepcionEntrega" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-s">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Recepción de Servicios Entregados por Servicio Mortuorio</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <form class="row g-3 " action="{{ route('recepcionEntrega') }}" method="POST">
+                                        @csrf
+
+                                        <div class="col-10 mt-2">
+                                            <label for="inputEmail4" class="form-label">Código de entrega de beneficio: </label>
+                                            <select class="custom-select" id="" name='codigoEntrega'>
+                                                <option selected>-Seleccione-</option>
+
+                                                @foreach ($benefit_deliveries as $benefit_delivery)
+                                                    @if ($benefit_delivery->estado == 'Entrega pendiente')
+                                                        <option value="{{ $benefit_delivery['id'] }}">{{ $benefit_delivery['id'] }}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-success">Guardar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
