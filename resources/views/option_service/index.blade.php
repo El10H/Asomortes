@@ -405,64 +405,65 @@
                                 </div>
 
                                 <div class="modal-body">
-                                <div class="card-body">
-                                    <table class="table" id="data">
-                                        <thead>
-                                            <tr align="center">
-                                                <th scope="col">Servicio</th>
-                                                <th scope="col">Proveedor</th>
-                                                <th scope="col">Comprobante</th>
-                                                <th scope="col">N° Comprobante</th>
-                                                <th scope="col">Fecha de compra</th>
-                                                <th scope="col">Cantidad</th>
-                                                <th scope="col">Valor unitario</th>
-                                                <th scope="col">Valor total</th>
-                                                <th scope="col">Estado</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                            @foreach ($buys_services as $buys_service)
-                                                <tr>
-                                                    @foreach ($option_services as $option_service)
-                                                        @if ($buys_service->id_services == $option_service->id)
-                                                            <td align="left">{{ $option_service->nombre }}</td>
-                                                        @endif
-                                                    @endforeach
-
-                                                    @foreach ($providers as $provider)
-                                                        @if ($buys_service->id_providers == $provider->id)
-                                                            <td align="left">{{ $provider->razon_social }}</td>
-                                                        @endif
-                                                    @endforeach
-
-                                                    <td align="left">{{ $buys_service->boletaFactura }}</td>
-                                                    <td align="left"><b>{{ $buys_service->n_comprobante }}</b></td>
-                                                    <td align="center">{{ $buys_service->fecha_compra }}</td>
-                                                    <td align="center">{{ $buys_service->cantidad }}</td>
-                                                    <td align="center">{{ $buys_service->valor_unitario }}</td>
-                                                    <td align="center">{{ $buys_service->valor_total }}</td>                                              
-                                                    <td align="left">{{ $buys_service->estado }}</td>
-
-                                                    <td>
-                                                        <form action="{{ route('buys_service.anular', $buys_service->id) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-outline-danger"
-                                                                onclick="return confirm ('¿Desea anular el comprobante {{ $buys_service->n_comprobante }}?')">
-                                                                <i class="fas fa-trash "></i>
-                                                            </button>
-                                                        </form>
-                                                        
-                                                    </td>
-                                                
+                                    <div class="card-body">
+                                        <table class="table" id="data">
+                                            <thead>
+                                                <tr align="center">
+                                                    <th scope="col">Servicio</th>
+                                                    <th scope="col">Proveedor</th>
+                                                    <th scope="col">Comprobante</th>
+                                                    <th scope="col">N° Comprobante</th>
+                                                    <th scope="col">Fecha de compra</th>
+                                                    <th scope="col">Cantidad</th>
+                                                    <th scope="col">Valor unitario</th>
+                                                    <th scope="col">Valor total</th>
+                                                    <th scope="col">Estado</th>
                                                 </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                                        <a href="{{ route('buys_service.list') }}" target="_blank" class="btn btn-success">PDF / Imprimir</a>
+                                            </thead>
+
+                                            <tbody>
+                                                @foreach ($buys_services as $buys_service)
+                                                    <tr>
+                                                        @foreach ($option_services as $option_service)
+                                                            @if ($buys_service->id_services == $option_service->id)
+                                                                <td align="left">{{ $option_service->nombre }}</td>
+                                                            @endif
+                                                        @endforeach
+
+                                                        @foreach ($providers as $provider)
+                                                            @if ($buys_service->id_providers == $provider->id)
+                                                                <td align="left">{{ $provider->razon_social }}</td>
+                                                            @endif
+                                                        @endforeach
+
+                                                        <td align="left">{{ $buys_service->boletaFactura }}</td>
+                                                        <td align="left"><b>{{ $buys_service->n_comprobante }}</b></td>
+                                                        <td align="center">{{ $buys_service->fecha_compra }}</td>
+                                                        <td align="center">{{ $buys_service->cantidad }}</td>
+                                                        <td align="center">{{ $buys_service->valor_unitario }}</td>
+                                                        <td align="center">{{ $buys_service->valor_total }}</td>                                          
+                                                        <td align="left">{{ $buys_service->estado }}</td>
+
+                                                        <td>
+                                                            <form action="{{ route('buys_service.anular', $buys_service->id) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                <button type="submit" class="btn btn-outline-danger"
+                                                                    onclick="return confirm ('¿Desea anular el comprobante {{ $buys_service->n_comprobante }}?')">
+                                                                    <i class="fas fa-trash "></i>
+                                                                </button>
+                                                            </form>
+                                                            
+                                                        </td>
+                                                    
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                                            <a href="{{ route('buys_service.list') }}" target="_blank" class="btn btn-success">PDF / Imprimir</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -474,10 +475,10 @@
                     
                     <div class="modal fade" id="recepcionEntrega" tabindex="-1" aria-labelledby="exampleModalLabel"
                         aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-s">
+                        <div class="modal-dialog modal-dialog-centered modal-xs">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Recepción de Servicios Entregados por Servicio Mortuorio</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Recepción de Servicios Entregados</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
@@ -486,8 +487,8 @@
                                     <form class="row g-3 " action="{{ route('recepcionEntrega') }}" method="POST">
                                         @csrf
 
-                                        <div class="col-10 mt-2">
-                                            <label for="inputEmail4" class="form-label">Código de entrega de beneficio: </label>
+                                        <div class="col-12 mt-2">
+                                            <label for="disabledTextInput" class="form-label">Código de entrega de beneficio: </label>
                                             <select class="custom-select" id="" name='codigoEntrega'>
                                                 <option selected>-Seleccione-</option>
 
@@ -508,6 +509,7 @@
                             </div>
                         </div>
                     </div>
+
                     
                 </div>
             </div>

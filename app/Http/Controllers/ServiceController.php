@@ -75,8 +75,8 @@ class ServiceController extends Controller
             ]);  
         }     
         
-                
-         return redirect('/services');  
+        return back()->with('create',"Se registró el servicio '$request->nombre' correctamente.");      
+        // return redirect('/services');  
      }
 
 

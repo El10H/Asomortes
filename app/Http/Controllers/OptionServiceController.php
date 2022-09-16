@@ -10,6 +10,7 @@ use App\service;
 use App\option_service;
 use App\buys_service;
 use App\benefit_delivery;
+use App\benefit_service;
 
 class OptionServiceController extends Controller
 {
@@ -21,6 +22,7 @@ class OptionServiceController extends Controller
         $option_services=option_service::all();
         $buys_services=buys_service::all();
         $benefit_deliveries=benefit_delivery::all();
+        $benefit_services=benefit_service::all();
 
         if($request){
             $query=trim($request->get('search'));
@@ -28,7 +30,7 @@ class OptionServiceController extends Controller
             $option_services=option_service::where('nombre','LIKE','%'.$query.'%')
             ->orderby('id','desc')->get();
             
-            return view('option_service.index', ['option_services'=>$option_services, 'services'=>$services, 'buys_services'=>$buys_services, 'providers'=>$providers, 'benefit_deliveries'=>$benefit_deliveries], ['now' => $now]);
+            return view('option_service.index', ['option_services'=>$option_services, 'services'=>$services, 'buys_services'=>$buys_services, 'providers'=>$providers, 'benefit_deliveries'=>$benefit_deliveries, '$benefit_services'=>$benefit_services], ['now' => $now]);
         }   
     }
 
@@ -76,8 +78,9 @@ class OptionServiceController extends Controller
                 'descripcion' => $request->descripcion,
             ]);  
         }     
-                
-         return redirect('/option_services');  
+           
+        return back()->with('create',"Se registró la opción de servicio '$request->nombre' correctamente.");
+         //return redirect('/option_services');  
      }
 
 
@@ -233,11 +236,45 @@ class OptionServiceController extends Controller
 
     public function receptionDelivery(Request $request){
         //$benefit_deliveries=benefit_delivery::findOrFail();
+        $benefit_services=benefit_service::all();
+        $services=service::all();
+        $option_services=option_service::all();
 
         benefit_delivery::where("id", $request->codigoEntrega) 
             ->update(['estado' => 'Entrega finalizada',
         ]);
 
+//$a="";
+        foreach($benefit_services as $benefit_service){
+            $nombre=option_service::select('nombre')
+                ->where('id', $benefit_service->id_option_services)->firstOrFail();
+
+            foreach($option_services as $option_service){
+                if($benefit_service->id_option_services == $option_service->id_services && $nombre->nombre === $option_service->nombre){
+                    //$a.= $benefit_service->id_option_services. "<======>" .$option_service->id_services;
+                    foreach($services as $service){
+                        if($option_service->id_services == $service->id && $service->devolucion === 'on'){
+                            //if($benefit_service->id_option_services == $option_service->id_services){
+
+                                $stock=option_service::select('stock')
+                                    ->where('id', $benefit_service->id_option_services)->firstOrFail();
+
+                                //return $option_service->id. "<======>" .$stock->stock. "<======>" .$service->devolucion;
+                                //return $stock->stock;
+
+                                option_service::where("id", $benefit_service->id_option_services) 
+                                    ->update(['stock' => $stock->stock + 1,
+                                ]);
+
+                                //$a.=$option_service->id_services."--";
+                            //}     
+                        }
+                    }
+                }
+            }
+            
+        }
+//return $a;
         return redirect('/option_services'); 
 
     }

@@ -116,7 +116,7 @@ Route::get('accederDatosService{id}', 'OptionServiceController@acceder')->name('
 //buys
 Route::post('buys_serviceCancel{id}','OptionServiceController@cancel')->name('buys_service.anular');
 Route::get('buys_serviceList','OptionServiceController@buysserviceList')->name('buys_service.list');
-Route::get('receptionDelivery','OptionServiceController@receptionDelivery')->name('recepcionEntrega');
+Route::post('receptionDelivery','OptionServiceController@receptionDelivery')->name('recepcionEntrega');
 
 
 //Rutas de proveedores (ELIO)

@@ -208,8 +208,8 @@ class OptionProductController extends Controller
         }
 
 
-
-        return back();
+        return back()->with('update',"Se actualizó el producto SKU: $option_product->sku correctamente.");
+        //return back();
     }
 
     public function create (Request $request){
@@ -289,8 +289,9 @@ class OptionProductController extends Controller
                 $i++; */
             }
         }   
-                
-         return redirect('/option_products');  
+         
+        return back()->with('create',"Se registró el producto SKU: $request->sku correctamente.");
+        // return redirect('/option_products');  
      }
 
 
