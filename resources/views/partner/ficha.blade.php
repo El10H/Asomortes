@@ -79,7 +79,7 @@
             <div class="m-2 col-6">
                 @foreach ($beneficiaries as $beneficiary)
                     <strong>Nombre:</strong>
-                    {{ $beneficiary->nombre . ' ' . $beneficiary->apellido_paterno . ' ' . $beneficiary->apellido_materno }}
+                    {{ $beneficiary->nombres_apellidos }}
                     <br>
                     <strong>Dni:</strong> {{ $beneficiary->dni }}
 

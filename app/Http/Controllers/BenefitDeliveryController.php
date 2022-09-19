@@ -44,6 +44,7 @@ class BenefitDeliveryController extends Controller
 
 
         foreach ($querys as $query) {
+
             if ($query->estado == 'ACTO PARA BENEFICIO') {
                 $data[] = [
                     'label' => $query->carne
@@ -80,12 +81,10 @@ class BenefitDeliveryController extends Controller
         $servicios = service::all();
         $productos = product::all();
 
-        $opcionesServicios = option_service::select('id','nombre', 'id_services', 'stock')
+        $opcionesServicios = option_service::select('id', 'nombre', 'id_services', 'stock')
             ->distinct('id_services')
             ->get();
 
-        //$opcionesProductos = option_product::select('nombre', 'sku', 'id_products')
-        //  ->distinct('sku')->get();
 
         $opcionesProd2 = option_product::select(
             'option_products.sku',
@@ -98,6 +97,8 @@ class BenefitDeliveryController extends Controller
             ->join('buys_products', 'buys_products.id', '=', 'option_products.id_vouchers')
             ->distinct('option_products.sku')
             ->get();
+
+
         
         $opcionesProd = option_product::select(
             'option_products.sku',
@@ -107,11 +108,17 @@ class BenefitDeliveryController extends Controller
             ->distinct('option_products.sku')
             ->get();
 
-
-
-        //$opcionesProd=option_product::all();
+        $opcionesProdDif0 = option_product::select(
+            'option_products.sku',
+            'buys_products.id_products',
+        )
+            ->where('option_products.opcion', '=', '0')
+            ->join('buys_products', 'buys_products.id', '=', 'option_products.id_vouchers')
+            ->distinct('option_products.sku')
+            ->get();
+        
+        
         $compras = buys_product::all();
-
         $atributos = attribute_product::all();
         $skus = option_product::select('sku', 'id_vouchers')->distinct()->get();
 
@@ -123,6 +130,8 @@ class BenefitDeliveryController extends Controller
         array_push($datos, $skus);
         array_push($datos, $opcionesProd2);
         array_push($datos, $compras);
+        array_push($datos, $opcionesProdDif0);
+
         echo json_encode($datos);
     }
 

@@ -17,6 +17,9 @@ class CreateExecutivesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('partner_id');
             $table->string('cargo',50);
+            $table -> date('fecha_inicio');
+            $table -> date('fecha_fin') ->nullable();
+
 
             //Asignar a la llave creada, la relacion la tabla beneficiarios
             $table->foreign('partner_id')->references('id')->on('partners');

@@ -43,9 +43,9 @@
                                     <th scope="col">Nombres y Apellidos</th>
                                     <th scope="col">Carné</th>
                                     <th scope="col">Celular</th>
-                                    <th scope="col">Email</th>
-                                  
-
+                                    <th scope="col">Fecha de inicio</th>
+                                    <th scope="col">Fecha de finalización</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -56,8 +56,41 @@
                                         <td>{{$item->partner->nombre .' '.$item->partner->apellido_paterno .' '.$item->partner->apellido_materno}}</td>
                                         <td>{{$item->partner->carne}}</td>
                                         <td>{{$item->partner->celular}}</td>
-                                        <td>{{$item->partner->email}}</td>
+                                        <td>{{$item->fecha_inicio}}</td>
+
+                                      
+                                            @if($item->fecha_fin === Null )
+                                                <td>Actualmente</td>
+                                            @else 
+                                                <td>{{$item->fecha_fin}}</td>
+                                            @endif
+                                            
+                                       
+                                        <td>
+                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                Quitar Cargo
+                                              </button>
+                                        </td>
                                     </tr>
+
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title" id="exampleModalLabel">Quitar cargo</h5>
+                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                              ¿Desea quitar el cargo de {{$item->cargo}} al socio {{$item->partner->nombre .' '.$item->partner->apellido_paterno .' '.$item->partner->apellido_materno}}?
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                                              
+                                              <a class="btn btn-primary" href="{{route('quitarCargo',$item->id)}}">Aceptar</a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
                                 @endforeach
                             </tbody>
                         </table>
@@ -79,14 +112,14 @@
     <script>
           
 
-          if (!$.fn.DataTable.isDataTable('#data')) {
+        if (!$.fn.DataTable.isDataTable('#data')) {
             $('#data').dataTable({
                 "language": {
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
+                    "lengthMenu": "Mostrar MENU registros por página",
                     "zeroRecords": "Nada encontrado - disculpa",
-                    "info": "Mostrando la página _PAGE_ de _PAGES_",
+                    "info": "Mostrando la página PAGE de PAGES",
                     "infoEmpty": "No records available",
-                    "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                    "infoFiltered": "(filtrado de MAX registros totales)",
                     "search": "Buscar",
                     "paginate": {
                         'next': 'Siguiente',

@@ -192,13 +192,27 @@ class PartnerController extends Controller
 
     public function cargoDirectivo(Request $request)
     {
+        $date = Carbon::now();
         executive::create([
             'partner_id' => $request->socio,
-            'cargo' => $request->cargo
+            'cargo' => $request->cargo,
+            'fecha_inicio' => $date,
         ]);
 
         return back()->with('status', 'Socio actualizado correctamente');
     }
+
+    public function quitarCargo($id)
+    {
+        $date = Carbon::now();
+        $directivo = executive::where('id', $id)->first();
+        $directivo->update([
+            'fecha_fin' => $date
+        ]);
+
+        return back();
+    }
+
     public function vistaDirectivo()
     {
         $directivos = executive::all();

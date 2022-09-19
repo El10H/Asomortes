@@ -47,7 +47,7 @@
 
                     <div class="card-body">
                         @if (isset($mensaje))
-                            <div class="alert alert-success" role="alert">
+                            <div class="alert alert-success" role="alert" id="mensajeBoleta">
                                 <h4 class="alert-heading">Pago registrado correctamente</h4>
                                 <p> El reporte de pagos se actualizo y puede descargar la boleta</p>
                                 <hr>
@@ -510,6 +510,7 @@
 
         function limpiarBuscador() {
             document.getElementById('buscador').value = '';
+            document.getElementById('mensajeBoleta').remove();
         }
 
         function estado(mes, año) {
@@ -571,9 +572,6 @@
                     document.getElementById('estado').value = 'Deuda mayor o igual a 3 meses';
                 }
             }
-
-
-
 
         }
     </script>

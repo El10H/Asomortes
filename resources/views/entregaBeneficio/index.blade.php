@@ -208,6 +208,7 @@
                     var skuComparar = arrayDatos[4];
                     var probando = arrayDatos[5];
                     var compras = arrayDatos[6];
+                    var igual0 = arrayDatos[7];
 
                     var texto = '';
                     var cad = '';
@@ -231,7 +232,6 @@
                         cajita.classList.add('form-control');
 
                         divCaja.appendChild(cajita);
-
 
                         var checkboxProducto = document.createElement('input');
                         checkboxProducto.type = 'checkbox';
@@ -278,18 +278,24 @@
                         for (var e = 0; e < opcionesDeProductos.length; e++) {
                             if (element['id'] == opcionesDeProductos[e].id_products) {
                                 opcionProd = document.createElement("option");
-                                opcionProd.setAttribute('value', opcionesDeProductos[e].sku)
+                                opcionProd.setAttribute('value',
+                                    opcionesDeProductos[e].sku)
                                 opcionProd.classList.add('hola');
-                                opcion1ProdTexto = document.createTextNode(opcionesDeProductos[e]
+                                opcion1ProdTexto = document.createTextNode(
+                                    opcionesDeProductos[e]
                                     .sku);
                                 opcionProd.appendChild(opcion1ProdTexto);
                                 SelectsProducto.appendChild(opcionProd);
+
+                                igual0.forEach(prueba => {
+                                    if (prueba['sku'] == opcionesDeProductos[e].sku) {
+                                        opcionProd.remove();
+                                    }
+                                })
                             }
                         }
-
-
+                        
                         $('#opciones' + element['id']).on('change', function() {
-
                             var cambiar;
                             var textoNuevo = '';
                             var primera = '';
@@ -302,6 +308,7 @@
                                 .value;
                             var cajaGuardar = document.getElementById(
                                 'cajaOculta' + element['id']);
+
 
                             probando.forEach(op => {
                                 if (selectesOption == op['sku']) {
@@ -317,7 +324,9 @@
                                             'opcion']);
                                         cajaGuardar.value = valorOpcion;
                                     }
-
+                                    if (op['opcion'] == 0) {
+                                        console.log(op['sku']);
+                                    }
                                 }
 
                             });
@@ -368,7 +377,6 @@
                         });
 
 
-
                         $('.estado').on('change', function() {
                             if ($(this).is(':checked')) {
                                 document.getElementById('efectivo').disabled = true;
@@ -376,100 +384,130 @@
                                 validar();
                             }
                         });
+                        var x = document.getElementById("opciones"+element['id']).length;
+                        console.log(x);
+                        if(x == '1'){
+                            console.log('acaaa');
+                            document.getElementById("checkProd"+element['id']).disabled=true;
+                        }
                     });
 
 
 
                     servicios.forEach(elementos => {
-                        var divServicio = document.createElement('div');
-                        divServicio.classList.add('col-md-12', 'd-flex');
-                        var divLabel = document.createElement('div');
-                        divLabel.classList.add('col-md-2', 'mt-2')
-                        var divSelects = document.createElement('div');
-                        divSelects.classList.add('col-md-3', 'mt-2');
-
-                        var checkboxServicios = document.createElement('input');
-                        checkboxServicios.type = 'checkbox';
-                        checkboxServicios.setAttribute('value', elementos['id']);
-                        checkboxServicios.setAttribute('id', 'checkServicio' + elementos['id']);
-                        checkboxServicios.setAttribute('name', 'idServicios[]');
-                        checkboxServicios.classList.add('form-check-input');
-
-                        var labelServivios = document.createElement('label')
-                        labelServivios.htmlFor = elementos['nombre'];
-                        labelServivios.classList.add('form-check-label');
-                        labelServivios.appendChild(document.createTextNode(elementos['nombre']));
-
-                        var selectServicios = document.createElement('select');
-                        selectServicios.classList.add('custom-select');
-                        selectServicios.setAttribute('name', 'idOpcionesServicios[]')
-                        selectServicios.setAttribute('id', 'opcionesServicios' + elementos['id']);
-                        selectServicios.disabled = true;
-                        var opcion1 = document.createElement("option");
-                        opcion1Texto = document.createTextNode('Seleccione');
-                        opcion1.appendChild(opcion1Texto);
-                        
-                        selectServicios.appendChild(opcion1);
-                        divSelects.appendChild(selectServicios);
-                        divLabel.appendChild(checkboxServicios);
-                        divLabel.appendChild(labelServivios);
-
-                        divServicio.appendChild(divLabel);
-                        divServicio.appendChild(divSelects);
-
-                        caja.appendChild(divServicio);
-
-                        
-
-                        
-                        for (var i = 0; i < opcionesDeServicios.length; i++) {
-                            if (elementos['devolucion'] == 'on') {
-                                if (elementos['id'] == opcionesDeServicios[i].id_services) {
-                                    if (opcionesDeServicios[i].stock > 0) {
-                                        var opcion2 = document.createElement("option");
-                                        opcion2.setAttribute('value', opcionesDeServicios[i].id)
-                                        opcion2Texto = document.createTextNode(opcionesDeServicios[
-                                            i].nombre);
-                                        opcion2.appendChild(opcion2Texto);
-                                        selectServicios.appendChild(opcion2);
-                                    }
-
-                                    if (opcionesDeServicios[i].stock == 0) {
-                                        console.log('hola');
-                                        var opcion3 = document.createElement("option");
-                                        opcion3.setAttribute('value', opcionesDeServicios[i].id)
-                                        opcion3Texto = document.createTextNode(opcionesDeServicios[
-                                            i].nombre);
-                                        opcion3.disabled=true;
-                                        opcion3.appendChild(opcion3Texto);
-                                        selectServicios.appendChild(opcion3);
-                                    }
-                                }
-                            }
-
-                            if (elementos['devolucion'] == 'off') {
-                                if (elementos['id'] == opcionesDeServicios[i].id_services) {
-                                    var opcion2 = document.createElement("option");
-                                    opcion2.setAttribute('value', opcionesDeServicios[i].id)
-                                    opcion2Texto = document.createTextNode(opcionesDeServicios[i]
-                                        .nombre);
-                                    opcion2.appendChild(opcion2Texto);
-                                    selectServicios.appendChild(opcion2);
-                                }
-                            }
-                        }
-
-                        $('#checkServicio'+elementos['id']).on('change',function(){
-                            if ($(this).is(':checked')) {
-                                document.getElementById('opcionesServicios'+elementos['id']).disabled = false;
-                            } else {
-                                document.getElementById('opcionesServicios'+elementos['id']).disabled = true;
-                            }
-                        })
 
 
+var divServicio = document.createElement('div');
+divServicio.classList.add('col-md-12', 'd-flex');
+var divLabel = document.createElement('div');
+divLabel.classList.add('col-md-2', 'mt-2')
+var divSelects = document.createElement('div');
+divSelects.classList.add('col-md-3', 'mt-2');
 
-                    });
+var checkboxServicios = document.createElement('input');
+checkboxServicios.type = 'checkbox';
+checkboxServicios.setAttribute('value', elementos['id']);
+checkboxServicios.disabled = true;
+checkboxServicios.setAttribute('id', 'checkServicio' + elementos['id']);
+checkboxServicios.setAttribute('name', 'idServicios[]');
+checkboxServicios.classList.add('form-check-input');
+
+var labelServivios = document.createElement('label')
+labelServivios.htmlFor = elementos['nombre'];
+labelServivios.classList.add('form-check-label');
+labelServivios.appendChild(document.createTextNode(elementos['nombre']));
+
+var selectServicios = document.createElement('select');
+selectServicios.classList.add('custom-select');
+selectServicios.setAttribute('name', 'idOpcionesServicios[]')
+selectServicios.setAttribute('id', 'opcionesServicios' + elementos['id']);
+selectServicios.disabled = true;
+var opcion1 = document.createElement("option");
+opcion1Texto = document.createTextNode('Seleccione');
+opcion1.appendChild(opcion1Texto);
+
+selectServicios.appendChild(opcion1);
+divSelects.appendChild(selectServicios);
+divLabel.appendChild(checkboxServicios);
+divLabel.appendChild(labelServivios);
+
+divServicio.appendChild(divLabel);
+divServicio.appendChild(divSelects);
+
+caja.appendChild(divServicio);
+
+
+var stocks = 0;
+for (var i = 0; i < opcionesDeServicios.length; i++) {
+    if (elementos['id'] == opcionesDeServicios[i].id_services) {
+        stocks = stocks + opcionesDeServicios[i].stock;
+
+        //console.log(opcionesDeServicios[i].id)
+
+        if (elementos['devolucion'] == 'on') {
+            //console.log(stocks  );
+            if (stocks == 1) {
+                //console.log(stocks);
+                document.getElementById('checkServicio' + elementos['id'])
+                    .disabled = false;
+            }
+        }
+        if (elementos['devolucion'] == 'off') {
+            document.getElementById('checkServicio' + elementos['id'])
+                .disabled = false;
+        }
+    }
+
+
+    if (elementos['devolucion'] == 'on') {
+        if (elementos['id'] == opcionesDeServicios[i].id_services) {
+            if (opcionesDeServicios[i].stock > 0) {
+
+                var opcion2 = document.createElement("option");
+                opcion2.setAttribute('value', opcionesDeServicios[i].id)
+                opcion2Texto = document.createTextNode(opcionesDeServicios[
+                    i].nombre);
+                opcion2.appendChild(opcion2Texto);
+                selectServicios.appendChild(opcion2);
+            }
+
+            if (opcionesDeServicios[i].stock == 0) {
+                var opcion3 = document.createElement("option");
+                opcion3.setAttribute('value', opcionesDeServicios[i].id)
+                opcion3Texto = document.createTextNode(opcionesDeServicios[
+                    i].nombre);
+                opcion3.disabled = true;
+                opcion3.appendChild(opcion3Texto);
+                selectServicios.appendChild(opcion3);
+            }
+
+        }
+    }
+    if (elementos['devolucion'] == 'off') {
+        if (elementos['id'] == opcionesDeServicios[i].id_services) {
+            var opcion2 = document.createElement("option");
+            opcion2.setAttribute('value', opcionesDeServicios[i].id)
+            opcion2Texto = document.createTextNode(opcionesDeServicios[i]
+                .nombre);
+            opcion2.appendChild(opcion2Texto);
+            selectServicios.appendChild(opcion2);
+        }
+    }
+}
+
+
+$('#checkServicio' + elementos['id']).on('change', function() {
+    if ($(this).is(':checked')) {
+        document.getElementById('opcionesServicios' + elementos[
+            'id']).disabled = false;
+        var to = document.getElementById('total');
+
+    } else {
+        document.getElementById('opcionesServicios' + elementos[
+            'id']).disabled = true;
+    }
+})
+});
 
 
                 }
