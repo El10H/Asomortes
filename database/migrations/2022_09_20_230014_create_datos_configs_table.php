@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMonthsTable extends Migration
+class CreateDatosConfigsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,13 @@ class CreateMonthsTable extends Migration
      */
     public function up()
     {
-        Schema::create('months', function (Blueprint $table) {
+        Schema::create('datos_configs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('payment_id');
-            $table->string('mes',30);
-            $table->string('año');
-            $table->string('monto');
 
-            $table->foreign('payment_id')->references('id')->on('payments')
-            ->onDelete('cascade');
+            $table ->string('descripcion');
+            $table ->integer('monto');
 
             $table->timestamps();
-
         });
     }
 
@@ -35,6 +30,6 @@ class CreateMonthsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('months');
+        Schema::dropIfExists('datos_configs');
     }
 }

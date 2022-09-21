@@ -191,8 +191,14 @@
                 success: function(response) {
 
                     var arrays = JSON.parse(response);
-                    console.log(arrays);
+
                     var datos = arrays[0];
+
+                    var datosConfig = arrays[2]; //datos de cuota mensual monto
+                    var inscripcion = arrays[3]; //datos de inscripcion monto
+  
+
+                    console.log(datosConfig.monto);
                     document.getElementById('nombre').value = datos.nombre;
                     document.getElementById('apellidos').value = datos.apellido_paterno + ' ' + datos
                         .apellido_materno;
@@ -206,11 +212,17 @@
                     var inputDni = document.createElement("input");
                     inputDni.setAttribute("type", "hidden");
                     inputDni.setAttribute("name", "dni");
-                    inputDni.value = datos.dni;
+                    inputDni.value = datos.Dni;
+
+                    var inputUnitario = document.createElement("input");
+                    inputUnitario.setAttribute("type", "hidden");
+                    inputUnitario.setAttribute("name", "monto_unitario");
+                    inputUnitario.value = '20';
 
                     var holaNew = document.getElementById('agrega');
                     holaNew.appendChild(inputId);
                     holaNew.appendChild(inputDni);
+                    holaNew.appendChild(inputUnitario);
 
 
                     if (datos.estado == 'Retirado') {
@@ -341,120 +353,146 @@
                         });
                     }
 
+                    
+
                     $('#monto').on('click', function() {
                         var select = document.getElementById('monto');
                         var valor = select.options[select.selectedIndex].text;
                         var labelValidacion = document.getElementById('labelMes');
                         var monto = document.getElementById('inputMonto');
 
-                        if (valor === "1") {
-                            monto.value = 20;
+                        var montoInscripcion= inscripcion.monto;
 
+                        if (valor === "1") {
                             if (labelValidacion.innerHTML == 'Mes actual:') {
+                                monto.value = datosConfig.monto * 1 + parseInt(montoInscripcion) ;
                                 unMesSinPagos(1, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
+                                monto.value = datosConfig.monto * 1 ;
                                 unMesConPagos(1, mesFun, añoFun);
                             }
 
                         }
                         if (valor === "2") {
-                            monto.value = 40;
+                            
                             if (labelValidacion.innerHTML == 'Mes actual:') {
+                                monto.value = datosConfig.monto * 2 + parseInt(montoInscripcion)  ; 
                                 unMesSinPagos(2, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
+                                monto.value = datosConfig.monto * 2;
                                 unMesConPagos(2, mesFun, añoFun);
                             }
                         }
                         if (valor === "3") {
-                            monto.value = "60";
+                            
                             if (labelValidacion.innerHTML == 'Mes actual:') {
+                                monto.value = datosConfig.monto * 3 + parseInt(montoInscripcion);
                                 unMesSinPagos(3, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
+                                monto.value = datosConfig.monto * 3;
                                 unMesConPagos(3, mesFun, añoFun);
                             }
                         }
                         if (valor === "4") {
-                            monto.value = "80";
+                            
                             if (labelValidacion.innerHTML == 'Mes actual:') {
+                                monto.value = datosConfig.monto * 4 + parseInt(montoInscripcion);
                                 unMesSinPagos(4, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
+                                monto.value = datosConfig.monto * 4;
                                 unMesConPagos(4, mesFun, añoFun);
                             }
                         }
                         if (valor === "5") {
-                            monto.value = "100";
+                            
                             if (labelValidacion.innerHTML == 'Mes actual:') {
+                                monto.value = datosConfig.monto *5 + parseInt(montoInscripcion);
                                 unMesSinPagos(5, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
+                                monto.value = datosConfig.monto * 5;
                                 unMesConPagos(5, mesFun, añoFun);
                             }
                         }
                         if (valor === "6") {
-                            monto.value = "120";
+                            
                             if (labelValidacion.innerHTML == 'Mes actual:') {
+                                monto.value = datosConfig.monto *6 + parseInt(montoInscripcion);
                                 unMesSinPagos(6, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
+                                monto.value = datosConfig.monto * 6;
                                 unMesConPagos(6, mesFun, añoFun);
                             }
                         }
                         if (valor === "7") {
-                            monto.value = "140";
+                            
                             if (labelValidacion.innerHTML == 'Mes actual:') {
+                                monto.value = datosConfig.monto *7 + parseInt(montoInscripcion);
                                 unMesSinPagos(7, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
+                                monto.value = datosConfig.monto * 7;
                                 unMesConPagos(7, mesFun, añoFun);
                             }
                         }
                         if (valor === "8") {
-                            monto.value = "160";
+                            
                             if (labelValidacion.innerHTML == 'Mes actual:') {
+                                monto.value = datosConfig.monto *8 +parseInt(montoInscripcion) ;
                                 unMesSinPagos(8, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
+                                monto.value = datosConfig.monto * 8;
                                 unMesConPagos(8, mesFun, añoFun);
                             }
                         }
                         if (valor === "9") {
-                            monto.value = "180";
+                           
                             if (labelValidacion.innerHTML == 'Mes actual:') {
+                                monto.value = datosConfig.monto *9 + parseInt(montoInscripcion);
                                 unMesSinPagos(9, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
+                                monto.value = datosConfig.monto * 9;
                                 unMesConPagos(9, mesFun, añoFun);
                             }
                         }
                         if (valor === "10") {
-                            monto.value = "200";
+                            
                             if (labelValidacion.innerHTML == 'Mes actual:') {
+                                monto.value = datosConfig.monto *10 + parseInt(montoInscripcion) ;
                                 unMesSinPagos(10, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
+                                monto.value = datosConfig.monto * 10;
                                 unMesConPagos(10, mesFun, añoFun);
                             };
 
                         }
                         if (valor === "11") {
-                            monto.value = "220";
+                           
                             if (labelValidacion.innerHTML == 'Mes actual:') {
+                                monto.value = datosConfig.monto *11 + parseInt(montoInscripcion);
                                 unMesSinPagos(11, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
+                                monto.value = datosConfig.monto * 11;
                                 unMesConPagos(11, mesFun, añoFun);
                             }
                         }
                         if (valor === "12") {
-                            monto.value = "240";
+                           
                             if (labelValidacion.innerHTML == 'Mes actual:') {
-                                unMesSinPagos(12, mesFun, añoFun)
+                                monto.value = datosConfig.monto*12 + parseInt(montoInscripcion);
+                                unMesSinPagos(12, mesFun, añoFun);
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
+                                monto.value = datosConfig.monto * 12;
                                 unMesConPagos(12, mesFun, añoFun);
                             }
                         }
@@ -479,6 +517,12 @@
             var holaNew = document.getElementById('agrega');
             holaNew.appendChild(mesesPagados);
 
+            var boletaItem = document.createElement("input");
+            boletaItem.setAttribute("name","boletaItem");
+            boletaItem.setAttribute("type", "hidden");
+            boletaItem.value="noGuardar";
+            holaNew.appendChild(boletaItem);
+
             //console.log(arrays);
         }
 
@@ -497,6 +541,12 @@
             var holaNew = document.getElementById('agrega');
             holaNew.appendChild(mesesPagados);
 
+            var boletaItem = document.createElement("input");
+            boletaItem.setAttribute("name","boletaItem");
+            boletaItem.setAttribute("type", "hidden");
+            boletaItem.value="siGuardar";
+            holaNew.appendChild(boletaItem);
+
         }
 
         function limpiar() {
@@ -505,12 +555,12 @@
             document.getElementById('estado').value = '';
             $("#alertaCastigo").css("display", "none");
             $("#castigadoGuardar").remove();
-
         }
 
         function limpiarBuscador() {
             document.getElementById('buscador').value = '';
             document.getElementById('mensajeBoleta').remove();
+       
         }
 
         function estado(mes, año) {

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\datosConfig;
 use Illuminate\Http\Request;
 use App\partner;
-use App\Payment;
-use App\month;
+use App\payment;
+use App\Month;
 use App\sanctioned;
 use Carbon\Carbon;
 use Svg\Tag\Rect;
@@ -16,20 +17,23 @@ use function PHPUnit\Framework\isNull;
 
 class PaymentController extends Controller
 {
-
     public function nuevoIndex()
     {
         return view('payment.indexNuevo');
     }
+
     public function datosSocio($dni)
     {
         $datos = array();
-
-        $socios = partner::where('carne', $dni)->select('id', 'nombre', 'apellido_paterno', 'apellido_materno', 'carne', 'estado', 'dni')->first();
+        
+        //Llamamos a los datos de la configuracion:
+        $datosConfig = datosConfig::Select('monto')->where('descripcion','cuota mensual')->first();
+        $inscripcion = datosConfig::Select('monto')->where('descripcion','inscripcion')->first();
+        $socios = partner::where('carne', $dni)->select('id', 'Dni', 'nombre', 'apellido_paterno', 'apellido_materno', 'carne', 'estado')->first();
 
         array_push($datos, $socios);
 
-        $pagosVerifica = Payment::orderBy('created_at', 'DESC')
+        $pagosVerifica = payment::orderBy('created_at', 'DESC')
             ->select('id')
             ->where('partner_id', $socios->id)
             ->take(1)
@@ -42,13 +46,13 @@ class PaymentController extends Controller
 
         if (count($pagosVerifica) > 0) {
 
-            $pagos = Payment::orderBy('created_at', 'DESC')
+            $pagos = payment::orderBy('created_at', 'DESC')
                 ->select('id')
                 ->where('partner_id', $socios->id)
                 ->take(1)
                 ->first();
 
-            $mes = month::orderBy('id', 'desc')
+            $mes = Month::orderBy('id', 'desc')
                 ->select('mes', 'año')
                 ->where('payment_id', $pagos->id)
                 ->take(1)
@@ -56,9 +60,11 @@ class PaymentController extends Controller
             array_push($datos, $mes);
         }
 
+        array_push($datos, $datosConfig);
+        array_push($datos, $inscripcion);
+
         echo json_encode($datos);
     }
-
 
     public function buscador(Request $request)
     {
@@ -73,15 +79,21 @@ class PaymentController extends Controller
         }
         return $data;
     }
-
+    //TODO send info to SUNAT
     public function guardar(Request $request)
     {
-
+        
         Payment::create([
             'partner_id' => $request->idNombre,
             'fecha_de_pago' => $request->fecha_de_pago,
             'monto_total' => $request->monto,
         ]);
+
+        //Llamamos a los datos de la configuracion:
+        //$datosConfig = datosConfig::select('pagoMensual')->take(1)->first();
+        $datosConfig = datosConfig::Select('monto')->where('descripcion','cuota mensual')->first();
+        $inscripcion = datosConfig::Select('monto')->where('descripcion','inscripcion')->first();
+   
 
         $ultimoRegistro = payment::where('created_at', payment::max('created_at'))->orderBy('created_at', 'desc')->firstOrFail();
 
@@ -90,25 +102,65 @@ class PaymentController extends Controller
 
 
         $datosBoleta = array();
+
+        $dateAño= carbon::now();
+        $año = $dateAño->format('Y');
+
+        //Guardamos cuota de inscripción para socios Nuevos
+        if($request->boletaItem == 'siGuardar'){
+            month::create([
+                'payment_id' => $ultimoRegistro->id,
+                'mes' =>  'Cuota de inscripción',
+                'año' => $año,
+                'monto' => $inscripcion->monto 
+            ]);
+
+            array_push($datosBoleta,[
+                'unidad' => "0",
+                'cantidad' => "1",
+                'codProducto' => "0",
+                'descripcion' => 'Cuota de inscripción',
+                'mtoValorUnitario' => $inscripcion->monto ,
+                'mtoBaseIgv' => "0",
+                'porcentajeIgv' => "0",
+                'igv' => "0",
+                'tipAfeIgv' => "0",
+                'totalImpuestos' => "0",
+                'mtoPrecioUnitario' => $inscripcion->monto ,
+                'mtoValorVenta' => $inscripcion->monto ,
+            ]);
+        }
+
+        
+        //Arreglo de meses, para guardar los meses de la boleta
         foreach ($arregloMeses as $unico) {
             $mesAño = explode('-', $unico);
+
+            
+
             if ($mesAño[0] == '0') {
                 $mesGuardar = 'Enero';
                 month::create([
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
-                    'monto' => '20'
+                    'monto' => $datosConfig->monto
                 ]);
 
-                array_push(
-                    $datosBoleta,
-                    [
-                        'Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1],
-                        'monto_unitario' => '20',
-                        'cantidad' => '1'
-                    ]
-                );
+                array_push($datosBoleta, [
+                    'unidad' => "0",
+                    'cantidad' => "1",
+                    'codProducto' => "0",
+                    'descripcion' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1],
+                    'mtoValorUnitario' => $datosConfig->monto,
+                    'mtoBaseIgv' => "0",
+                    'porcentajeIgv' => "0",
+                    'igv' => "0",
+                    'tipAfeIgv' => "0",
+                    'totalImpuestos' => "0",
+                    'mtoPrecioUnitario' => $datosConfig->monto,
+                    'mtoValorVenta' => $datosConfig->monto,
+                ]);
             }
             if ($mesAño[0] == '1') {
                 $mesGuardar = 'Febrero';
@@ -116,10 +168,23 @@ class PaymentController extends Controller
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
-                    'monto' => '20'
+                    'monto' => $datosConfig->monto
                 ]);
 
-                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
+                array_push($datosBoleta, [
+                    'unidad' => "0",
+                    'cantidad' => "1",
+                    'codProducto' => "0",
+                    'descripcion' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1],
+                    'mtoValorUnitario' => $datosConfig->monto,
+                    'mtoBaseIgv' => "0",
+                    'porcentajeIgv' => "0",
+                    'igv' => "0",
+                    'tipAfeIgv' => "0",
+                    'totalImpuestos' => "0",
+                    'mtoPrecioUnitario' => $datosConfig->monto,
+                    'mtoValorVenta' => $datosConfig->monto,
+                ]);
             }
             if ($mesAño[0] == '2') {
                 $mesGuardar = 'Marzo';
@@ -127,10 +192,23 @@ class PaymentController extends Controller
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
-                    'monto' => '20'
+                    'monto' => $datosConfig->monto
                 ]);
 
-                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
+                array_push($datosBoleta, [
+                    'unidad' => "0",
+                    'cantidad' => "1",
+                    'codProducto' => "0",
+                    'descripcion' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1],
+                    'mtoValorUnitario' => $datosConfig->monto,
+                    'mtoBaseIgv' => "0",
+                    'porcentajeIgv' => "0",
+                    'igv' => "0",
+                    'tipAfeIgv' => "0",
+                    'totalImpuestos' => "0",
+                    'mtoPrecioUnitario' => $datosConfig->monto,
+                    'mtoValorVenta' => $datosConfig->monto,
+                ]);
             }
             if ($mesAño[0] == '3') {
                 $mesGuardar = 'Abril';
@@ -138,10 +216,23 @@ class PaymentController extends Controller
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
-                    'monto' => '20'
+                    'monto' => $datosConfig->monto
                 ]);
 
-                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
+                array_push($datosBoleta, [
+                    'unidad' => "0",
+                    'cantidad' => "1",
+                    'codProducto' => "0",
+                    'descripcion' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1],
+                    'mtoValorUnitario' => $datosConfig->monto,
+                    'mtoBaseIgv' => "0",
+                    'porcentajeIgv' => "0",
+                    'igv' => "0",
+                    'tipAfeIgv' => "0",
+                    'totalImpuestos' => "0",
+                    'mtoPrecioUnitario' => $datosConfig->monto,
+                    'mtoValorVenta' => $datosConfig->monto,
+                ]);
             }
             if ($mesAño[0] == '4') {
                 $mesGuardar = 'Mayo';
@@ -149,10 +240,23 @@ class PaymentController extends Controller
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
-                    'monto' => '20'
+                    'monto' => $datosConfig->monto
                 ]);
 
-                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
+                array_push($datosBoleta, [
+                    'unidad' => "0",
+                    'cantidad' => "1",
+                    'codProducto' => "0",
+                    'descripcion' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1],
+                    'mtoValorUnitario' => $datosConfig->monto,
+                    'mtoBaseIgv' => "0",
+                    'porcentajeIgv' => "0",
+                    'igv' => "0",
+                    'tipAfeIgv' => "0",
+                    'totalImpuestos' => "0",
+                    'mtoPrecioUnitario' => $datosConfig->monto,
+                    'mtoValorVenta' => $datosConfig->monto,
+                ]);
             }
             if ($mesAño[0] == '5') {
                 $mesGuardar = 'Junio';
@@ -160,10 +264,23 @@ class PaymentController extends Controller
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
-                    'monto' => '20'
+                    'monto' => $datosConfig->monto
                 ]);
 
-                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
+                array_push($datosBoleta, [
+                    'unidad' => "0",
+                    'cantidad' => "1",
+                    'codProducto' => "0",
+                    'descripcion' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1],
+                    'mtoValorUnitario' => $datosConfig->monto,
+                    'mtoBaseIgv' => "0",
+                    'porcentajeIgv' => "0",
+                    'igv' => "0",
+                    'tipAfeIgv' => "0",
+                    'totalImpuestos' => "0",
+                    'mtoPrecioUnitario' => $datosConfig->monto,
+                    'mtoValorVenta' => $datosConfig->monto,
+                ]);
             }
             if ($mesAño[0] == '6') {
                 $mesGuardar = 'Julio';
@@ -171,10 +288,23 @@ class PaymentController extends Controller
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
-                    'monto' => '20'
+                    'monto' => $datosConfig->monto
                 ]);
 
-                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
+                array_push($datosBoleta, [
+                    'unidad' => "0",
+                    'cantidad' => "1",
+                    'codProducto' => "0",
+                    'descripcion' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1],
+                    'mtoValorUnitario' => $datosConfig->monto,
+                    'mtoBaseIgv' => "0",
+                    'porcentajeIgv' => "0",
+                    'igv' => "0",
+                    'tipAfeIgv' => "0",
+                    'totalImpuestos' => "0",
+                    'mtoPrecioUnitario' => $datosConfig->monto,
+                    'mtoValorVenta' =>$datosConfig->monto,
+                ]);
             }
             if ($mesAño[0] == '7') {
                 $mesGuardar = 'Agosto';
@@ -182,10 +312,23 @@ class PaymentController extends Controller
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
-                    'monto' => '20'
+                    'monto' => $datosConfig->monto
                 ]);
 
-                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
+                array_push($datosBoleta, [
+                    'unidad' => "0",
+                    'cantidad' => "1",
+                    'codProducto' => "0",
+                    'descripcion' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1],
+                    'mtoValorUnitario' => $datosConfig->monto,
+                    'mtoBaseIgv' => "0",
+                    'porcentajeIgv' => "0",
+                    'igv' => "0",
+                    'tipAfeIgv' => "0",
+                    'totalImpuestos' => "0",
+                    'mtoPrecioUnitario' => $datosConfig->monto,
+                    'mtoValorVenta' => $datosConfig->monto,
+                ]);
             }
             if ($mesAño[0] == '8') {
                 $mesGuardar = 'Setiembre';
@@ -193,16 +336,22 @@ class PaymentController extends Controller
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
-                    'monto' => '20'
+                    'monto' => $datosConfig->monto
                 ]);
-                array_push(
-                    $datosBoleta,
-                    [
-                        'Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1],
-                        'monto_unitario' => '20',
-                        'cantidad' => '1'
-                    ]
-                );
+                array_push($datosBoleta, [
+                    'unidad' => "0",
+                    'cantidad' => "1",
+                    'codProducto' => "0",
+                    'descripcion' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1],
+                    'mtoValorUnitario' => $datosConfig->monto,
+                    'mtoBaseIgv' => "0",
+                    'porcentajeIgv' => "0",
+                    'igv' => "0",
+                    'tipAfeIgv' => "0",
+                    'totalImpuestos' => "0",
+                    'mtoPrecioUnitario' => $datosConfig->monto,
+                    'mtoValorVenta' => $datosConfig->monto,
+                ]);
             }
             if ($mesAño[0] == '9') {
                 $mesGuardar = 'Octubre';
@@ -210,10 +359,23 @@ class PaymentController extends Controller
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
-                    'monto' => '20'
+                    'monto' => $datosConfig->monto
                 ]);
 
-                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
+                array_push($datosBoleta, [
+                    'unidad' => "0",
+                    'cantidad' => "1",
+                    'codProducto' => "0",
+                    'descripcion' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1],
+                    'mtoValorUnitario' =>$datosConfig->monto,
+                    'mtoBaseIgv' => "0",
+                    'porcentajeIgv' => "0",
+                    'igv' => "0",
+                    'tipAfeIgv' => "0",
+                    'totalImpuestos' => "0",
+                    'mtoPrecioUnitario' => $datosConfig->monto,
+                    'mtoValorVenta' => $datosConfig->monto,
+                ]);
             }
             if ($mesAño[0] == '10') {
                 $mesGuardar = 'Noviembre';
@@ -221,10 +383,23 @@ class PaymentController extends Controller
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
-                    'monto' => '20'
+                    'monto' => $datosConfig->monto
                 ]);
 
-                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
+                array_push($datosBoleta, [
+                    'unidad' => "0",
+                    'cantidad' => "1",
+                    'codProducto' => "0",
+                    'descripcion' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1],
+                    'mtoValorUnitario' => $datosConfig->monto,
+                    'mtoBaseIgv' => "0",
+                    'porcentajeIgv' => "0",
+                    'igv' => "0",
+                    'tipAfeIgv' => "0",
+                    'totalImpuestos' => "0",
+                    'mtoPrecioUnitario' => $datosConfig->monto,
+                    'mtoValorVenta' => $datosConfig->monto,
+                ]);
             }
             if ($mesAño[0] == '11') {
                 $mesGuardar = 'Diciembre';
@@ -232,16 +407,69 @@ class PaymentController extends Controller
                     'payment_id' => $ultimoRegistro->id,
                     'mes' =>  $mesGuardar,
                     'año' => $mesAño[1],
-                    'monto' => '20'
+                    'monto' => $datosConfig->monto
                 ]);
 
-                array_push($datosBoleta, ['Descripción' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1], 'monto_unitario' => '20', 'cantidad' => '1']);
+                array_push($datosBoleta, [
+                    'unidad' => "0",
+                    'cantidad' => "1",
+                    'codProducto' => "0",
+                    'descripcion' => 'Cuota del mes de ' . $mesGuardar . ' del ' . $mesAño[1],
+                    'mtoValorUnitario' => $datosConfig->monto,
+                    'mtoBaseIgv' => "0",
+                    'porcentajeIgv' => "0",
+                    'igv' => "0",
+                    'tipAfeIgv' => "0",
+                    'totalImpuestos' => "0",
+                    'mtoPrecioUnitario' => $datosConfig->monto,
+                    'mtoValorVenta' => $datosConfig->monto,
+                ]);
             }
         }
+        $requestBody = array(
+            'ublVersion' => "2.1",
+            'tipoOperacion' => "2.1",
+            'tipoDoc' => "2.1",
+            'serie' => "2.1",
+            'correlativo' => "2.1",
+            'fechaEmision' => "2.1",
+            'formaPago' => array(
+                'tipo' => "2.1",
+            ),
+            'client' => array(
+                'tipoDoc' => 'DNI',
+                'numDoc' => $request->dni,
+                'rznSocial' => $request->nombre . ' ' . $request->apellidos
+            ),
+            'company' => array(
+                'ruc' => "20316643061",
+                'razonSocial' => "ASOCIACIÓN PARA EL SERVICIO MORTUORIO DE LA TERCERA EDAD",
+                'nombreComercial' => "ASOMORTES",
+                'address' => array(
+                    'ubigueo' => "200606",
+                    'codigoPais' => "PE",
+                    'departamento' => "Piura",
+                    'provincia' => "Sullana",
+                    'distrito' => "Sullana",
+                    'urbanizacion' => "-",
+                    'direccion' => "Calle San Martín N° 224 - 238",
+                ),
+            ),
+            'tipoMoneda' => "2.1",
+            'mtoOperGravadas' => "2.1",
+            'mtoIGV' => "2.1",
+            'totalImpuestos' => "2.1",
+            'valorVenta' => "2.1",
+            'subTotal' => "2.1",
+            'mtoImpVenta' => "2.1",
+            'details' =>  $datosBoleta,
+            'legends' => array(
+                "code" => "",
+                "value" => "",
+            ),
+        );
 
-        //array_push($datosBoleta, $request->dni);
-
-
+        //return $requestBody;
 
         if (isset($request->castigadoGuardar)) {
             sanctioned::create([
@@ -254,35 +482,6 @@ class PaymentController extends Controller
         }
 
         return view('payment.indexNuevo', ['mensaje' => 'Pago registrado correctamente']);
-
-
-
-        //Datos solicitados:
-        $dni = $request->dni;
-        $nombreCompleto = $request->nombre . ' ' . $request->apellidos;
-        $tipoDocumento = 'DNI';
-        $datosBoleta;
-
-        //DATOS BOLETA ES EL PRODUCTO Y PRECIO UNITARIO
-        //LA DESCRIPCION VA SEPARADO POR CADA MES. EJEMPLO:
-        //SI SE PAGAN 2 MESES SERIAN 2 LINEA DE "MENSUALIDAD MES DE SEPTIEMBRE DEL 2022" Y "MENSUALIDAD DEL MES DE AGOSTO DEL 2022"
-        
-
-        //Datos de la Asociación
-        $ruc = '20316643061';
-        $razonSocial = 'ASOCIACIÓN PARA EL SERVICIO MORTUORIO DE LA TERCERA EDAD';
-        $nombreComercial = 'ASOMORTES';
-
-        $ubigueo = '200606';
-        $codigoPais = 'PE';
-        $departamento = 'PIURA';
-        $provincia = 'SULLANA';
-        $distrito = 'SULLANA';
-        $direccion = 'Calle San Martín N° 224 - 238';
-
-        //IMPORTANTE!!! LA ASOCIACIÓN ESTA EXONERADA DE IMPUESTOS, EL PAGO VA DIRECTO EN LA BOLETA, SIN IGV.
-
-
     }
 
 
@@ -297,7 +496,7 @@ class PaymentController extends Controller
 
         //meses relacionados a la boleta
         $id = $boleta->id;
-        $meses = month::where('payment_id', $id)->get();
+        $meses = Month::where('payment_id', $id)->get();
 
         $data = compact('meses', 'boleta', 'partner');
 
@@ -333,5 +532,113 @@ class PaymentController extends Controller
         //return $pdf->download('PartnerFile-'.$id.'.pdf');
         return $pdf->stream();
         //return $datos;
+    }
+
+    public function enviarSunat()
+    {
+        try {
+            #Leemos los datos necesarios para ejecutar la consulta
+
+            $requestBody = array(
+                'ublVersion' => "2.1",
+                'tipoOperacion' => "2.1",
+                'tipoDoc' => "2.1",
+                'serie' => "2.1",
+                'correlativo' => "2.1",
+                'fechaEmision' => "2.1",
+                'formaPago' => array(
+                    'tipo' => "2.1",
+                ),
+                'client' => array(
+                    'tipoDoc' => "2.1",
+                    'numDoc' => "2.1",
+                    'rznSocial' => "2.1",
+                ),
+                'company' => array(
+                    'ruc' => "2.1",
+                    'razonSocial' => "2.1",
+                    'nombreComercial' => "2.1",
+                    'address' => array(
+                        'ubigueo' => "2.1",
+                        'codigoPais' => "2.1",
+                        'departamento' => "2.1",
+                        'provincia' => "2.1",
+                        'distrito' => "2.1",
+                        'urbanizacion' => "2.1",
+                        'direccion' => "2.1",
+                    ),
+                ),
+                'tipoMoneda' => "2.1",
+                'mtoOperGravadas' => "2.1",
+                'mtoIGV' => "2.1",
+                'totalImpuestos' => "2.1",
+                'valorVenta' => "2.1",
+                'subTotal' => "2.1",
+                'mtoImpVenta' => "2.1",
+                'details' => array(
+                    array(
+                        'unidad' => "2.1",
+                        'cantidad' => "2.1",
+                        'codProducto' => "2.1",
+                        'descripcion' => "2.1",
+                        'mtoValorUnitario' => "2.1",
+                        'mtoBaseIgv' => "2.1",
+                        'porcentajeIgv' => "2.1",
+                        'igv' => "2.1",
+                        'tipAfeIgv' => "2.1",
+                        'totalImpuestos' => "2.1",
+                        'mtoPrecioUnitario' => "2.1",
+                        'mtoValorVenta' => "2.1",
+                    ),
+                ),
+                'legends' => array(
+                    "code" => "",
+                    "value" => "",
+                ),
+            );
+            return $requestBody;
+
+
+            $jsonRequestBody = json_encode($requestBody);
+
+            #Se hace la consulta al reporteador
+            $client = new \GuzzleHttp\Client();
+            $url = env('SUNAT_HOST') . '/api/v1/invoice/send?token=123456';
+
+            $myBody['name'] = "Demo";
+            $request = $client->post($url,  ['body' => $myBody]);
+            $response = $request->send();
+
+            $response = Http::withHeaders(
+                ['Content-Type' => 'application/json']
+            )->post(
+                env('SUNAT_HOST') . '/api/v1/invoice/send?token=123456',
+                $jsonRequestBody
+            );
+
+            #Generamos un uuid con el fin de no repetir el nombre de archivos
+            $uuid = Uuid::uuid1();
+
+            #Asignamos el nombre de nuestro reporte (el nombre del pdf)
+            $nameFile = "presupuesto/" . $uuid->toString() . ".pdf";
+
+            #Guardamos el archivo en la ubicacion indicada
+            Storage::put($nameFile, $response);
+
+            $response_ = response()->json([
+                #Devolvemos la ubicacion y el nombre de nuestro archivo
+                'data' => "/storage/" . $response,
+                'error' => null,
+                'message' => 'OK',
+            ], 200);
+            return $response_;
+        } catch (\Exception $e) {
+            $response_ = response()->json([
+                'data' => null,
+                'error' => $e->getMessage(),
+                'message' => 'BAD',
+            ], 400);
+            return $response_;
+        }
     }
 }

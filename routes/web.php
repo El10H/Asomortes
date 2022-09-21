@@ -24,8 +24,12 @@ Route::get('partnersUpdate{id}','PartnerController@edit')->name('partners.update
 Route::post('partnersUpdate{id}','PartnerController@update')->name('partner.update');
 Route::get('partnerFile{id}','PartnerController@partnerFile')->name('partner.file');
 Route::get('partnerList','PartnerController@partnerList')->name('partner.list');
+//Route::post('/directivosocio','PartnerController@cargoDirectivo')->name('asignar.directivo');
+//Route::get('vistaExecutive','PartnerController@vistaDirectivo')->name('vistaDirectivo');
 Route::post('/directivosocio','PartnerController@cargoDirectivo')->name('asignar.directivo');
 Route::get('vistaExecutive','PartnerController@vistaDirectivo')->name('vistaDirectivo');
+Route::get('updateExecutive{id}','PartnerController@quitarCargo')->name('quitarCargo');
+
 Route::get('resumenPartner','PartnerController@resumenSocio')->name('resumenSocio');
 Route::get('resumenDatos{nombre}','PartnerController@resumenDatos')->name('resumenDatos');
 Route::get('panel','PartnerController@panel')->name('panel');
@@ -136,7 +140,9 @@ Route::get('serviciosProductos','BenefitDeliveryController@serviciosProd')->name
 
 Route::post('guardarEntrega','BenefitDeliveryController@guardarEntrega')->name('guardarEntrega');
 
-
+//Rutas de datosConfig
+Route::get('datosConfig','datosConfigController@index')->name('datosConfig');
+Route::post('datosConfigUpdate','datosConfigController@update')->name('datosConfigUpdate');
 
 
 
