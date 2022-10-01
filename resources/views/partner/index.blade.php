@@ -21,7 +21,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-dark text-white">
-                        Panel de Socios
+                        Panel de Socios cambio laura 
 
 
                     </div>
