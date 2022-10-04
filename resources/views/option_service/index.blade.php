@@ -3,7 +3,7 @@
 
 
 @section('css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="dist/css/adminlte.min.css?v=3.2.0">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
@@ -176,7 +176,8 @@
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="exampleModalLabel">Editar Opción de Servicio</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
+                                                                aria-label="Close"><i
+                                                                class="fas fa-times"></i></button>
                                                         </div>
 
                                                         <div class="modal-body">
@@ -223,14 +224,14 @@
                                                                     <textarea class="form-control" name="descripcion" id="floatingTextarea">{{$option_service->descripcion}}
                                                                     </textarea>
                                                                 </div>
-
+                                                            </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-danger"
                                                                         data-bs-dismiss="modal">Cancelar</button>
                                                                     <button type="submit" class="btn btn-success">Actualizar</button>
                                                                 </div>
                                                             </form>
-                                                        </div>
+                                                    
                                                     </div>
                                                 </div>
                                             </div>
@@ -249,7 +250,8 @@
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Agregar Opción de Servicio</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                        aria-label="Close"><i
+                                        class="fas fa-times"></i></button>
                                 </div>
 
                                 <div class="modal-body">
@@ -290,7 +292,7 @@
                                             </textarea>
                                         </div>
 
-                                        
+                                    </div>
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
@@ -298,7 +300,7 @@
                                             <button type="reset" class="btn btn-secondary">Limpiar formulario</button>
                                         </div>
                                     </form>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -312,7 +314,8 @@
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Ingresar Compra</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                        aria-label="Close"><i
+                                        class="fas fa-times"></i></button>
                                 </div>
 
                                 <div class="modal-body">
@@ -380,14 +383,14 @@
                                                 <input type="date" class="form-control" name='fecha_compra' value="{{ $now->format('Y-m-d') }}">
                                         </div>
 
-
+                                    </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                                             <button type="submit" class="btn btn-success">Guardar</button>
                                             <button type="reset" class="btn btn-secondary">Limpiar formulario</button>
                                         </div>
                                     </form>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -401,7 +404,8 @@
                                     <h5 class="modal-title" id="exampleModal">Ver Compras de
                                         Servicios</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                        aria-label="Close"><i
+                                        class="fas fa-times"></i></button>
                                 </div>
 
                                 <div class="modal-body">
@@ -460,12 +464,13 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
+                                    </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                                             <a href="{{ route('buys_service.list') }}" target="_blank" class="btn btn-success">PDF / Imprimir</a>
                                         </div>
                                     </div>
-                                </div>
+                              
                             </div>
                         </div>
                     </div>
@@ -480,7 +485,8 @@
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Recepción de Servicios Entregados</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                        aria-label="Close"><i
+                                        class="fas fa-times"></i></button>
                                 </div>
 
                                 <div class="modal-body">
@@ -499,13 +505,13 @@
                                                 @endforeach
                                             </select>
                                         </div>
-
+                                    </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                                             <button type="submit" class="btn btn-success">Guardar</button>
                                         </div>
                                     </form>
-                                </div>
+                               
                             </div>
                         </div>
                     </div>

@@ -45,9 +45,9 @@ return [
     |
     */
 
-    'logo' => 'ASOMORTES',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-    'logo_img_class' => 'brand-image img-circle elevation-3',
+    'logo' => '',
+    'logo_img' => 'vendor/adminlte/dist/img/azul.png',
+    'logo_img_class' => 'w-75',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
     'logo_img_alt' => 'ASOMORTES',
@@ -85,8 +85,8 @@ return [
 
     'layout_topnav' => null,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => true,
-    'layout_fixed_navbar' => true,
+    'layout_fixed_sidebar' => null,
+    'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
     'layout_dark_mode' => null,
 
@@ -127,7 +127,7 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-primary elevation-4',
+    'classes_sidebar' => 'sidebar-light',
     'classes_sidebar_nav' => '',
     'classes_topnav' => 'navbar-white navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
@@ -188,7 +188,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => '',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -239,7 +239,7 @@ return [
         // Sidebar items:
         [
             'type' => 'sidebar-menu-search',
-            'text' => 'search',
+            'text' => 'Buscar',
         ],
         
         [
@@ -247,7 +247,7 @@ return [
             'url'         => '/panel',
             'icon'        => 'far fa-fw fa-file',
             //'label'       => '',
-            'label_color' => 'success',
+            'label_color' => 'info',
         ],
 
         
@@ -287,13 +287,13 @@ return [
             'submenu' => [
                 [
                     'text' => 'Productos',
-                    'icon_color' => 'green',
+                    'icon_color' => 'blue',
                     'url'  => 'products',
                 ],
 
                 [
                     'text' => 'Opciones de Productos',
-                    'icon_color' => 'green',
+                    'icon_color' => 'blue',
                     'url'  => 'option_products',
                 ],
             ],
@@ -305,13 +305,13 @@ return [
             'submenu' => [
                 [
                     'text' => 'Servicios',
-                    'icon_color' => 'green',
+                    'icon_color' => 'blue',
                     'url'  => 'services',
                 ],
 
                 [
                     'text' => 'Opciones de servicios',
-                    'icon_color' => 'green',
+                    'icon_color' => 'blue',
                     'url'  => 'option_services',
                 ],
             ],
@@ -336,14 +336,14 @@ return [
             'submenu' => [
                 [
                     'text' => 'Directivos',
-                    'icon_color' => 'red',
+                    'icon_color' => 'blue',
                     'url'  => '/vistaExecutive',
                 ],
                 
                 
                 [
                     'text' => 'Trabajadores',
-                    'icon_color' => 'yellow',
+                    'icon_color' => 'blue',
                     'url'  => '#',
                 ],
 

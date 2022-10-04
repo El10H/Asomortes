@@ -1,8 +1,8 @@
 @extends('adminlte::page')
-@section('title', 'REGISTRO DE PAGOS')
+@section('title', 'PANEL ADMINISTRATIVO')
 
 @section('css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="dist/css/adminlte.min.css?v=3.2.0">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="{{ asset('vendor/jquery-ui/jquery-ui.min.css') }}">
 @endsection
@@ -11,63 +11,76 @@
 
 @section('content')
 
-<div class="row">
+<div class="container-fluid">
+    <div class="p-2">
+        <div class="row">
+            <div class="col-12  col-md-3 mt-5">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Socios con 1 año de deuda</span>
+                        <span class="info-box-number">
+                            <small></small>
+                            {{ count($sociosDeuda12) }}
+                        </span>
+                        <a href="{{route('deuda12')}}" class="small-box-footer text-secondary">Ver lista <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-12 col-md-3 mt-5">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Socios con 11 meses de deuda</span>
+                        <span class="info-box-number">{{count($sociosDeuda11)}}</span>
+                        <a href="{{route('deuda11')}}" class="small-box-footer text-secondary">Ver lista <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="col-12  col-md-3 mt-5">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Socios con 2 meses de deuda</span>
+                        <span class="info-box-number">0</span>
+                        <a href="" class="small-box-footer text-secondary">Ver lista <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-12  col-md-3 mt-5">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Socios Fallecidos</span>
+                        <span class="info-box-number">{{count($fallecidos)}}</span>
+                        <a href="" class="small-box-footer text-secondary">Ver lista <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
     
-    <div class="col-lg-3 col-6 mt-5">
-
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>{{count($sociosDeuda12)}}</h3>
-                <p>Socios con 1 año de deuda </p>
-            </div>
-            <div class="icon">
-                <i class="ion ion-bag"></i>
-            </div>
-            <a href="{{route('deuda12')}}" class="small-box-footer">Ver lista <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-6 mt-5">
-
-        <div class="small-box bg-success">
-            <div class="inner">
-                <h3>{{count($sociosDeuda11)}}<sup style="font-size: 20px"></sup></h3>
-                <p>Socios con 11 meses de deuda</p>
-            </div>
-            <div class="icon">
-                <i class="ion ion-stats-bars"></i>
-            </div>
-            <a href="{{route('deuda11')}}" class="small-box-footer">Ver lista <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-6 mt-5">
-
-        <div class="small-box bg-warning">
-            <div class="inner">
-                <h3>44</h3>
-                <p>User Registrations</p>
-            </div>
-            <div class="icon">
-                <i class="ion ion-person-add"></i>
-            </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-6 mt-5">
-
-        <div class="small-box bg-danger">
-            <div class="inner">
-                <h3>65</h3>
-                <p>Unique Visitors</p>
-            </div>
-            <div class="icon">
-                <i class="ion ion-pie-graph"></i>
-            </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-
+   
 </div>
 @endsection

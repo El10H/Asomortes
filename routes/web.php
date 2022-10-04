@@ -32,12 +32,14 @@ Route::get('updateExecutive{id}','PartnerController@quitarCargo')->name('quitarC
 
 Route::get('resumenPartner','PartnerController@resumenSocio')->name('resumenSocio');
 Route::get('resumenDatos{nombre}','PartnerController@resumenDatos')->name('resumenDatos');
-Route::get('panel','PartnerController@panel')->name('panel');
+
 Route::get('deuda11','PartnerController@deuda11')->name('deuda11');
 Route::get('deuda12','PartnerController@deuda12')->name('deuda12');
 Route::get('socioRetirado{id}','PartnerController@socioRetirado')->name('socioRetirado');
 Route::get('vistaSocioRetirado','PartnerController@listaSociosRetirados')->name('vistaSocioRetirado');
 
+//Ruta de panel administrativo
+Route::get('panel','panelController@index')->name('panel');
 //Ruta directivos
 Route::get('vistaExecutive','PartnerController@vistaDirectivo')->name('vistaDirectivo');
 
