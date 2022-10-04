@@ -3,7 +3,7 @@
 
 
 @section('css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="dist/css/adminlte.min.css?v=3.2.0">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
@@ -11,7 +11,7 @@
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="p-4">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
@@ -105,7 +105,8 @@
                                                             <h5 class="modal-title" id="exampleModalLabel">Editar
                                                                 Servicio</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
+                                                                aria-label="Close"><i
+                                                                class="fas fa-times"></i></button>
                                                         </div>
 
                                                         <div class="modal-body">
@@ -142,14 +143,14 @@
                                                                     </div>
                                                                 @endif
 
-
+                                                            </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-danger"
                                                                         data-bs-dismiss="modal">Cancelar</button>
                                                                     <button type="submit" class="btn btn-success">Actualizar</button>
                                                                 </div>
                                                             </form>
-                                                        </div>
+                                                       
                                                     </div>
                                                 </div>
                                             </div>
@@ -168,7 +169,8 @@
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Agregar Servicio</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                        aria-label="Close"><i
+                                        class="fas fa-times"></i></button>
                                 </div>
 
                                 <div class="modal-body">
@@ -190,14 +192,14 @@
                                             <label class="form-check-label" for="exampleCheck1">El servicio será devuelto</label>
                                         </div>
 
-
+                                    </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                                             <button type="submit" class="btn btn-success">Guardar</button>
                                             <button type="reset" class="btn btn-secondary">Limpiar formulario</button>
                                         </div>
                                     </form>
-                                </div>
+                               
                             </div>
                         </div>
                     </div>

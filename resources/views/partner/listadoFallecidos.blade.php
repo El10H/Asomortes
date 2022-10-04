@@ -3,12 +3,12 @@
 
 
 @section('css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="dist/css/adminlte.min.css?v=3.2.0">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="p-4">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
@@ -20,7 +20,7 @@
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <a href="{{ route('partner.list') }}" class="btn btn-success">Exportar PDF</a>   
+                                    <a href="" class="btn btn-success">Exportar PDF</a>   
                                 </div>
                             </div>
                         </div>
