@@ -254,7 +254,7 @@ return [
             'text' => 'Usuarios',
             'url'  => 'users',
             'icon' => 'fas fa-fw fa-users',
-            //'can' => 'users.index'
+            'can' => 'users.index'
         ],
 
         
