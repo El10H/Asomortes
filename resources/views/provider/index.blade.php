@@ -23,11 +23,14 @@
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <button  type="button" class="btn btn-primary" data-bs-toggle="modal" 
-                                        data-bs-target="#agregarProveedor">
-                                        Agregar Proveedor
-                                    </button>  
-                                    <a href="{{ route('provider.list') }}" target="_blank" class="btn btn-success">Exportar PDF</a>
+                                    @can('providers')
+                                        <button  type="button" class="btn btn-primary" data-bs-toggle="modal" 
+                                            data-bs-target="#agregarProveedor">
+                                            Agregar Proveedor
+                                        </button>
+                                    @endcan
+
+                                    <a href="{{ route('providers.pdf') }}" target="_blank" class="btn btn-success">Exportar PDF</a>
                                 </div>
                             </div>
                         </div>
@@ -63,7 +66,7 @@
                                     <th width= 10% scope="col">Ruc</th>
                                     <th width= 10% scope="col">Teléfono</th>
                                     <th width= 15% scope="col">Email</th>
-                                    <th width= 10%></th>
+                                    @can('providers') <th width= 10%></th> @endcan
                                 </tr>
                             </thead>
 
@@ -76,81 +79,87 @@
                                         <td align="center">{{ $provider->telefono}}</td>
                                         <td align="left">{{ $provider->email}}</td>
                                         
-                                        <td>
-                                            <form action="{{route('providers.destroy', $provider)}}" method="POST">
-                                                @method('DELETE')
-                                                @csrf
-                                                 
-                                                <button type="submit" class="btn btn-outline-danger"
-                                                    onclick="return confirm('¿Desea eliminar?')">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </button>
+                                        @can('providers')
+                                            <td>
+                                                <form action="{{route('providers.destroy', $provider)}}" method="POST">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    @can('providers') 
+                                                        <button type="submit" class="btn btn-outline-danger"
+                                                            onclick="return confirm('¿Desea eliminar?')">
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </button>
+                                                    @endcan
 
-                                                <a data-bs-toggle="modal" data-bs-target="#actualizar{{ $provider->id }}"
-                                                    class="btn btn-outline-success">
-                                                    <i class="far fa-edit"></i>
-                                                </a> 
-                                            </form>
+                                                    @can('providers')
+                                                        <a data-bs-toggle="modal" data-bs-target="#actualizar{{ $provider->id }}"
+                                                            class="btn btn-outline-success">
+                                                            <i class="far fa-edit"></i>
+                                                        </a> 
+                                                    @endcan
+                                                </form>
 
-                                            <!-- Modal para editar Proveedor -->
-                                            <div class="modal fade" id="actualizar{{ $provider->id }}" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-xl ">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Editar
-                                                                Proveedor</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
-                                                        </div>
+                                                <!-- Modal para editar Proveedor -->
+                                                <div class="modal fade" id="actualizar{{ $provider->id }}" tabindex="-1"
+                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered modal-xl ">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Editar
+                                                                    Proveedor</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                            </div>
 
-                                                        <div class="modal-body">
+                                                            <div class="modal-body">
 
-                                                            <form class="row g-3 " action="{{ route('actualizar.provider', $provider->id) }}" method="POST">
-                                                                @csrf
+                                                                <form class="row g-3 " action="{{ route('providers.update', $provider->id) }}" method="POST">
+                                                                    @method('PUT')
+                                                                    @csrf
 
-                                                                <div class="col-12 ">
-                                                                    <label for="disabledTextInput" class="form-label">Razon Social</label>
-                                                                    <input type="text" id="disabledTextInput" class="form-control" name="razon_social"
-                                                                        value='{{$provider->razon_social}}'>
-                                                                </div>
+                                                                    <div class="col-12 ">
+                                                                        <label for="disabledTextInput" class="form-label">Razon Social</label>
+                                                                        <input type="text" id="disabledTextInput" class="form-control" name="razon_social"
+                                                                            value='{{$provider->razon_social}}'>
+                                                                    </div>
 
-                                                                <div class="col-6 mt-2">
-                                                                    <label for="disabledTextInput" class="form-label">Ruc</label>
-                                                                    <input type="number" min="1" step="0.01" id="disabledTextInput" class="form-control" name="ruc"
-                                                                        value='{{$provider->ruc}}'>
-                                                                </div>
+                                                                    <div class="col-6 mt-2">
+                                                                        <label for="disabledTextInput" class="form-label">Ruc</label>
+                                                                        <input type="number" min="1" step="0.01" id="disabledTextInput" class="form-control" name="ruc"
+                                                                            value='{{$provider->ruc}}'>
+                                                                    </div>
 
-                                                                <div class="col-6 mt-2">
-                                                                    <label for="disabledTextInput" class="form-label">Dirección</label>
-                                                                    <input type="text" id="disabledTextInput" class="form-control" name="direccion"
-                                                                        value='{{$provider->direccion}}'>
-                                                                </div>
+                                                                    <div class="col-6 mt-2">
+                                                                        <label for="disabledTextInput" class="form-label">Dirección</label>
+                                                                        <input type="text" id="disabledTextInput" class="form-control" name="direccion"
+                                                                            value='{{$provider->direccion}}'>
+                                                                    </div>
 
-                                                                <div class="col-6 mt-2">
-                                                                    <label for="disabledTextInput" class="form-label">Telefono</label>
-                                                                    <input type="number" min="1" step="1" id="disabledTextInput" class="form-control" name="telefono"
-                                                                        value='{{$provider->telefono}}'>
-                                                                </div>
+                                                                    <div class="col-6 mt-2">
+                                                                        <label for="disabledTextInput" class="form-label">Telefono</label>
+                                                                        <input type="number" min="1" step="1" id="disabledTextInput" class="form-control" name="telefono"
+                                                                            value='{{$provider->telefono}}'>
+                                                                    </div>
 
-                                                                <div class="col-6 mt-2">
-                                                                    <label for="disabledTextInput" class="form-label">Email</label>
-                                                                    <input type="text" id="disabledTextInput" class="form-control" name="email"
-                                                                        value='{{$provider->email}}'>
-                                                                </div>
+                                                                    <div class="col-6 mt-2">
+                                                                        <label for="disabledTextInput" class="form-label">Email</label>
+                                                                        <input type="text" id="disabledTextInput" class="form-control" name="email"
+                                                                            value='{{$provider->email}}'>
+                                                                    </div>
 
-                                            
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-danger"
-                                                                        data-bs-dismiss="modal">Cancelar</button>
-                                                                    <button type="submit" class="btn btn-success">Actualizar</button>
-                                                                </div>
-                                                            </form>
+                                                
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-danger"
+                                                                            data-bs-dismiss="modal">Cancelar</button>
+                                                                        <button type="submit" class="btn btn-success">Actualizar</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </td>
+                                            </td>
+                                        @endcan
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -170,7 +179,7 @@
                                 </div>
 
                                 <div class="modal-body">
-                                    <form class="row g-3 " action="{{ route('providers.create') }}" method="POST">
+                                    <form class="row g-3 " action="{{ route('providers.store') }}" method="POST">
                                         @csrf
 
                                         <div class="col-12 ">

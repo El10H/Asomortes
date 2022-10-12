@@ -58,28 +58,35 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div  class="float-left ">
-                                        <button  type="button" class="btn btn-primary" data-bs-toggle="modal" 
-                                            data-bs-target="#agregarServicio">
-                                            Agregar Opción de Servicio
-                                        </button>
-                                        <a href="{{ route('option_service.list') }}" target="_blank" class="btn btn-success">Exportar PDF</a>
+                                        @can('option_services')
+                                            <button  type="button" class="btn btn-primary" data-bs-toggle="modal" 
+                                                data-bs-target="#agregarServicio">
+                                                Agregar Opción de Servicio
+                                            </button>
+                                        @endcan
+
+                                        <a href="{{ route('option_services.pdf') }}" target="_blank" class="btn btn-success">Exportar PDF</a>
                                     </div>
 
                                     <div  class="float-right ">
-                                        <button  type="button" class="btn btn-primary" data-bs-toggle="modal" 
-                                            data-bs-target="#agregarCompraServicio">
-                                            Agregar Compras
-                                        </button>
+                                        @can('option_services')
+                                            <button  type="button" class="btn btn-primary" data-bs-toggle="modal" 
+                                                data-bs-target="#agregarCompraServicio">
+                                                Agregar Compras
+                                            </button>
+                                        @endcan
 
                                         <button type="button" class="btn btn-success" data-bs-toggle="modal"
                                             data-bs-target="#verComprasServicio">
                                             Ver Compras
                                         </button>
 
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                            data-bs-target="#recepcionEntrega">
-                                            Recepción de Servicios post Entrega
-                                        </button>
+                                        @can('recepcionEntrega')
+                                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                                data-bs-target="#recepcionEntrega">
+                                                Recepción de Servicios post Entrega
+                                            </button>
+                                        @endcan
                                     </div>
                                 </div>
                             </div>
@@ -115,7 +122,7 @@
                                     <th width= 10% scope="col">Valor</th>
                                     <th width= 5% scope="col">Stock</th>
                                     <th width= 10% scope="col">Devolución</th>
-                                    <th width= 10%></th>
+                                    @can('option_services') <th width= 10%></th> @endcan
                                 </tr>
                             </thead>
 
@@ -153,88 +160,95 @@
                                             @endif
                                         @endforeach
 
-                                        <td align="center">
-                                            <form action="{{ route('option_services.destroy', $option_service) }}" method="POST">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button type="submit" class="btn btn-outline-danger"
-                                                    onclick="return confirm('¿Desea eliminar?')">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </button>
+                                        @can('option_services')
+                                            <td align="center">
+                                                <form action="{{ route('option_services.destroy', $option_service) }}" method="POST">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    @can('option_services')
+                                                        <button type="submit" class="btn btn-outline-danger"
+                                                            onclick="return confirm('¿Desea eliminar?')">
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </button>
+                                                    @endcan
 
-                                                <a data-bs-toggle="modal" data-bs-target="#actualizar{{ $option_service->id }}"
-                                                    class="btn btn-outline-success">
-                                                    <i class="far fa-edit"></i>
-                                                </a> 
-                                            </form>
+                                                    @can('option_services')
+                                                        <a data-bs-toggle="modal" data-bs-target="#actualizar{{ $option_service->id }}"
+                                                            class="btn btn-outline-success">
+                                                            <i class="far fa-edit"></i>
+                                                        </a> 
+                                                    @endcan
+                                                </form>
 
-                                            <!-- Modal para editar Servicio -->
-                                            <div class="modal fade" id="actualizar{{ $option_service->id }}" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-m">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Editar Opción de Servicio</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
-                                                        </div>
+                                                <!-- Modal para editar Servicio -->
+                                                <div class="modal fade" id="actualizar{{ $option_service->id }}" tabindex="-1"
+                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered modal-m">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Editar Opción de Servicio</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                            </div>
 
-                                                        <div class="modal-body">
+                                                            <div class="modal-body">
 
-                                                            <form class="row g-3 " action="{{ route('actualizar.option_service', $option_service->id) }}" method="POST">
-                                                                @csrf
+                                                                <form class="row g-3 " action="{{ route('option_services.update', $option_service->id) }}" method="POST">
+                                                                    @method('PUT')
+                                                                    @csrf
 
-                                                                <div class="col-12 mt-2">
-                                                                    <label for="disabledTextInput" class="form-label">Nombre</label>
-                                                                    <input type="text" id="disabledTextInput" class="form-control" name="nombre"
-                                                                        value='{{$option_service->nombre}}'>
-                                                                </div>
+                                                                    <div class="col-12 mt-2">
+                                                                        <label for="disabledTextInput" class="form-label">Nombre</label>
+                                                                        <input type="text" id="disabledTextInput" class="form-control" name="nombre"
+                                                                            value='{{$option_service->nombre}}'>
+                                                                    </div>
 
-                                                                <div class="col-6 mt-2">
-                                                                    <label for="disabledTextInput" class="form-label">Valor</label>
-                                                                    <input type="number" min="0" step="0.01" id="disabledTextInput" class="form-control" name="valor"
-                                                                        value='{{$option_service->valor}}'>
-                                                                </div>
+                                                                    <div class="col-6 mt-2">
+                                                                        <label for="disabledTextInput" class="form-label">Valor</label>
+                                                                        <input type="number" min="0" step="0.01" id="disabledTextInput" class="form-control" name="valor"
+                                                                            value='{{$option_service->valor}}'>
+                                                                    </div>
 
-                                                                @foreach ($services as $service)
-                                                                    @if ($option_service->id_services == $service->id)
-                                                                        <?php
-                                                                        $dev=$service->devolucion;
-                                                                        ?>
-                                                                        
-                                                                        @if($dev === "off")
-                                                                            <div class="col-6 mt-2">
-                                                                                <label for="disabledTextInput" class="form-label">Stock</label>
-                                                                                <input type="number" min="1" step="1" id="disabledTextInput"        class="form-control"
-                                                                                    name="stock" placeholder="No requerido" value="" readonly>
-                                                                            </div>
-                                                                        @else
-                                                                            <div class="col-6 mt-2">
-                                                                                <label for="disabledTextInput" class="form-label">Stock</label>
-                                                                                <input type="number" min="0" step="1" id="disabledTextInput" class="form-control" name="stock"
-                                                                                    value='{{$option_service->stock}}'>
-                                                                            </div>
+                                                                    @foreach ($services as $service)
+                                                                        @if ($option_service->id_services == $service->id)
+                                                                            <?php
+                                                                            $dev=$service->devolucion;
+                                                                            ?>
+                                                                            
+                                                                            @if($dev === "off")
+                                                                                <div class="col-6 mt-2">
+                                                                                    <label for="disabledTextInput" class="form-label">Stock</label>
+                                                                                    <input type="number" min="1" step="1" id="disabledTextInput"        class="form-control"
+                                                                                        name="stock" placeholder="No requerido" value="" readonly>
+                                                                                </div>
+                                                                            @else
+                                                                                <div class="col-6 mt-2">
+                                                                                    <label for="disabledTextInput" class="form-label">Stock</label>
+                                                                                    <input type="number" min="0" step="1" id="disabledTextInput" class="form-control" name="stock"
+                                                                                        value='{{$option_service->stock}}'>
+                                                                                </div>
+                                                                            @endif
                                                                         @endif
-                                                                    @endif
-                                                                @endforeach
+                                                                    @endforeach
 
-                                                                <div class="col-12 mt-2">
-                                                                    <label for="disabledTextInput" class="form-label">Descripción</label>
-                                                                    <textarea class="form-control" name="descripcion" id="floatingTextarea">{{$option_service->descripcion}}
-                                                                    </textarea>
-                                                                </div>
+                                                                    <div class="col-12 mt-2">
+                                                                        <label for="disabledTextInput" class="form-label">Descripción</label>
+                                                                        <textarea class="form-control" name="descripcion" id="floatingTextarea">{{$option_service->descripcion}}
+                                                                        </textarea>
+                                                                    </div>
 
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-danger"
-                                                                        data-bs-dismiss="modal">Cancelar</button>
-                                                                    <button type="submit" class="btn btn-success">Actualizar</button>
-                                                                </div>
-                                                            </form>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-danger"
+                                                                            data-bs-dismiss="modal">Cancelar</button>
+                                                                        <button type="submit" class="btn btn-success">Actualizar</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </td>
+                                            </td>
+                                        @endcan
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -253,7 +267,7 @@
                                 </div>
 
                                 <div class="modal-body">
-                                    <form class="row g-3 " action="{{ route('option_services.create') }}" method="POST">
+                                    <form class="row g-3 " action="{{ route('option_services.store') }}" method="POST">
                                         @csrf
 
                                         <div class="col-12 mt-2">
@@ -288,9 +302,7 @@
                                             <label for="disabledTextInput" class="form-label">Descripción</label>
                                             <textarea class="form-control" placeholder="Agregue una descripción del servicio..." name="descripcion" id="floatingTextarea">
                                             </textarea>
-                                        </div>
-
-                                        
+                                        </div>              
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
@@ -316,7 +328,7 @@
                                 </div>
 
                                 <div class="modal-body">
-                                    <form class="row g-3 " action="{{ route('option_service.updateStock') }}" method="POST">
+                                    <form class="row g-3 " action="{{ route('option_services.create_buys') }}" method="POST">
                                         @csrf
 
                                         
@@ -444,17 +456,19 @@
                                                         <td align="center">{{ $buys_service->valor_total }}</td>                                          
                                                         <td align="left">{{ $buys_service->estado }}</td>
 
-                                                        <td>
-                                                            <form action="{{ route('buys_service.anular', $buys_service->id) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                <button type="submit" class="btn btn-outline-danger"
-                                                                    onclick="return confirm ('¿Desea anular el comprobante {{ $buys_service->n_comprobante }}?')">
-                                                                    <i class="fas fa-trash "></i>
-                                                                </button>
-                                                            </form>
-                                                            
-                                                        </td>
+                                                        @can('buys_services.anular')
+                                                            <td>
+                                                                <form action="{{ route('buys_services.anular', $buys_service->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    <button type="submit" class="btn btn-outline-danger"
+                                                                        onclick="return confirm ('¿Desea anular el comprobante {{ $buys_service->n_comprobante }}?')">
+                                                                        <i class="fas fa-trash "></i>
+                                                                    </button>
+                                                                </form>
+                                                                
+                                                            </td>
+                                                        @endcan
                                                     
                                                     </tr>
                                                 @endforeach
@@ -462,7 +476,7 @@
                                         </table>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                                            <a href="{{ route('buys_service.list') }}" target="_blank" class="btn btn-success">PDF / Imprimir</a>
+                                            <a href="{{ route('buys_services.pdf') }}" target="_blank" class="btn btn-success">PDF / Imprimir</a>
                                         </div>
                                     </div>
                                 </div>

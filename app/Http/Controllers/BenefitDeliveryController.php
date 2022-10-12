@@ -25,6 +25,10 @@ use Carbon\Carbon;
 class BenefitDeliveryController extends Controller
 {
 
+    public function __construct(){
+        $this->middleware('can:entrega');
+    }
+    
     //Métodos de entrega de beneficios
     public function entrega()
     {

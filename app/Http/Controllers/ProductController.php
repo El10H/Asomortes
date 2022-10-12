@@ -16,6 +16,13 @@ Use Redirect;
 
 class ProductController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('can:products.store')->only('store');
+        $this->middleware('can:products.destroy')->only('destroy');
+        $this->middleware('can:products.update')->only('update');
+    }
+
     public function index(Request $request){
         $now=Carbon::now();
 
@@ -25,9 +32,6 @@ class ProductController extends Controller
         $attribute_products=attribute_product::all();
 
         return view('product.index', ['attribute_products'=>$attribute_products, 'products'=>$products, 'providers'=>$providers], ['now' => $now]);
-
-
-      
     }
 
     public function checkAtributos($id){
@@ -37,41 +41,29 @@ class ProductController extends Controller
 
     public function destroy(product $product){
         $id=$product->id;
-        //return($id);
-        $product->delete();
 
-        //attribute_product::where("id_products", $id) 
-        //    ->delete();
-        //$attribute_product->delete($id);
+        $product->delete();
         
         return back()->with('delete',"Se eliminó el producto '$product->nombre' y sus atributos correctamente.");
     }
 
 
-    public function ViewCreate(){ 
+    /*public function ViewCreate(){ 
         return view('product.form');
-    }
+    }*/
 
-    public function create (Request $request){
-        /*if(!$request->has('color'))
-        {
-            $request->merge(['color' => 'off']);
-        }*/
+    public function store (Request $request){
 
-        
         product::create([
         'nombre'=>$request->nombre,
         'descripcion'=>$request->descripcion,
          ]);
 
-        // $color = $request['id'];
         $id = product::latest()->first()->id;
         $modelo = $request['modelo'];
         $cementerio = $request['cementerio'];
         $sector = $request['sector'];
         $nivel = $request['nivel'];
-
-        //return ($id);
 
         attribute_product::create([
             'id_products'=>$id,
@@ -110,24 +102,19 @@ class ProductController extends Controller
                 'atributo'=>$request['nivel'],
             ]);
         }
-
-        
-                
-         return back()->with('create',"Se registró el producto '$request->nombre' correctamente.");
+      
+        return back()->with('create',"Se registró el producto '$request->nombre' correctamente.");
     }   
 
 
-
-    public function edit($id, Request $request){
+    /*public function edit($id){
         $product=product::findOrFail($id);
         return view('product.edit',['product'=>$product]);
-    }
+    }*/
 
-    public function actualizar(Request $request ,$id){
-
+    public function update(Request $request ,$id){
         $product=product::findOrFail($id);
         $attribute_products=attribute_product::all();
-
 
         $color=attribute_product::select('atributo')
             ->where('id',$id)->firstOrFail();
@@ -176,8 +163,6 @@ class ProductController extends Controller
                         }
                     } 
 
-                    //$busca=array_search ("nivel",$array_attributes);
-                    //return(strval($busca));
 
                     if($modelo === 'modelo'){
                         $busca=array_search ("modelo",$array_attributes);
@@ -218,128 +203,34 @@ class ProductController extends Controller
                             ]);
                         } 
                     }      
-                    
-                    //return ($attribute_product->id_products);
-                    
-                    //var_dump($array_attributes);
-                    //empty($color) ? return("vacio") : return($color);
-
-                    
-
-                    //if($color === 'color' && $attribute_product->atributo === 'color'){
-                    //}
-
-                    /*switch ($attribute_product->atributo) {
-                        case "color":
-                            if($color === 'color'){
-                                break;
-                            }else{
-                                attribute_product::create([
-                                    'id_products'=>$id,
-                                    'atributo'=>$request['color'],
-                                ]);  
-                            }
-                            break;
-                        case "material":
-                            if($material === 'material'){
-                                break;
-                            }else{
-                                attribute_product::create([
-                                    'id_products'=>$id,
-                                    'atributo'=>$request['material'],
-                                ]);  
-                            }
-                            break;
-                        case "cementerio":
-                            if($cementerio === 'cementerio'){
-                                break;
-                            }else{
-                                attribute_product::create([
-                                    'id_products'=>$id,
-                                    'atributo'=>$request['cementerio'],
-                                ]);  
-                            }
-                            break;
-                        case "nivel":
-                            if($nivel === 'nivel'){
-                                break;
-                            }else{
-                                attribute_product::create([
-                                    'id_products'=>$id,
-                                    'atributo'=>$request['nivel'],
-                                ]);  
-                            }
-                            break;
-                    }*/
-
-                    
-                    //return($attribute_product->atributo);
-                    //option_service::where("id", $request->servicio) 
-                    //->update(['stock' => $stock->stock + $request->cantidad ]);
-
+                                        
         $product->update([
             'nombre' => $request->input('nombre'),
             'descripcion' => $request->input('descripcion'),   
         ]);
 
 
-        //return back();
-        return back()->with('update',"Se actualizó el producto '$request->nombre' correctamente.");
-        
+        return back()->with('update',"Se actualizó el producto '$request->nombre' correctamente.");   
     }
     
 
-    public function productList()
+    public function pdf()
     {
         $products = product::latest()->orderby('id', 'asc')->get();
         $attribute_products = attribute_product::latest()->orderby('id', 'asc')->get();
         $data = compact('products', 'attribute_products');
 
-        $pdf = \PDF::loadView('product.listPdf', $data);
+        $pdf = \PDF::loadView('product.pdf', $data);
         return $pdf->setPaper('a4', 'landscape')->stream();
     }
 
 
-    public function select(){
+    /*public function select(){
         $now=Carbon::now();
 
         $products=product::all();
         $providers=provider::all();
         return view('product.buys', compact('products', 'providers'), ['now' => $now]);
-    }
-
-
-    /*public function create_buys (Request $request){
-        
-
-        buys_product::create([
-        
-        'id_products'=>$request->producto,
-        'id_providers'=>$request->proveedor,
-        'fecha_compra'=>$request->fecha_compra,
-        'cantidad'=>$request->cantidad,
-        'monto'=>$request->monto,
-        'boletaFactura'=>$request->boletaFactura,
-        'n_comprobante'=>$request->n_comprobante,
-    ]);
-
-    
-    $stock=product::select('stock')
-           ->where('id',$request->producto)->firstOrFail();
-
-    //$nuevoStock = $stock + $request->cantidad;
-
-
-    product::where("id", $request->producto) 
-          ->update(['stock' => $stock->stock + $request->cantidad ]);
-
-    //$product->stock=$request->cantidad;
-
-           
-    return redirect('/products');  
-    //return ($stock->stock);
     }*/
-
-
     
 }

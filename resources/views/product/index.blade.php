@@ -31,11 +31,14 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="float-left">
+                                    @can('products.store')
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#agregarProducto">
                                             Agregar Producto
                                         </button>
-                                        <a href="{{ route('product.list') }}" target="_blank"
+                                    @endcan
+
+                                        <a href="{{ route('products.pdf') }}" target="_blank"
                                             class="btn btn-success">Exportar PDF</a>
                                     </div>
 
@@ -79,7 +82,7 @@
                                     <th width="25%" scope="col">Nombre</th>
                                     <th width="35%" scope="col">Descripción</th>
                                     <th width="25%" scope="col">Atributos</th>
-                                    <th width="15%"></th>
+                                    @can('products') <th width="15%"></th> @endcan
 
                                 </tr>
                             </thead>
@@ -108,104 +111,111 @@
                                         </td>
 
 
+                                        @can('products')
+                                            <td align="center">
+                                                <form action="{{ route('products.destroy', $product) }}" method="POST">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    
+                                                    @can('products.destroy')
+                                                        <button type="submit" class="btn btn-outline-danger"
+                                                            onclick="return confirm('¿Desea eliminar?')">
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </button>
+                                                    @endcan
 
-                                        <td align="center">
-                                            <form action="{{ route('products.destroy', $product) }}" method="POST">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button type="submit" class="btn btn-outline-danger"
-                                                    onclick="return confirm('¿Desea eliminar?')">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </button>
-
-                                                <a data-bs-toggle="modal" data-bs-target="#actualizar{{ $product->id }}"
-                                                    class="btn btn-outline-success" onclick="atributos('{{$product->id}}')">
-                                                    <i class="far fa-edit"></i>
-                                                </a>
-                                            </form>
+                                                    @can('products.update')
+                                                        <a data-bs-toggle="modal" data-bs-target="#actualizar{{ $product->id }}"
+                                                            class="btn btn-outline-success" onclick="atributos('{{$product->id}}')">
+                                                            <i class="far fa-edit"></i>
+                                                        </a>
+                                                    @endcan
+                                                </form>
 
 
-                                            <!-- Modal para editar Producto -->
-                                            <div class="modal fade" id="actualizar{{$product->id}}" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-m">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Actualizar Producto
-                                                            </h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
-                                                        </div>
+                                                <!-- Modal para editar Producto -->
+                                                <div class="modal fade" id="actualizar{{$product->id}}" tabindex="-1"
+                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered modal-m">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Actualizar Producto
+                                                                </h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                            </div>
 
-                                                        <div class="modal-body">
-                                                            <form class="row g-3 " action="{{ route('actualizarprod', $product->id) }}" 
-                                                                method="POST">
-                                                                @csrf
-                                                                <div class="col-12 mt-2">
-                                                                    <label for="disabledTextInput"
-                                                                        class="form-label">Nombre</label>
-                                                                    <input type="text" id="disabledTextInput"
-                                                                        class="form-control" name="nombre" value="{{$product->nombre}}">
-                                                                </div>
-
-                                                                <div class="col-12 mt-2">
-                                                                    <label for="disabledTextInput"
-                                                                        class="form-label">Descripción</label>
-                                                                    <textarea class="form-control" placeholder="Agregue una descripción del servicio..." name="descripcion"
-                                                                        id="floatingTextarea" > {{$product->descripcion}}
-                                                                </textarea>
-                                                                </div>
-
-                                                                <label>Seleccionar atributos del producto:</label>
-                                                                <div class="container text-center">
-                                                                    <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="checkbox"
-                                                                            id="modelo{{$product->id}}" name="modelo"
-                                                                            value="modelo">
-                                                                        <label class="form-check-label"
-                                                                            for="inlineCheckbox1">Modelo</label>
+                                                            <div class="modal-body">
+                                                                <form class="row g-3 " action="{{ route('products.update', $product->id) }}" 
+                                                                    method="POST">
+                                                                    @method('PUT')
+                                                                    @csrf
+                                                                    <div class="col-12 mt-2">
+                                                                        <label for="disabledTextInput"
+                                                                            class="form-label">Nombre</label>
+                                                                        <input type="text" id="disabledTextInput"
+                                                                            class="form-control" name="nombre" value="{{$product->nombre}}">
                                                                     </div>
-                                                                    <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="checkbox"
-                                                                            id="cementerio{{$product->id}}" name="cementerio"
-                                                                            value="cementerio">
-                                                                        <label class="form-check-label"
-                                                                            for="inlineCheckbox2">Cementerio</label>
+
+                                                                    <div class="col-12 mt-2">
+                                                                        <label for="disabledTextInput"
+                                                                            class="form-label">Descripción</label>
+                                                                        <textarea class="form-control" placeholder="Agregue una descripción del servicio..." name="descripcion"
+                                                                            id="floatingTextarea" > {{$product->descripcion}}
+                                                                    </textarea>
                                                                     </div>
-                                                                    <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="checkbox"
-                                                                            id="sector{{$product->id}}" name="sector"
-                                                                            value="sector">
-                                                                        <label class="form-check-label"
-                                                                            for="inlineCheckbox3">Sector</label>
+
+                                                                    <label>Seleccionar atributos del producto:</label>
+                                                                    <div class="container text-center">
+                                                                        <div class="form-check form-check-inline">
+                                                                            <input class="form-check-input" type="checkbox"
+                                                                                id="modelo{{$product->id}}" name="modelo"
+                                                                                value="modelo">
+                                                                            <label class="form-check-label"
+                                                                                for="inlineCheckbox1">Modelo</label>
+                                                                        </div>
+                                                                        <div class="form-check form-check-inline">
+                                                                            <input class="form-check-input" type="checkbox"
+                                                                                id="cementerio{{$product->id}}" name="cementerio"
+                                                                                value="cementerio">
+                                                                            <label class="form-check-label"
+                                                                                for="inlineCheckbox2">Cementerio</label>
+                                                                        </div>
+                                                                        <div class="form-check form-check-inline">
+                                                                            <input class="form-check-input" type="checkbox"
+                                                                                id="sector{{$product->id}}" name="sector"
+                                                                                value="sector">
+                                                                            <label class="form-check-label"
+                                                                                for="inlineCheckbox3">Sector</label>
+                                                                        </div>
+                                                                        <div class="form-check form-check-inline">
+                                                                            <input class="form-check-input" type="checkbox"
+                                                                                id="nivel{{$product->id}}" name="nivel"
+                                                                                value="nivel">
+                                                                            <label class="form-check-label"
+                                                                                for="inlineCheckbox4">Nivel</label>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="checkbox"
-                                                                            id="nivel{{$product->id}}" name="nivel"
-                                                                            value="nivel">
-                                                                        <label class="form-check-label"
-                                                                            for="inlineCheckbox4">Nivel</label>
-                                                                    </div>
-                                                                </div>
 
 
 
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-danger"
-                                                                        data-bs-dismiss="modal">Cancelar</button>
-                                                                    <button type="submit"
-                                                                        class="btn btn-success">Guardar</button>
-                                                                    <button type="reset"
-                                                                        class="btn btn-secondary">Limpiar
-                                                                        formulario</button>
-                                                                </div>
-                                                            </form>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-danger"
+                                                                            data-bs-dismiss="modal">Cancelar</button>
+                                                                        <button type="submit"
+                                                                            class="btn btn-success">Guardar</button>
+                                                                        <button type="reset"
+                                                                            class="btn btn-secondary">Limpiar
+                                                                            formulario</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                        </td>
+                                            </td>
+                                        @endcan
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -215,96 +225,6 @@
 
                     <!-- Modal para agregar Producto -->
                     @include('product.modalAdd')
-
-                    <!-- Modal para agregar compra Producto -->
-                    <!-- <div class="modal fade" id="agregarCompraProducto" tabindex="-1"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-xl">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Agregar Compras</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-
-                                <div class="modal-body">
-
-                                    <form class="row g-3 " action="{{ route('product.updateStock') }}" method="POST">
-                                        @csrf
-
-                                        <div class="col-6 mt-2">
-                                            <label for="inputEmail4" class="form-label">Productos</label>
-                                            <select class="custom-select" name='producto'>
-                                                <option selected>Seleccione</option>
-
-                                                @foreach ($products as $product)
-                                                    <option value="{{ $product['id'] }}">{{ $product['nombre'] }}
-                                                    </option>
-                                                @endforeach
-
-                                            </select>
-                                        </div>
-
-                                        <div class="col-6 mt-2">
-                                            <label for="inputEmail4" class="form-label">Proveedores</label>
-                                            <select class="custom-select" name='proveedor'>
-                                                <option selected>Seleccione</option>
-
-                                                @foreach ($providers as $provider)
-                                                    <option value="{{ $provider['id'] }}">{{ $provider['razon_social'] }}
-                                                    </option>
-                                                @endforeach
-
-                                            </select>
-                                        </div>
-
-                                        <div class="col-6 mt-2">
-                                            <label for="disabledTextInput" class="form-label">Cantidad</label>
-                                            <input type="number" min="1" step="1" id="disabledTextInput"
-                                                class="form-control" name="cantidad">
-                                        </div>
-
-                                        <div class="col-6 mt-2">
-                                            <label for="disabledTextInput" class="form-label">Monto</label>
-                                            <input type="number" min="1" step="0.01" id="disabledTextInput"
-                                                class="form-control" name="monto">
-                                        </div>
-
-                                        <div class="col-6 mt-2">
-                                            <label for="inputEmail4" class="form-label">Boleta/Factura</label>
-                                            <select class="custom-select" name='boletaFactura'>
-                                                <option selected>Seleccione</option>
-                                                <option value="Boleta">Boleta</option>
-                                                <option value="Factura">Factura</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-md-6 mt-2">
-                                            <label for="disabledTextInput" class="form-label">N° de comprobante</label>
-                                            <input type="text" id="disabledTextInput" class="form-control"
-                                                name="n_comprobante">
-                                        </div>
-
-                                        <div class="container">
-                                            <div class="col-6 mt-2 justify-content-center">
-                                                <label for="inputEmail4" class="form-label">Fecha</label>
-                                                <input type="date" class="form-control" name='fecha_compra'
-                                                    value="{{ $now->format('Y-m-d') }}">
-                                            </div>
-                                        </div>
-
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger"
-                                                data-bs-dismiss="modal">Cancelar</button>
-                                            <button type="submit" class="btn btn-success">Guardar</button>
-                                            <button type="reset" class="btn btn-secondary">Limpiar formulario</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
 
                     <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
                 </div>

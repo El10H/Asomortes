@@ -11,12 +11,14 @@
         "php": "^7.2.5|^8.0",
         "almasaeed2010/adminlte": "~3.2",
         "barryvdh/laravel-dompdf": "^1.0",
+        "curl/curl": "^2.4",
         "fideloper/proxy": "^4.4",
         "jeroennoten/laravel-adminlte": "^3.8",
         "laravel/framework": "^6.20.26",
         "laravel/tinker": "^2.5",
         "laraveles/spanish": "^1.5",
         "nesbot/carbon": "^2.57",
+        "spatie/laravel-permission": "^3.0",
         "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {

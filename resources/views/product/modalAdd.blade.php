@@ -9,7 +9,7 @@
             </div>
 
             <div class="modal-body">
-                <form class="row g-3 " action="{{ route('products.create') }}" method="POST">
+                <form class="row g-3 " action="{{ route('products.store') }}" method="POST">
                     @csrf
                     <div class="col-12 mt-2">
                         <label for="disabledTextInput" class="form-label">Nombre</label>
