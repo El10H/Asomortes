@@ -46,11 +46,7 @@ return [
     */
 
     'logo' => '',
-<<<<<<< HEAD
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-=======
     'logo_img' => 'vendor/adminlte/dist/img/azul.png',
->>>>>>> fbd8d5c6e1dbcf8fcb56f8b2fda02a657ccd8d75
     'logo_img_class' => 'w-75',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -252,7 +248,6 @@ return [
             'icon'        => 'far fa-fw fa-file',
             //'label'       => '',
             'label_color' => 'info',
-<<<<<<< HEAD
         ],
 
         [
@@ -260,8 +255,6 @@ return [
             'url'  => 'users',
             'icon' => 'fas fa-fw fa-users',
             //'can' => 'users.index'
-=======
->>>>>>> fbd8d5c6e1dbcf8fcb56f8b2fda02a657ccd8d75
         ],
 
         
@@ -283,12 +276,10 @@ return [
         ],
         
         [
-<<<<<<< HEAD
             'text' => 'Registro de pagos',
             'url'  => '/paymentNuevo',
             'icon' => 'fas fa-fw fa-credit-card',
             //'can' => 'payment.indexNuevo'
-=======
             'text'    => 'Panel de Pagos',
             'icon'    => 'fas fa-fw fa-credit-card',
             'submenu' => [
@@ -304,7 +295,6 @@ return [
                     'url'  => '/listaPayment',
                 ],
             ],
->>>>>>> fbd8d5c6e1dbcf8fcb56f8b2fda02a657ccd8d75
         ],
      
         
