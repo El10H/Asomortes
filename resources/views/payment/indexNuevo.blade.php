@@ -14,7 +14,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header bg-dark text-white">
+                    <div class="card-header text-white" style="background-color:#004173">
                         Registro de pagos
                     </div>
 
@@ -198,7 +198,7 @@
                     var inscripcion = arrays[3]; //datos de inscripcion monto
   
 
-                    console.log(datosConfig.monto);
+                  
                     document.getElementById('nombre').value = datos.nombre;
                     document.getElementById('apellidos').value = datos.apellido_paterno + ' ' + datos
                         .apellido_materno;

@@ -32,12 +32,15 @@ Route::get('updateExecutive{id}','PartnerController@quitarCargo')->name('quitarC
 
 Route::get('resumenPartner','PartnerController@resumenSocio')->name('resumenSocio');
 Route::get('resumenDatos{nombre}','PartnerController@resumenDatos')->name('resumenDatos');
-Route::get('panel','PartnerController@panel')->name('panel');
+
 Route::get('deuda11','PartnerController@deuda11')->name('deuda11');
 Route::get('deuda12','PartnerController@deuda12')->name('deuda12');
+Route::get('deuda2','PartnerController@deuda2')->name('deuda2');
 Route::get('socioRetirado{id}','PartnerController@socioRetirado')->name('socioRetirado');
 Route::get('vistaSocioRetirado','PartnerController@listaSociosRetirados')->name('vistaSocioRetirado');
 
+//Ruta de panel administrativo
+Route::get('panel','panelController@index')->name('panel');
 //Ruta directivos
 Route::get('vistaExecutive','PartnerController@vistaDirectivo')->name('vistaDirectivo');
 
@@ -64,7 +67,8 @@ Route::get('/reportePagos{id}','PaymentController@reportePagos')->name('reporteP
 Route::get('/paymentNuevo','PaymentController@nuevoIndex')->middleware('can:payment.indexNuevo')->name('payment.indexNuevo');
 Route::get('/datosSocio{dni}','PaymentController@datosSocio')->name('datosSocio');
 Route::post('/paymentguardar','PaymentController@guardar')->name('pagosguardar');
-
+Route::get('/listaPayment','PaymentController@listaPagos')->name('listaPagos');
+Route::get('/detallePagos{id}','PaymentController@detallePagos')->name('detallePagos');
 
 //Rutas de productos (ELIO)
 Route::Resource('products','ProductController')->only(['index', 'destroy', 'store', 'update']); //index, destroy. store, update
