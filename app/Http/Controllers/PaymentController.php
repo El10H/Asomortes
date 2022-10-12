@@ -22,6 +22,20 @@ class PaymentController extends Controller
         return view('payment.indexNuevo');
     }
 
+    public function listaPagos(){
+        $pagos = Payment::orderBy('payments.created_at', 'DESC')
+        ->select('payments.id','payments.partner_id','payments.fecha_de_pago','payments.monto_total','partners.nombre','partners.apellido_paterno', 'partners.apellido_materno','partners.carne')
+        ->join('partners','partners.id','=','payments.partner_id')
+        ->get();
+
+        return view ('payment.listaPagos',['pagos'=>$pagos]);
+    }
+
+    public function detallePagos($id){
+        $detalles = Month::where('payment_id',$id)->get();
+        echo json_encode($detalles);
+    }
+
     public function datosSocio($dni)
     {
         $datos = array();

@@ -30,6 +30,7 @@ class panelController extends Controller
         //Socios con deuda 11 meses y 12 meses
         $sociosDeuda12 = array();
         $sociosDeuda11 = array();
+        $sociosDeuda2 = array();
         $partners = partner::all();
         foreach ($partners as $partner) {
             $boleta = Payment::orderBy('created_at', 'DESC')
@@ -89,6 +90,7 @@ class panelController extends Controller
                 $date2 = Carbon::now();
                 $deuda12 = $date->subMonths(12);
                 $deuda11 = $date2->subMonths(11);
+                $deuda2 = $date2->subMonths(2);
 
                 $fechaSocio = Carbon::parse($mes->año . '-' . $mesNum . '-' . '01');
 
@@ -99,6 +101,9 @@ class panelController extends Controller
                 if ($fechaSocio->format('Y') == $deuda11->format('Y')  && $fechaSocio->format('m') == $deuda11->format('m')) {
                     array_push($sociosDeuda11, $partner->id);
                 }
+                if ($fechaSocio->format('Y') == $deuda2->format('Y')  && $fechaSocio->format('m') == $deuda2->format('m')) {
+                    array_push($sociosDeuda2, $partner->id);
+                }
             }
         }
 
@@ -106,6 +111,30 @@ class panelController extends Controller
         //Socios fallecidos
         $fallecidosContar = partner_deceased::all();
 
-        return view('panel', ['sociosDeuda12' => $sociosDeuda12, 'sociosDeuda11' => $sociosDeuda11 , 'fallecidos' => $fallecidosContar]);
+        //Últimos pagos:
+        $ultimosPagos = Payment::orderBy('payments.created_at', 'DESC')
+        ->select('payments.id','payments.partner_id','payments.fecha_de_pago','payments.monto_total','partners.nombre','partners.apellido_paterno', 'partners.apellido_materno')
+        ->join('partners','partners.id','=','payments.partner_id')
+        ->take(5)
+        ->get();
+        
+        //últimos socios registrados
+
+        $ultimosSociosRegistrados=partner::orderBy('fecha_de_ingreso','DESC')
+        ->take(5)
+        ->get();
+
+        //Socios retirados
+        $sociosRetirados = sanctioned::all();
+
+        return view('panel', [
+            'sociosDeuda12' => $sociosDeuda12, 
+            'sociosDeuda11' => $sociosDeuda11,
+            'sociosDeuda2' => $sociosDeuda2 , 
+            'fallecidos' => $fallecidosContar , 
+            'ultimosPagos' => $ultimosPagos ,
+            'ultimosSocios' =>$ultimosSociosRegistrados,
+            'sociosRetirados' => $sociosRetirados
+             ] );
     }
 }

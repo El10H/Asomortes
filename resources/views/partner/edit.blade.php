@@ -16,7 +16,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header bg-dark text-white">
+                    <div class="card-header text-white" style="background-color:#004173">
                         
                         <div>
                             <h5 class="card-title">Socio: {{ $partner->nombre .' '.$partner->apellido_paterno .' '.$partner->apellido_materno }}</h5> 

@@ -267,10 +267,23 @@ return [
             'url'  => '/beneficiariesIndex',
             'icon' => 'fas fa-fw fa-user',
         ],
+        
         [
-            'text' => 'Registro de pagos',
-            'url'  => '/paymentNuevo',
-            'icon' => 'fas fa-fw fa-credit-card',
+            'text'    => 'Panel de Pagos',
+            'icon'    => 'fas fa-fw fa-credit-card',
+            'submenu' => [
+                [
+                    'text' => 'Registrar pago',
+                    'icon_color' => 'blue',
+                    'url'  => '/paymentNuevo',
+                ],
+
+                [
+                    'text' => 'Ver pagos',
+                    'icon_color' => 'blue',
+                    'url'  => '/listaPayment',
+                ],
+            ],
         ],
      
         

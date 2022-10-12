@@ -546,6 +546,82 @@ class PartnerController extends Controller
         return view('partner.deuda12', ['socios' => [], 'boleta' => [], 'mes' => []]);
     }
 
+    public function deuda2()
+    {
+        $sociosDeuda2 = array();
+        $partners = partner::all();
+        foreach ($partners as $partner) {
+            $boleta = Payment::orderBy('created_at', 'DESC')
+                ->select('partner_id')->where('partner_id', $partner->id)->take(1)
+                ->get();
+
+            if (count($boleta) > 0) {
+                $pago = Payment::orderBy('created_at', 'DESC')
+                    ->select('id', 'partner_id')->where('partner_id', $partner->id)
+                    ->take(1)
+                    ->first();
+
+                $mes = month::orderBy('id', 'desc')->select('mes', 'año', 'payment_id')
+                    ->where('payment_id', $pago->id)
+                    ->take(1)
+                    ->first();
+
+
+                if ($mes->mes == 'Enero') {
+                    $mesNum = '01';
+                }
+                if ($mes->mes == 'Febrero') {
+                    $mesNum = '02';
+                }
+                if ($mes->mes == 'Marzo') {
+                    $mesNum = '03';
+                }
+                if ($mes->mes == 'Abril') {
+                    $mesNum = '04';
+                }
+                if ($mes->mes == 'Mayo') {
+                    $mesNum = '05';
+                }
+                if ($mes->mes == 'Junio') {
+                    $mesNum = '06';
+                }
+                if ($mes->mes == 'Julio') {
+                    $mesNum = '07';
+                }
+                if ($mes->mes == 'Agosto') {
+                    $mesNum = '08';
+                }
+                if ($mes->mes == 'Setiembre') {
+                    $mesNum = '09';
+                }
+                if ($mes->mes == 'Octubre') {
+                    $mesNum = 10;
+                }
+                if ($mes->mes == 'Noviembre') {
+                    $mesNum = 11;
+                }
+                if ($mes->mes == 'Diciembre') {
+                    $mesNum = 12;
+                }
+
+                $date = Carbon::now();
+                $deuda2 = $date->subMonths(2);
+
+                $fechaSocio = Carbon::parse($mes->año . '-' . $mesNum . '-' . '01');
+
+
+                if ($fechaSocio->format('Y') == $deuda2->format('Y')  && $fechaSocio->format('m') == $deuda2->format('m') ) {
+                    array_push($sociosDeuda2, $partner);
+                    $boletaEnviar = $pago;
+                    $mesEnviar = $mes;
+                    return view('partner.deuda2', ['socios' => $sociosDeuda2, 'boleta' => $boletaEnviar, 'mes' => $mesEnviar]);
+                }
+            }
+        }
+
+        return view('partner.deuda2', ['socios' => [], 'boleta' => [], 'mes' => []]);
+    }
+
     public function socioRetirado($id)
     {
         $date = Carbon::now();
