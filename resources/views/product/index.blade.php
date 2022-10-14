@@ -31,15 +31,15 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="float-left">
-                                    @can('products.store')
+                                    @can('products')
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#agregarProducto">
                                             Agregar Producto
                                         </button>
                                     @endcan
 
-                                        <a href="{{ route('products.pdf') }}" target="_blank"
-                                            class="btn btn-success">Exportar PDF</a>
+                                    <a href="{{ route('products.pdf') }}" target="_blank"
+                                        class="btn btn-success">Exportar PDF</a>
                                     </div>
 
                                     <!-- <div class="float-right ">
@@ -117,14 +117,14 @@
                                                     @method('DELETE')
                                                     @csrf
                                                     
-                                                    @can('products.destroy')
+                                                    @can('products')
                                                         <button type="submit" class="btn btn-outline-danger"
                                                             onclick="return confirm('¿Desea eliminar?')">
                                                             <i class="far fa-trash-alt"></i>
                                                         </button>
                                                     @endcan
 
-                                                    @can('products.update')
+                                                    @can('products')
                                                         <a data-bs-toggle="modal" data-bs-target="#actualizar{{ $product->id }}"
                                                             class="btn btn-outline-success" onclick="atributos('{{$product->id}}')">
                                                             <i class="far fa-edit"></i>
@@ -133,19 +133,6 @@
                                                 </form>
 
 
-<<<<<<< HEAD
-                                                <!-- Modal para editar Producto -->
-                                                <div class="modal fade" id="actualizar{{$product->id}}" tabindex="-1"
-                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered modal-m">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Actualizar Producto
-                                                                </h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                    aria-label="Close"></button>
-                                                            </div>
-=======
                                             <!-- Modal para editar Producto -->
                                             <div class="modal fade" id="actualizar{{$product->id}}" tabindex="-1"
                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -158,7 +145,6 @@
                                                                 aria-label="Close"><i
                                                                 class="fas fa-times"></i></button>
                                                         </div>
->>>>>>> fbd8d5c6e1dbcf8fcb56f8b2fda02a657ccd8d75
 
                                                             <div class="modal-body">
                                                                 <form class="row g-3 " action="{{ route('products.update', $product->id) }}" 
@@ -213,21 +199,6 @@
                                                                     </div>
 
 
-<<<<<<< HEAD
-
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-danger"
-                                                                            data-bs-dismiss="modal">Cancelar</button>
-                                                                        <button type="submit"
-                                                                            class="btn btn-success">Guardar</button>
-                                                                        <button type="reset"
-                                                                            class="btn btn-secondary">Limpiar
-                                                                            formulario</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-=======
                                                             </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-danger"
@@ -240,7 +211,6 @@
                                                                 </div>
                                                             </form>
                                                         
->>>>>>> fbd8d5c6e1dbcf8fcb56f8b2fda02a657ccd8d75
                                                     </div>
                                                 </div>
 

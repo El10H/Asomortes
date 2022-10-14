@@ -99,7 +99,6 @@
                                                     @endcan
                                                 </form>
 
-<<<<<<< HEAD
                                                 <!-- Modal para editar Proveedor -->
                                                 <div class="modal fade" id="actualizar{{ $provider->id }}" tabindex="-1"
                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -111,20 +110,6 @@
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                     aria-label="Close"></button>
                                                             </div>
-=======
-                                            <!-- Modal para editar Proveedor -->
-                                            <div class="modal fade" id="actualizar{{ $provider->id }}" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-xl ">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Editar
-                                                                Proveedor</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"><i
-                                                                class="fas fa-times"></i></button>
-                                                        </div>
->>>>>>> fbd8d5c6e1dbcf8fcb56f8b2fda02a657ccd8d75
 
                                                             <div class="modal-body">
 
@@ -162,17 +147,6 @@
                                                                             value='{{$provider->email}}'>
                                                                     </div>
 
-<<<<<<< HEAD
-                                                
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-danger"
-                                                                            data-bs-dismiss="modal">Cancelar</button>
-                                                                        <button type="submit" class="btn btn-success">Actualizar</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-=======
                                                             </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-danger"
@@ -181,7 +155,6 @@
                                                                 </div>
                                                             </form>
                                                       
->>>>>>> fbd8d5c6e1dbcf8fcb56f8b2fda02a657ccd8d75
                                                     </div>
                                                 </div>
                                             </td>

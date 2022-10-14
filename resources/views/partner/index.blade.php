@@ -34,7 +34,7 @@
                                         data-bs-target="#exampleModal">
                                         Agregar Socio
                                     </button>
-                                    <a href="{{ route('partner.list') }}"  target="_blank" class="btn btn-success">Exportar PDF</a>
+                                    <a href="{{ route('partners.pdf') }}"  target="_blank" class="btn btn-success">Exportar PDF</a>
                                     <a href="{{ route('lista.fallecidos') }}" class="btn btn-danger">Socios Fallecidos</a>
                                 </div>
                             </div>
@@ -127,9 +127,10 @@
                                                     onclick="return confirm('¿Desea eliminar?')">
                                                     <i class="far fa-trash-alt"></i>
                                                 </button>
-                                                <a href="{{ route('partners.updateForm', ['id' => $partner->id]) }}"
+                                                <a href="{{ route('partners.edit', $partner->id) }}"
                                                     class="btn btn-outline-success"><i class="far fa-edit"></i></a>
-                                                <a href="{{ route('partner.file', ['id' => $partner->id]) }} "
+                                                    
+                                                <a href="{{ route('partners.pdf_resumen', ['id' => $partner->id]) }} "
                                                 target="_blank" class="btn btn-outline-primary">
                                                     <i class="far fa-file"></i></a>
                                             </form>
@@ -154,7 +155,7 @@
                                 </div>
                                 <div class="modal-body">
 
-                                    <form action="{{ route('partners.form') }}" method="POST">
+                                    <form action="{{ route('partners.store') }}" method="POST">
                                         @csrf
                                         <div class="col-12 d-flex mt-3">
                                             <div class="col-4">

@@ -46,7 +46,7 @@ return [
     */
 
     'logo' => '',
-    'logo_img' => 'vendor/adminlte/dist/img/azul.png',
+    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'w-75',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -275,11 +275,8 @@ return [
             'icon' => 'fas fa-fw fa-user',
         ],
         
+
         [
-            'text' => 'Registro de pagos',
-            'url'  => '/paymentNuevo',
-            'icon' => 'fas fa-fw fa-credit-card',
-            //'can' => 'payment.indexNuevo'
             'text'    => 'Panel de Pagos',
             'icon'    => 'fas fa-fw fa-credit-card',
             'submenu' => [

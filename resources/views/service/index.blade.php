@@ -30,6 +30,7 @@
                                                 Agregar Servicio
                                             </button>
                                         @endcan
+                                        
                                         <a href="{{ route('services.pdf') }}" target="_blank" class="btn btn-success">Exportar PDF</a>
                                     </div>
                                 </div>
@@ -89,35 +90,20 @@
                                                     @method('DELETE')
                                                     @csrf
 
-                                                    @can('services.destroy')
+                                                    @can('services')
                                                         <button type="submit" class="btn btn-outline-danger"
                                                             onclick="return confirm('¿Desea eliminar?')">
                                                             <i class="far fa-trash-alt"></i>
                                                         </button>
                                                     @endcan
 
-<<<<<<< HEAD
-                                                    @can('services.update')
+                                                    @can('services')
                                                         <a data-bs-toggle="modal" data-bs-target="#actualizar{{ $service->id }}"
                                                             class="btn btn-outline-success">
                                                             <i class="far fa-edit"></i>
                                                         </a> 
                                                     @endcan
                                                 </form>
-=======
-                                            <!-- Modal para editar Servicio -->
-                                            <div class="modal fade" id="actualizar{{ $service->id }}" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-m ">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Editar
-                                                                Servicio</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"><i
-                                                                class="fas fa-times"></i></button>
-                                                        </div>
->>>>>>> fbd8d5c6e1dbcf8fcb56f8b2fda02a657ccd8d75
 
                                                 <!-- Modal para editar Servicio -->
                                                 <div class="modal fade" id="actualizar{{ $service->id }}" tabindex="-1"
@@ -166,17 +152,6 @@
                                                                         </div>
                                                                     @endif
 
-<<<<<<< HEAD
-
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-danger"
-                                                                            data-bs-dismiss="modal">Cancelar</button>
-                                                                        <button type="submit" class="btn btn-success">Actualizar</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-=======
                                                             </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-danger"
@@ -185,7 +160,6 @@
                                                                 </div>
                                                             </form>
                                                        
->>>>>>> fbd8d5c6e1dbcf8fcb56f8b2fda02a657ccd8d75
                                                     </div>
                                                 </div>
                                             </td>

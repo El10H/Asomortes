@@ -16,14 +16,15 @@ Route::get('/', function () {
 });
 
 //Rutas de socio
-Route::get('partners','PartnerController@index')->name('partners.index');
-Route::get('partnersNew','PartnerController@ViewCreate')->name('partners.create');
-Route::post('partnersNew','PartnerController@create')->name('partners.form');
-Route::delete('partners{partner}','PartnerController@destroy')->name('partners.destroy');
-Route::get('partnersUpdate{id}','PartnerController@edit')->name('partners.updateForm');
-Route::post('partnersUpdate{id}','PartnerController@update')->name('partner.update');
-Route::get('partnerFile{id}','PartnerController@partnerFile')->name('partner.file');
-Route::get('partnerList','PartnerController@partnerList')->name('partner.list');
+Route::Resource('partners','PartnerController')->only(['index', 'destroy', 'store', 'edit', 'update']);
+//Route::get('partners','PartnerController@index')->name('partners.index');
+//Route::get('partnersNew','PartnerController@ViewCreate')->name('partners.create');
+//Route::post('partnersNew','PartnerController@create')->name('partners.form');
+//Route::delete('partners{partner}','PartnerController@destroy')->name('partners.destroy');
+//Route::get('partnersUpdate{id}','PartnerController@edit')->name('partners.updateForm');
+//Route::post('partnersUpdate{id}','PartnerController@update')->name('partner.update');
+Route::get('partnerFile{id}','PartnerController@pdf_resumen')->name('partners.pdf_resumen');
+Route::get('partnerList','PartnerController@pdf')->name('partners.pdf');
 //Route::post('/directivosocio','PartnerController@cargoDirectivo')->name('asignar.directivo');
 //Route::get('vistaExecutive','PartnerController@vistaDirectivo')->name('vistaDirectivo');
 Route::post('/directivosocio','PartnerController@cargoDirectivo')->name('asignar.directivo');

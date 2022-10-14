@@ -59,7 +59,7 @@ class PartnerController extends Controller
     }
 
     //Métdo para crear un nuevo socio
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'nombre' => ['required'],
@@ -164,7 +164,7 @@ class PartnerController extends Controller
     }
 
     //Método para generar el pdf de la ficha socio
-    public function partnerFile($id)
+    public function pdf_resumen($id)
     {
         $partner = partner::findOrFail($id);
         $beneficiaries = beneficiary::where('partner_id', '=', $id)->get();
@@ -177,13 +177,13 @@ class PartnerController extends Controller
     }
 
     //Método para generar el pdf de la lista general de socios
-    public function partnerList()
+    public function pdf()
     {
         $partners = partner::latest()->orderby('id', 'desc')->get();
         $data = compact('partners');
 
         //$view = \View::make('partner.ficha', compact())
-        $pdf = \PDF::loadView('partner.listadoPdf', $data);
+        $pdf = \PDF::loadView('partner.pdf', $data);
         //return $pdf->download('PartnerFile-'.$id.'.pdf');
         return $pdf->setPaper('a4', 'landscape')->stream();
 
