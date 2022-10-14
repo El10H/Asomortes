@@ -29,8 +29,6 @@ class OptionProductController extends Controller
 
             $sku_option_products=option_product::distinct('sku')->select('sku', 'id_vouchers')->get();
             $attribute_option_products=option_product::distinct('id_attribute_products')->select('id_attribute_products')->get();
-            //$option_products=option_product::orderby('id','desc')->get();
-            //return($attribute_option_products);
             
             return view('option_product.index', ['attribute_products'=>$attribute_products, 'attribute_option_products'=>$attribute_option_products, 'option_products'=>$option_products, 'buys_products'=>$buys_products,
                 'sku_option_products'=>$sku_option_products, 'products'=>$products, 'providers'=>$providers], ['now' => $now]); 
@@ -48,9 +46,6 @@ class OptionProductController extends Controller
 
 
     public function destroy($sku){
-        //$sku=$sku_option_product->sku;
-        //var_dump($sku);
-        //return("ya ". $sku);
 
         $option_products=option_product::all();
         $product=option_product::select('sku')
@@ -61,19 +56,12 @@ class OptionProductController extends Controller
             ->delete();
         }
 
-        //option_product::where("sku", $sku) 
-          //  ->delete();
-        
         return back()->with('delete',"Se eliminó el producto SKU: $product->sku correctamente.");
     }
 
     public function acceder($id){
         $attribute_products=attribute_product::all();
 
-        //$id_prod=product::select('id')
-          //  ->where('id',$id)->firstOrFail();
-
-        //var_dump ($id_prod);
         $array_attributes=array();
         $i=0;
 
@@ -101,9 +89,6 @@ class OptionProductController extends Controller
 
         $id_products=buys_product::select('id_products')
            ->where('id',$voucher->id_vouchers)->firstOrFail();
-
-        //$product=option_product::where('sku',$sku)->select('id_products')
-        //->firstOrFail();
         
         $productos=attribute_product::where('id_products',$id_products->id_products)->select('atributo')->get();
 
@@ -112,12 +97,10 @@ class OptionProductController extends Controller
         array_push($array_3, $campos);
         array_push($array_3, $productos);
 
-        echo json_encode($array_3);
-        
-        
+        echo json_encode($array_3);    
     }
     
-    public function actualizar($sku, Request $request){
+    public function update($sku, Request $request){
         
         $option_products=option_product::all();
         $attribute_products=attribute_product::all();
@@ -127,9 +110,6 @@ class OptionProductController extends Controller
 
         $id_prod=buys_product::select('id_products')
            ->where('id',$voucher->id_vouchers)->firstOrFail();
-
-        //$id_prod=option_product::select('id_products')
-          //  ->where('sku',$sku)->firstOrFail();
 
         foreach ($option_products as $option_product){
             option_product::where("sku", $sku) 
@@ -147,7 +127,6 @@ class OptionProductController extends Controller
                         'sku'=>$sku,
                         'id_attribute_products'=>$id_attribute,
                         'id_vouchers'=>$voucher->id_vouchers,
-                        //'nombre'=>$request->nombreAct,
                         'opcion'=>$request->valorAct,
                     ]);
                 }
@@ -157,7 +136,6 @@ class OptionProductController extends Controller
                         'sku'=>$sku,
                         'id_attribute_products'=>$id_attribute,
                         'id_vouchers'=>$voucher->id_vouchers,
-                        //'nombre'=>$request->nombreAct,
                         'opcion'=>$request->cantidadAct,
                     ]);
                 }
@@ -167,7 +145,6 @@ class OptionProductController extends Controller
                         'sku'=>$sku,
                         'id_attribute_products'=>$id_attribute,
                         'id_vouchers'=>$voucher->id_vouchers,
-                        //'nombre'=>$request->nombreAct,
                         'opcion'=>$request->modeloAct,
                     ]);
                 }
@@ -177,7 +154,6 @@ class OptionProductController extends Controller
                         'sku'=>$sku,
                         'id_attribute_products'=>$id_attribute,
                         'id_vouchers'=>$voucher->id_vouchers,
-                        //'nombre'=>$request->nombreAct,
                         'opcion'=>$request->cementerioAct,
                     ]);
                 }
@@ -187,7 +163,6 @@ class OptionProductController extends Controller
                         'sku'=>$sku,
                         'id_attribute_products'=>$id_attribute,
                         'id_vouchers'=>$voucher->id_vouchers,
-                        //'nombre'=>$request->nombreAct,
                         'opcion'=>$request->sectorAct,
                     ]);
                 }
@@ -197,23 +172,16 @@ class OptionProductController extends Controller
                         'sku'=>$sku,
                         'id_attribute_products'=>$id_attribute,
                         'id_vouchers'=>$voucher->id_vouchers,
-                        //'nombre'=>$request->nombreAct,
                         'opcion'=>$request->nivelAct,
                     ]);
                 }
-
-                /*$array_attributes[$i]=($atributo);
-                $i++; */
             }
         }
 
-
         return back()->with('update',"Se actualizó el producto SKU: $option_product->sku correctamente.");
-        //return back();
     }
 
-    public function create (Request $request){
-
+    public function store(Request $request){
         $attribute_products=attribute_product::all();
 
         $array_attributes=array();
@@ -284,18 +252,14 @@ class OptionProductController extends Controller
                         'opcion'=>$request->nivel,
                     ]);
                 }
-
-                /*$array_attributes[$i]=($atributo);
-                $i++; */
             }
         }   
          
         return back()->with('create',"Se registró el producto SKU: $request->sku correctamente.");
-        // return redirect('/option_products');  
-     }
+    }
 
 
-     public function create_buys (Request $request){
+    public function create_buys(Request $request){
 
         $option_products=option_product::all();
         $attribute_products=attribute_product::all();
@@ -310,50 +274,12 @@ class OptionProductController extends Controller
             'total_articulos'=>$request->total_articulos,
             'descripcion'=>$request->descripcion,
             'estado'=>'registrada',
-            
-            
         ]);
 
-        /*$id_prod=option_product::select('id_products')
-            ->where('sku', $request->opcion_producto)->firstOrFail();
-
-        $id_prod=$id_prod->id_products;
-
-        foreach ($attribute_products as $attribute_product){
-            if ($attribute_product->id_products == $id_prod){
-                if($attribute_product->atributo === 'valor'){
-
-                    //var_dump($attribute_product->id." = valor ");
-
-                    option_product::where("sku", $request->opcion_producto) 
-                        //->where("id_products", $id_prod) 
-                        ->where("id_attribute_products", $attribute_product->id) 
-                        ->update(['opcion' => $request->valorUnitario ]);                    
-                }
-
-                if($attribute_product->atributo === 'stock'){
-                    //var_dump($attribute_product->id." = stock");
-
-                    $valorAnt=option_product::select('opcion')
-                        ->where('sku',$request->opcion_producto)
-                        ->where('id_attribute_products', $attribute_product->id)->firstOrFail();
-
-                    $valorAnt=$valorAnt->opcion;
-                    
-                    option_product::where("sku", $request->opcion_producto) 
-                        //->where("id_products", $id_prod) 
-                        ->where("id_attribute_products", $attribute_product->id) 
-                        ->update(['opcion' => $valorAnt + $request->cantidad ]);
-                }
-            }
-        }*/
-
-        //return ($valorAnt);
         return redirect('/option_products'); 
     }
 
     public function cancel ($id){
-
         $buys_product=buys_product::findOrFail($id);
 
         $buys_product->update([
@@ -364,7 +290,7 @@ class OptionProductController extends Controller
     }
 
 
-    public function productList(){
+    public function pdf(){
         $buys_products = buys_product::latest()->orderby('id', 'asc')->get();
         $sku_option_products = option_product::distinct('sku')->select('sku','id_vouchers')->get();
         $option_products = option_product::latest()->orderby('id', 'asc')->get();
@@ -372,21 +298,18 @@ class OptionProductController extends Controller
         $products = product::latest()->orderby('id', 'asc')->get();
         $data = compact('sku_option_products', 'option_products', 'attribute_products', 'products', 'buys_products');
 
-        $pdf = \PDF::loadView('option_product.product_listPdf', $data);
+        $pdf = \PDF::loadView('option_product.pdf', $data);
         return $pdf->setPaper('a4', 'landscape')->stream();
     }
 
-    public function buysproductList(){
+    public function buysproductPdf(){
         $products = product::latest()->orderby('id', 'asc')->get();
         $providers = provider::latest()->orderby('id', 'asc')->get();
         $buys_products = buys_product::latest()->orderby('id', 'asc')->get();
 
         $data = compact('buys_products', 'products', 'providers');
 
-        $pdf = \PDF::loadView('option_product.buys_product_listPdf', $data);
+        $pdf = \PDF::loadView('option_product.buys_product_Pdf', $data);
         return $pdf->setPaper('a4', 'landscape')->stream();
     }
-
-
-
 }

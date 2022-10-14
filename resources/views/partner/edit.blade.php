@@ -180,7 +180,8 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <form class="row g-3 " action="{{ route('partner.update', $partner->id) }}" method="POST">
+                        <form class="row g-3 " action="{{ route('partners.update', $partner->id) }}" method="POST">
+                        @method('PUT')
                             @csrf
 
 

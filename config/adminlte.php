@@ -46,7 +46,7 @@ return [
     */
 
     'logo' => '',
-    'logo_img' => 'vendor/adminlte/dist/img/azul.png',
+    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'w-75',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -250,6 +250,13 @@ return [
             'label_color' => 'info',
         ],
 
+        [
+            'text' => 'Usuarios',
+            'url'  => 'users',
+            'icon' => 'fas fa-fw fa-users',
+            'can' => 'users.index'
+        ],
+
         
         ['header' => 'account_settings'],
         [
@@ -268,6 +275,10 @@ return [
             'icon' => 'fas fa-fw fa-user',
         ],
         
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1edf991ad9175d994ca140e5b3cf690f502887eb
         [
             'text'    => 'Panel de Pagos',
             'icon'    => 'fas fa-fw fa-credit-card',
@@ -340,6 +351,7 @@ return [
             'text' => 'Gestionar entrega',
             'url'  => '/entrega',
             'icon' => 'fas fa-fw fa-boxes',
+            'can' => 'entrega'
         ],
 
 

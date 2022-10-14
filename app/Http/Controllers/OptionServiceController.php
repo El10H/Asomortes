@@ -42,25 +42,16 @@ class OptionServiceController extends Controller
     }
 
 
-    public function ViewCreate(){ 
+    /*public function ViewCreate(){ 
         return view('option_service.form');
-    }
+    }*/
 
-    public function create (Request $request){
-        
-        //$services=service::all();
+    public function store(Request $request){
 
         $devolucion=service::select('devolucion')
             ->where('id', $request->cat_servicio)->firstOrFail();
         
-        //return ($devolucion->devolucion);
-        
-        /*if(!$request->has('devolucion')){
-            $request->merge(['devolucion' => 'off']);
-        }*/
 
-
-        //$devolucion = $request['devolucion'];
         if($devolucion->devolucion == 'on'){
             option_service::create([
                 'id_services'=>$request->cat_servicio,
@@ -80,40 +71,32 @@ class OptionServiceController extends Controller
         }     
            
         return back()->with('create',"Se registró la opción de servicio '$request->nombre' correctamente.");
-         //return redirect('/option_services');  
-     }
-
-
-
-    public function edit($id, Request $request){
-        $option_service=option_service::findOrFail($id);
-        return view('option_service.edit',['option_service'=>$option_service]);
     }
 
-    public function update(Request $request, $id){
-        
+
+    /*public function edit($id, Request $request){
+        $option_service=option_service::findOrFail($id);
+        return view('option_service.edit',['option_service'=>$option_service]);
+    }*/
+
+    public function update(Request $request, $id){      
         $option_service=option_service::findOrFail($id);
 
         $devolucion=service::select('devolucion')
             ->where('id',$option_service->id_services)->firstOrFail();
 
-        //return ($devolucion->devolucion);
 
         if($devolucion->devolucion == 'on'){
             $option_service->update([
-                //'id_services'=>$request->input('cat_servicio'),
                 'nombre' => $request->input('nombre'),
                 'valor' => $request->input('valor'),
                 'stock' => $request->input('stock'),
                 'descripcion' => $request->input('descripcion'),                
             ]);
         }else{
-            //$request->stock=0;
             $option_service->update([
-                //'id_services'=>$request->input('cat_servicio'),
                 'nombre' => $request->input('nombre'),
                 'valor' => $request->input('valor'),
-                //'stock' => 0,
                 'descripcion' => $request->input('descripcion'),             
             ]);
         }
@@ -122,20 +105,18 @@ class OptionServiceController extends Controller
     }
 
 
-
-    public function serviceList(){
+    public function pdf(){
         $services=service::all();
         $option_services = option_service::latest()->orderby('id', 'desc')->get();
         $data = compact('option_services');
 
-        $pdf = \PDF::loadView('option_service.service_listPdf', $data, ['services'=>$services]);
+        $pdf = \PDF::loadView('option_service.pdf', $data, ['services'=>$services]);
         return $pdf->setPaper('a4', 'landscape')->stream();
     }
 
 
-    public function create_buys (Request $request){
-        buys_service::create([
-        
+    public function create_buys(Request $request){
+        buys_service::create([        
             'id_services'=>$request->servicio,
             'id_providers'=>$request->proveedor,
             'fecha_compra'=>$request->fecha_compra,
@@ -173,38 +154,14 @@ class OptionServiceController extends Controller
             }
         }
 
-        /*$valor=option_service::select('valor')
-            ->where('id',$request->servicio)->firstOrFail();
-
-        $valor2=$valor->valor;
-
-        return($valor->valor);*/
-
         option_service::where("id", $request->servicio) 
             ->update(['valor' => $request->valor_total ]);
-                
-            
-        //}
     
-    /*$stock=option_service::select('stock')
-           ->where('id',$request->servicio)->firstOrFail();
-
-
-    $dev=service::select('devolucion')
-    ->where('id',$request->servicio)->firstOrFail();
-
-    if($dev === "on"){
-        option_service::where('id', $request->servicio) 
-            ->where("devolucion", $dev)
-            ->update(['stock' => $stock->stock + $request->cantidad ]);
-    }*/
-
-           
-    return redirect('/option_services');  
+        return redirect('/option_services');  
     }
 
-    public function cancel ($id){
 
+    public function cancel($id){
         $buys_service=buys_service::findOrFail($id);
 
         $buys_service->update([
@@ -214,7 +171,7 @@ class OptionServiceController extends Controller
         return redirect('/option_services'); 
     }
 
-    public function buysserviceList(){
+    public function buysservicePdf(){
         $services = service::latest()->orderby('id', 'asc')->get();
         $option_services = option_service::latest()->orderby('id', 'asc')->get();
         $providers = provider::latest()->orderby('id', 'asc')->get();
@@ -222,7 +179,7 @@ class OptionServiceController extends Controller
 
         $data = compact('buys_services', 'services', 'providers', 'option_services');
 
-        $pdf = \PDF::loadView('option_service.buys_service_listPdf', $data);
+        $pdf = \PDF::loadView('option_service.buys_service_pdf', $data);
         return $pdf->setPaper('a4', 'landscape')->stream();
     }
 
@@ -235,7 +192,6 @@ class OptionServiceController extends Controller
     }
 
     public function receptionDelivery(Request $request){
-        //$benefit_deliveries=benefit_delivery::findOrFail();
         $benefit_services=benefit_service::all();
         $services=service::all();
         $option_services=option_service::all();
@@ -244,38 +200,28 @@ class OptionServiceController extends Controller
             ->update(['estado' => 'Entrega finalizada',
         ]);
 
-//$a="";
         foreach($benefit_services as $benefit_service){
             $nombre=option_service::select('nombre')
                 ->where('id', $benefit_service->id_option_services)->firstOrFail();
 
             foreach($option_services as $option_service){
                 if($benefit_service->id_option_services == $option_service->id_services && $nombre->nombre === $option_service->nombre){
-                    //$a.= $benefit_service->id_option_services. "<======>" .$option_service->id_services;
                     foreach($services as $service){
                         if($option_service->id_services == $service->id && $service->devolucion === 'on'){
-                            //if($benefit_service->id_option_services == $option_service->id_services){
 
                                 $stock=option_service::select('stock')
                                     ->where('id', $benefit_service->id_option_services)->firstOrFail();
 
-                                //return $option_service->id. "<======>" .$stock->stock. "<======>" .$service->devolucion;
-                                //return $stock->stock;
-
                                 option_service::where("id", $benefit_service->id_option_services) 
                                     ->update(['stock' => $stock->stock + 1,
                                 ]);
-
-                                //$a.=$option_service->id_services."--";
-                            //}     
                         }
                     }
                 }
             }
             
         }
-//return $a;
-        return redirect('/option_services'); 
 
+        return redirect('/option_services'); 
     }
 }

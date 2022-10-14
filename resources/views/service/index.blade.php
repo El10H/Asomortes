@@ -24,11 +24,14 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div  class="float-left ">
-                                        <button  type="button" class="btn btn-primary" data-bs-toggle="modal" 
-                                            data-bs-target="#agregarServicio">
-                                            Agregar Servicio
-                                        </button>
-                                        <a href="{{ route('service.list') }}" target="_blank" class="btn btn-success">Exportar PDF</a>
+                                        @can('services.store')
+                                            <button  type="button" class="btn btn-primary" data-bs-toggle="modal" 
+                                                data-bs-target="#agregarServicio">
+                                                Agregar Servicio
+                                            </button>
+                                        @endcan
+                                        
+                                        <a href="{{ route('services.pdf') }}" target="_blank" class="btn btn-success">Exportar PDF</a>
                                     </div>
                                 </div>
                             </div>
@@ -61,7 +64,7 @@
                                     <th width= 35% scope="col">Nombre</th>
                                     <th width= 35% scope="col">Descripción</th>
                                     <th width= 10% scope="col">Devolución</th>
-                                    <th width= 20%></th>
+                                    @can('services') <th width= 20%></th> @endcan
                                 </tr>
                             </thead>
 
@@ -81,67 +84,73 @@
                                         @endif
 
 
-                                        <td align="center">
-                                            <form action="{{ route('services.destroy', $service) }}" method="POST">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button type="submit" class="btn btn-outline-danger"
-                                                    onclick="return confirm('¿Desea eliminar?')">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </button>
+                                        @can('services')
+                                            <td align="center">
+                                                <form action="{{ route('services.destroy', $service) }}" method="POST">
+                                                    @method('DELETE')
+                                                    @csrf
 
-                                                <a data-bs-toggle="modal" data-bs-target="#actualizar{{ $service->id }}"
-                                                    class="btn btn-outline-success">
-                                                    <i class="far fa-edit"></i>
-                                                </a> 
-                                            </form>
+                                                    @can('services')
+                                                        <button type="submit" class="btn btn-outline-danger"
+                                                            onclick="return confirm('¿Desea eliminar?')">
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </button>
+                                                    @endcan
 
-                                            <!-- Modal para editar Servicio -->
-                                            <div class="modal fade" id="actualizar{{ $service->id }}" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-m ">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Editar
-                                                                Servicio</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"><i
-                                                                class="fas fa-times"></i></button>
-                                                        </div>
+                                                    @can('services')
+                                                        <a data-bs-toggle="modal" data-bs-target="#actualizar{{ $service->id }}"
+                                                            class="btn btn-outline-success">
+                                                            <i class="far fa-edit"></i>
+                                                        </a> 
+                                                    @endcan
+                                                </form>
 
-                                                        <div class="modal-body">
+                                                <!-- Modal para editar Servicio -->
+                                                <div class="modal fade" id="actualizar{{ $service->id }}" tabindex="-1"
+                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered modal-m ">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Editar
+                                                                    Servicio</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                            </div>
 
-                                                            <form class="row g-3 " action="{{ route('actualizar.service', $service->id) }}" method="POST">
-                                                                @csrf
+                                                            <div class="modal-body">
 
-                                                                <div class="col-12 ">
-                                                                    <label for="disabledTextInput" class="form-label">Nombre</label>
-                                                                    <input type="text" id="disabledTextInput" class="form-control" name="nombre"
-                                                                        value='{{$service->nombre}}'>
-                                                                </div>
-                                                                
-                                                                <div class="col-12 mt-2">
-                                                                    <label for="disabledTextInput" class="form-label">Descripción</label>
-                                                                    <textarea class="form-control" name="descripcion" id="floatingTextarea">{{$service->descripcion}}
-                                                                    </textarea>
-                                                                </div>
+                                                                <form class="row g-3 " action="{{ route('services.update', $service->id) }}" method="POST">
+                                                                    @method('PUT')
+                                                                    @csrf
 
-                                                            
-                                                                <?php
-                                                                $dev=$service->devolucion;
-                                                                ?>
-                                                                
-                                                                @if($dev === "on")
-                                                                    <div class="col-12 ml-2 form-check">
-                                                                        <input type="checkbox" checked class="form-check-input" name="devolucion" id="exampleCheck1">
-                                                                        <label class="form-check-label" for="exampleCheck1">El servicio será devuelto</label>
+                                                                    <div class="col-12 ">
+                                                                        <label for="disabledTextInput" class="form-label">Nombre</label>
+                                                                        <input type="text" id="disabledTextInput" class="form-control" name="nombre"
+                                                                            value='{{$service->nombre}}'>
                                                                     </div>
-                                                                @else
-                                                                    <div class="mb-3 ml-2 form-check">
-                                                                        <input type="checkbox" class="form-check-input" name="devolucion" id="exampleCheck1">
-                                                                        <label class="form-check-label" for="exampleCheck1">El servicio será devuelto</label>
+                                                                    
+                                                                    <div class="col-12 mt-2">
+                                                                        <label for="disabledTextInput" class="form-label">Descripción</label>
+                                                                        <textarea class="form-control" name="descripcion" id="floatingTextarea">{{$service->descripcion}}
+                                                                        </textarea>
                                                                     </div>
-                                                                @endif
+
+                                                                
+                                                                    <?php
+                                                                    $dev=$service->devolucion;
+                                                                    ?>
+                                                                    
+                                                                    @if($dev === "on")
+                                                                        <div class="col-12 ml-2 form-check">
+                                                                            <input type="checkbox" checked class="form-check-input" name="devolucion" id="exampleCheck1">
+                                                                            <label class="form-check-label" for="exampleCheck1">El servicio será devuelto</label>
+                                                                        </div>
+                                                                    @else
+                                                                        <div class="mb-3 ml-2 form-check">
+                                                                            <input type="checkbox" class="form-check-input" name="devolucion" id="exampleCheck1">
+                                                                            <label class="form-check-label" for="exampleCheck1">El servicio será devuelto</label>
+                                                                        </div>
+                                                                    @endif
 
                                                             </div>
                                                                 <div class="modal-footer">
@@ -153,15 +162,16 @@
                                                        
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </td>
+                                            </td>
+                                        @endcan
+                                        
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
 
-                    <!-- Modal para agregar Producto -->
+                    <!-- Modal para agregar Servicio -->
                     <div class="modal fade" id="agregarServicio" tabindex="-1" aria-labelledby="exampleModalLabel"
                         aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-m">
@@ -174,7 +184,7 @@
                                 </div>
 
                                 <div class="modal-body">
-                                    <form class="row g-3 " action="{{ route('services.create') }}" method="POST">
+                                    <form class="row g-3 " action="{{ route('services.store') }}" method="POST">
                                         @csrf
                                         <div class="col-12 mt-2">
                                             <label for="disabledTextInput" class="form-label">Nombre</label>

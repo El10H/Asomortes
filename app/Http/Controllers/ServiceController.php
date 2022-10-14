@@ -15,14 +15,18 @@ use App\buys_service;
 
 class ServiceController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('can:services.store')->only('store');
+        $this->middleware('can:services.destroy')->only('destroy');
+        $this->middleware('can:services.update')->only('update');
+    }
+
     public function index(Request $request){
-
-
         $now=Carbon::now();
 
         $services=service::all();
         $providers=provider::all();
-
 
         if($request){
             $query=trim($request->get('search'));
@@ -42,23 +46,14 @@ class ServiceController extends Controller
     }
 
 
-    public function ViewCreate(){ 
+    /*public function ViewCreate(){ 
         return view('service.form');
-    }
+    }*/
 
-    public function create (Request $request){
-
-
-        ///*if(!$request->has('stock')){
-        //    $request->merge(['stock' => '0']);
-        //}*/
-
-        if(!$request->has('devolucion'))
-        {
+    public function store (Request $request){
+        if(!$request->has('devolucion')){
             $request->merge(['devolucion' => 'off']);
         }
-
-        
 
         $devolucion = $request['devolucion'];
         if($devolucion == 'on'){
@@ -76,18 +71,15 @@ class ServiceController extends Controller
         }     
         
         return back()->with('create',"Se registró el servicio '$request->nombre' correctamente.");      
-        // return redirect('/services');  
      }
 
 
-
-    public function edit($id, Request $request){
+    /*public function edit($id, Request $request){
         $service=service::findOrFail($id);
         return view('service.edit',['service'=>$service]);
-    }
+    }*/
 
     public function update(Request $request, $id){
-
         if(!$request->has('devolucion')){
             $request->merge(['devolucion' => 'off']);
         }
@@ -113,17 +105,14 @@ class ServiceController extends Controller
         return back()->with('update',"Se actualizó el servicio '$request->nombre' correctamente.");
     }
 
-
-
-    public function serviceList()
+    public function pdf()
     {
         $services = service::latest()->orderby('id', 'desc')->get();
         $data = compact('services');
 
-        $pdf = \PDF::loadView('service.listPdf', $data);
+        $pdf = \PDF::loadView('service.pdf', $data);
         return $pdf->setPaper('a4', 'landscape')->stream();
     }
-
 
 
     public function select(){
@@ -135,10 +124,7 @@ class ServiceController extends Controller
     }
 
 
-
-    public function create_buys (Request $request){
-        
-
+    public function create_buys(Request $request){
         buys_service::create([
         
         'id_services'=>$request->servicio,
@@ -148,30 +134,18 @@ class ServiceController extends Controller
         'monto'=>$request->monto,
         'boletaFactura'=>$request->boletaFactura,
         'n_comprobante'=>$request->n_comprobante,
-    ]);
+        ]);
 
-    
-    $stock=service::select('stock')
-           ->where('id',$request->servicio)->firstOrFail();
+        
+        $stock=service::select('stock')
+            ->where('id',$request->servicio)->firstOrFail();
 
-    //$nuevoStock = $stock + $request->cantidad;
-
-
-    
-    $dev='on';
-    service::where("id", $request->servicio) 
-        ->where("devolucion", $dev)
-        ->update(['stock' => $stock->stock + $request->cantidad ]);
-    
-
-
-    //service::where("id", $request->servicio) 
-      //    ->update(['stock' => $stock->stock + $request->cantidad ]);
-
-    //$product->stock=$request->cantidad;
-
-           
-    return redirect('/services');  
-    //return ($stock->stock);
-}
+        
+        $dev='on';
+        service::where("id", $request->servicio) 
+            ->where("devolucion", $dev)
+            ->update(['stock' => $stock->stock + $request->cantidad ]);
+            
+        return redirect('/services');  
+    }
 }

@@ -10,6 +10,13 @@ Use Redirect;
 
 class ProviderController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('can:providers.store')->only('store');
+        $this->middleware('can:providers.destroy')->only('destroy');
+        $this->middleware('can:providers.update')->only('update');
+    }
+
     public function index(Request $request){
         if($request){
             $query=trim($request->get('search'));
@@ -27,19 +34,11 @@ class ProviderController extends Controller
 
     public function destroy(provider $provider){
         $provider->delete();
-        //return redirect('/providers');
 
         return back()->with('delete',"Se eliminó el proveedor '$provider->razon_social' correctamente.");
-
     }
 
-
-
-    //public function ViewCreate(){ 
-      //  return view('provider.form');
-    //}
-
-    public function create (Request $request){
+    public function store(Request $request){
              provider::create([
              'razon_social'=>$request->razon_social,
              'ruc'=>$request->ruc,
@@ -48,29 +47,17 @@ class ProviderController extends Controller
              'email'=>$request->email,
          ]);
  
-                
-         //return redirect('/providers');  
-
-         //Session::flash('create',"Se registró el proveedor '$request->razon_social' correctamente.");
-        // return Redirect::to('/providers');
-
         return back()->with('create',"Se regsitró el proveedor '$request->razon_social' correctamente.");
-     }
-
-
-    public function providerList(){
-        $providers = provider::latest()->orderby('id', 'desc')->get();
-        $data = compact('providers');
-
-        $pdf = \PDF::loadView('provider.listPdf', $data);
-        return $pdf->setPaper('a4', 'landscape')->stream();
     }
 
 
-    //public function edit($id, Request $request){
-    //    $provider=provider::findOrFail($id);
-    //    return view('provider.edit',['provider'=>$provider]);
-    //}
+    public function pdf(){
+        $providers = provider::latest()->orderby('id', 'desc')->get();
+        $data = compact('providers');
+
+        $pdf = \PDF::loadView('provider.pdf', $data);
+        return $pdf->setPaper('a4', 'landscape')->stream();
+    }
 
     public function update(Request $request, $id){
         
@@ -85,12 +72,7 @@ class ProviderController extends Controller
             'email' => $request->input('email'),
             
         ]);
-        //$provider->save();
-
-        //Session::flash('update',"Se actualizó el proveedor '$request->razon_social' correctamente.");
-        //return Redirect::to('/providers');
 
         return back()->with('update',"Se actualizó el proveedor '$request->razon_social' correctamente.");
-
     }
 }

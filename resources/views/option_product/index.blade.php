@@ -79,18 +79,23 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="float-left ">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#agregarOptionProducto" onclick="agregarSku()">
-                                            Agregar Opción de Producto
-                                        </button>
-                                        <a href="{{ route('option_product.list') }}" target="_blank" class="btn btn-success">Exportar PDF</a>
+                                        @can('option_products')
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#agregarOptionProducto" onclick="agregarSku()">
+                                                Agregar Opción de Producto
+                                            </button>
+                                        @endcan
+
+                                        <a href="{{ route('option_products.pdf') }}" target="_blank" class="btn btn-success">Exportar PDF</a>
                                     </div>
 
                                     <div class="float-right ">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#agregarCompraProducto">
-                                            Agregar Compras
-                                        </button>
+                                        @can('option_products.create_buys')
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#agregarCompraProducto">
+                                                Agregar Compras
+                                            </button>
+                                        @endcan
 
                                         <button type="button" class="btn btn-success" data-bs-toggle="modal"
                                             data-bs-target="#verComprasProducto">
@@ -132,7 +137,7 @@
                                     <th width=10% scope="col">Sku</th>
                                     <th width=20% scope="col">Categoría</th>
                                     <th width=60% scope="col">Atributos</th>
-                                    <th width=15%></th>
+                                    @can('option_products') <th width=15%></th> @endcan
                                 </tr>
                             </thead>
                             <tbody>
@@ -176,123 +181,122 @@
 
                                         <td align="left">{{ $cadena }}</td>
 
-                                        <td>
-                                            <form action="{{ route('option_products.destroy', $sku_option_product->sku) }}"
-                                                method="POST">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button type="submit" class="btn btn-outline-danger"
-                                                    onclick="return confirm('¿Desea eliminar {{ $sku_option_product->nombre }}?')">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </button>
+                                        @can('option_products')
+                                            <td>
+                                                <form action="{{ route('option_products.destroy', $sku_option_product->sku) }}"
+                                                    method="POST">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    @can('option_products')
+                                                        <button type="submit" class="btn btn-outline-danger"
+                                                            onclick="return confirm('¿Desea eliminar {{ $sku_option_product->nombre }}?')">
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </button>
+                                                    @endcan
 
-                                                @foreach ($option_products as $option_product)
-                                                    @if ($sku_option_product->sku == $option_product->sku)
-                                                        <?php $categoria = $option_product->id_products; ?>
-                                                    @endif
-                                                @endforeach
+                                                    @foreach ($option_products as $option_product)
+                                                        @if ($sku_option_product->sku == $option_product->sku)
+                                                            <?php $categoria = $option_product->id_products; ?>
+                                                        @endif
+                                                    @endforeach
 
-                                                <a data-bs-toggle="modal"
-                                                    data-bs-target="#actualizar{{ $sku_option_product->sku }}"
-                                                    class="btn btn-outline-success"
-                                                    onclick="camposActualizar('{{ $sku_option_product->sku }}')">
-                                                    <i class="far fa-edit"></i>
-                                                </a>
-                                            </form>
-                                            <!-- Modal para editar Opciones de Producto -->
-                                            <div class="modal fade" id="actualizar{{ $sku_option_product->sku }}"
-                                                tabindex="-1" aria-labelledby="exampleModal" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-m">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModal">Actualizar Opciones
-                                                                Producto</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"><i
+                                                    @can('option_products')
+                                                        <a data-bs-toggle="modal"
+                                                            data-bs-target="#actualizar{{ $sku_option_product->sku }}"
+                                                            class="btn btn-outline-success"
+                                                            onclick="camposActualizar('{{ $sku_option_product->sku }}')">
+                                                            <i class="far fa-edit"></i>
+                                                        </a>
+                                                    @endcan
+                                                </form>
+                                                
+                                                <!-- Modal para editar Opciones de Producto -->
+                                                <div class="modal fade" id="actualizar{{ $sku_option_product->sku }}"
+                                                    tabindex="-1" aria-labelledby="exampleModal" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered modal-m">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModal">Actualizar Opciones
+                                                                    Producto</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                    aria-label="Close"><i
                                                                 class="fas fa-times"></i></button>
-                                                        </div>
+                                                            </div>
 
-                                                        <div class="modal-body">
-                                                            <form class="row g-3" action="{{route('actualizar.option_product',$sku_option_product->sku)}}" method="POST">
+                                                            <div class="modal-body">
+                                                                <form class="row g-3" action="{{route('option_products.update', $sku_option_product->sku)}}" method="POST">
+                                                                @method('PUT')    
                                                                 @csrf
 
-                                                                <div class="col-2 mt-2">
-                                                                    <label for="disabledTextInput" class="form-label">Sku:
-                                                                    </label>
-                                                                    <input type="text" id="skuAct"
-                                                                        class="form-control" name="skuAct" readonly
-                                                                        value="{{ $sku_option_product->sku }}">
-                                                                </div>
+                                                                    <div class="col-2 mt-2">
+                                                                        <label for="disabledTextInput" class="form-label">Sku:
+                                                                        </label>
+                                                                        <input type="text" id="skuAct"
+                                                                            class="form-control" name="skuAct" readonly
+                                                                            value="{{ $sku_option_product->sku }}">
+                                                                    </div>
 
+                                                                    <div class="col-4 mt-2">
+                                                                        <label for="disabledTextInput"
+                                                                            class="form-label">Valor</label>
+                                                                        <input type="number" min="0" step="0.01"
+                                                                            id="valorAct{{ $sku_option_product->sku }}" class="form-control"
+                                                                            name="valorAct" placeholder="No requerido" disabled>
+                                                                    </div>
 
-                                                                <!--<div class="col-10 mt-2">
-                                                                    <label for="disabledTextInput"
-                                                                        class="form-label">Nombre</label>
-                                                                    <input type="text" id="nombreAct"
-                                                                        class="form-control" name="nombreAct"
-                                                                        value="{{ $sku_option_product->nombre }}">
-                                                                </div>-->
+                                                                    <div class="col-6 mt-2">
+                                                                        <label for="disabledTextInput"
+                                                                            class="form-label">Cantidad</label>
+                                                                        <input type="number" min="1" step="1"
+                                                                            id="cantidadAct{{ $sku_option_product->sku }}" class="form-control"
+                                                                            name="cantidadAct" placeholder="No requerido" disabled>
+                                                                    </div>
 
-                                                                <div class="col-4 mt-2">
-                                                                    <label for="disabledTextInput"
-                                                                        class="form-label">Valor</label>
-                                                                    <input type="number" min="0" step="0.01"
-                                                                        id="valorAct{{ $sku_option_product->sku }}" class="form-control"
-                                                                        name="valorAct" placeholder="No requerido" disabled>
-                                                                </div>
+                                                                    <div class="col-6 mt-2">
+                                                                        <label for="disabledTextInput"
+                                                                            class="form-label">Modelo</label>
+                                                                        <input type="text" id="modeloAct{{ $sku_option_product->sku }}"
+                                                                            class="form-control" name="modeloAct" placeholder="No requerido" disabled>
+                                                                    </div>
 
-                                                                <div class="col-6 mt-2">
-                                                                    <label for="disabledTextInput"
-                                                                        class="form-label">Cantidad</label>
-                                                                    <input type="number" min="1" step="1"
-                                                                        id="cantidadAct{{ $sku_option_product->sku }}" class="form-control"
-                                                                        name="cantidadAct" placeholder="No requerido" disabled>
-                                                                </div>
+                                                                    <div class="col-6 mt-2">
+                                                                        <label for="disabledTextInput"
+                                                                            class="form-label">Cementerio</label>
+                                                                        <input type="text" id="cementerioAct{{ $sku_option_product->sku }}"
+                                                                            class="form-control" name="cementerioAct" placeholder="No requerido" disabled>
+                                                                    </div>
 
-                                                                <div class="col-6 mt-2">
-                                                                    <label for="disabledTextInput"
-                                                                        class="form-label">Modelo</label>
-                                                                    <input type="text" id="modeloAct{{ $sku_option_product->sku }}"
-                                                                        class="form-control" name="modeloAct" placeholder="No requerido" disabled>
-                                                                </div>
+                                                                    <div class="col-6 mt-2">
+                                                                        <label for="disabledTextInput"
+                                                                            class="form-label">Sector</label>
+                                                                        <input type="text" id="sectorAct{{ $sku_option_product->sku }}"
+                                                                            class="form-control" name="sectorAct" placeholder="No requerido" disabled>
+                                                                    </div>
 
-                                                                <div class="col-6 mt-2">
-                                                                    <label for="disabledTextInput"
-                                                                        class="form-label">Cementerio</label>
-                                                                    <input type="text" id="cementerioAct{{ $sku_option_product->sku }}"
-                                                                        class="form-control" name="cementerioAct" placeholder="No requerido" disabled>
-                                                                </div>
+                                                                    
+                                                                    <div class="col-6 mt-2">
+                                                                        <label for="disabledTextInput"
+                                                                            class="form-label">Nivel</label>
+                                                                        <input type="text" id="nivelAct{{ $sku_option_product->sku }}"
+                                                                            class="form-control" name="nivelAct" placeholder="No requerido" disabled>
+                                                                    </div>
 
-                                                                <div class="col-6 mt-2">
-                                                                    <label for="disabledTextInput"
-                                                                        class="form-label">Sector</label>
-                                                                    <input type="text" id="sectorAct{{ $sku_option_product->sku }}"
-                                                                        class="form-control" name="sectorAct" placeholder="No requerido" disabled>
-                                                                </div>
-
-                                                                
-                                                                <div class="col-6 mt-2">
-                                                                    <label for="disabledTextInput"
-                                                                        class="form-label">Nivel</label>
-                                                                    <input type="text" id="nivelAct{{ $sku_option_product->sku }}"
-                                                                        class="form-control" name="nivelAct" placeholder="No requerido" disabled>
-                                                                </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-danger"
+                                                                            data-bs-dismiss="modal">Cancelar</button>
+                                                                        <button type="submit"
+                                                                            class="btn btn-success">Guardar</button>
+                                                                        <button type="reset"
+                                                                            class="btn btn-secondary">Limpiar
+                                                                            formulario</button>
+                                                                    </div>
+                                                                </form>
                                                             </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-danger"
-                                                                        data-bs-dismiss="modal">Cancelar</button>
-                                                                    <button type="submit"
-                                                                        class="btn btn-success">Guardar</button>
-                                                                    <button type="reset"
-                                                                        class="btn btn-secondary">Limpiar
-                                                                        formulario</button>
-                                                                </div>
-                                                            </form>
-                                                        
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach
@@ -315,7 +319,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form class="row g-3 " action="{{ route('option_products.create') }}" method="POST">
+                    <form class="row g-3 " action="{{ route('option_products.store') }}" method="POST">
                         @csrf
 
                         <div class="col-2 mt-2">
@@ -415,7 +419,7 @@
 
                 <div class="modal-body">
 
-                    <form class="row g-3 " action="{{ route('option_product.updateStock') }}" method="POST">
+                    <form class="row g-3 " action="{{ route('option_products.create_buys') }}" method="POST">
                         @csrf
 
                         <div class="col-6 mt-2">
@@ -478,8 +482,9 @@
                         </div>
 
                         <div class="col-12 mt-2 form-floating">
+                        <label for="floatingTextarea">Descripción de la compra...</label>
                             <textarea class="form-control" rows="5" placeholder="Agregue la descripción de la compra..." name="descripcion" id="floatingTextarea"></textarea>
-                            <label for="floatingTextarea">Descripción de la compra...</label>
+                            
                         </div>
                     </div>
                         <div class="modal-footer">
@@ -546,24 +551,26 @@
                                     <td align="left">{{ $buys_product->descripcion }}</td>
                                     <td align="left">{{ $buys_product->estado }}</td>
 
-                                    <td>
-                                        <form action="{{ route('buys_product.anular', $buys_product->id) }}"
-                                            method="POST">
-                                            @csrf
-                                            <button type="submit" class="btn btn-outline-danger"
-                                                onclick="return confirm ('¿Desea anular el comprobante {{ $buys_product->n_comprobante }}?')">
-                                                <i class="fas fa-trash "></i>
-                                            </button>
-                                        </form>
-                                           
-                                    </td>
+                                    @can('buys_products.anular')
+                                        <td>
+                                            <form action="{{ route('buys_products.anular', $buys_product->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-outline-danger"
+                                                    onclick="return confirm ('¿Desea anular el comprobante {{ $buys_product->n_comprobante }}?')">
+                                                    <i class="fas fa-trash "></i>
+                                                </button>
+                                            </form>
+                                            
+                                        </td>
+                                    @endcan
                                 </tr>
                         @endforeach
                         </tbody>
                     </table>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                        <a href="{{ route('buys_product.list') }}" target="_blank" class="btn btn-success">PDF / Imprimir</a>
+                        <a href="{{ route('buys_products.pdf') }}" target="_blank" class="btn btn-success">PDF / Imprimir</a>
                     </div>
                 </div>
             </div>
