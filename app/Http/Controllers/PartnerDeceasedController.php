@@ -30,14 +30,12 @@ class PartnerDeceasedController extends Controller
             ->join('partners', 'partner_deceaseds.partner_id', '=', 'partners.id')
             ->get();
 
-
-
         return view('partner.listadoFallecidos', ['fallecidos' => $fallecidos]);
     }
 
 
 
-    public function guardar(Request $request)
+    public function store(Request $request)
     {
         $partner = $request->socio;
         $request->validate([

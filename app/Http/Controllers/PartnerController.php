@@ -84,8 +84,6 @@ class PartnerController extends Controller
             'teléfono' => ['required', 'numeric', 'min:6'],
             'email' => ['required', 'email', 'unique:partners']
         ]);
-
-
         partner::create([
             'nombre' => $request->nombre,
             'apellido_paterno' => $request->apellido_paterno,
@@ -110,9 +108,15 @@ class PartnerController extends Controller
             'email' => $request->email,
 
         ]);
+
+
+
         $now = Carbon::now();
-        //partner::create($request->all());
-        $ultimoRegistro = partner::where('fecha_de_ingreso', partner::max('fecha_de_ingreso'))->orderBy('fecha_de_ingreso', 'desc')->firstOrFail();
+     
+        $ultimoRegistro=partner::orderBy('created_at', 'DESC')
+        ->take(1)
+        ->firstOrFail();
+
 
         return view('beneficiary.form', ['partner' => $ultimoRegistro, 'now' => $now]);
     }

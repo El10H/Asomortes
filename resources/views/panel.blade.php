@@ -74,7 +74,7 @@
                         <div class="info-box-content">
                             <span class="info-box-text">Socios Fallecidos</span>
                             <span class="info-box-number">{{ count($fallecidos) }}</span>
-                            <a href="{{route('lista.fallecidos')}}" class="small-box-footer text-secondary">Ver lista <i
+                            <a href="{{route('socioFallecidos.index')}}" class="small-box-footer text-secondary">Ver lista <i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
 
@@ -207,7 +207,7 @@
                 <div class="info-box-content">
                     <span class="info-box-text">Registrar pago de mensualidad de socio</span>
 
-                    <a href="{{ route('payment.indexNuevo') }}" class="text-dark"> <strong>Registrar pago</strong> </a>
+                    <a href="{{ route('payments.index') }}" class="text-dark"> <strong>Registrar pago</strong> </a>
                 </div>
             </div>
         </div>
@@ -309,7 +309,7 @@
                         @foreach ($ultimosSocios as $item2)
                             <li class="item">
                                 <div class="product-info">
-                                    <a href="{{ route('partner.file', ['id' => $item2->id]) }}" class="product-title">{{ $item2->nombre . ' ' . $item2->apellido_paterno . ' ' . $item2->apellido_materno }}
+                                    <a href="{{ route('partners.pdf_resumen', ['id' => $item2->id]) }}" class="product-title">{{ $item2->nombre . ' ' . $item2->apellido_paterno . ' ' . $item2->apellido_materno }}
                                         <h5><span class="badge badge-info float-right">Carné: {{$item2->carne}}</span></h5>
                                     </a>
                                     <span class="product-description">

@@ -56,7 +56,7 @@
                             </div>
                         @endif
                         
-                        <form action="{{ route('pagosguardar') }}" class="row g-3" method="POST">
+                        <form action="{{ route('payments.store') }}" class="row g-3" method="POST">
                             @csrf
                             <div class="col-md-6 mt-2">
                                 <label for="" class="form-label">Nombre:</label>

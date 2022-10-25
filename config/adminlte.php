@@ -271,14 +271,11 @@ return [
         ],
         [
             'text' => 'Panel de Beneficiarios',
-            'url'  => '/beneficiariesIndex',
+            'url'  => '/beneficiaries',
             'icon' => 'fas fa-fw fa-user',
         ],
         
-<<<<<<< HEAD
-=======
 
->>>>>>> 1edf991ad9175d994ca140e5b3cf690f502887eb
         [
             'text'    => 'Panel de Pagos',
             'icon'    => 'fas fa-fw fa-credit-card',
@@ -286,7 +283,7 @@ return [
                 [
                     'text' => 'Registrar pago',
                     'icon_color' => 'blue',
-                    'url'  => '/paymentNuevo',
+                    'url'  => '/payments',
                 ],
 
                 [

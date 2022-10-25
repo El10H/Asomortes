@@ -25,7 +25,7 @@
                         </div>
                     @endif
                     <div class="p-4">
-                        <form class="row g-3 " action="{{ route('beneficiaries.create') }}" method="POST">
+                        <form class="row g-3 " action="{{ route('beneficiaries.store') }}" method="POST">
                             @csrf
 
                             <div class="col-6 ">
@@ -37,22 +37,15 @@
                                     value="{{ $partner->nombre.' '.$partner->apellido_paterno.' '.$partner->apellido_materno }}" disabled>
                             </div>
 
-                            <div class="col-6 mt-5">
-                                <label for="" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" name='nombre' value="{{old('nombre')}}">
+                           
+
+
+                            <div class="col-12 mt-5">
+                                <label for="" class="form-label">Nombres y Apellidos</label>
+                                <input type="text" class="form-control" name='nombres_apellidos' value="{{ old('apellido_paterno')}}">
                             </div>
 
-
-                            <div class="col-6 mt-5">
-                                <label for="" class="form-label">Apellido Paterno</label>
-                                <input type="text" class="form-control" name='apellido_paterno' value="{{ old('apellido_paterno')}}">
-                            </div>
-
-                            <div class="col-6 mt-2">
-                                <label for="" class="form-label">Apellido Paterno</label>
-                                <input type="text" class="form-control" name='apellido_materno' value="{{old('apellido_materno')}}">
-                            </div>
-
+                    
                             <div class="col-6 mt-2">
                                 <label for="" class="form-label">Dni</label>
                                 <input type="text" class="form-control" name='dni' value="{{old('dni')}} ">

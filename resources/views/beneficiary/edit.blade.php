@@ -35,6 +35,7 @@
                     <div class="p-4">
 
                         <form class="row g-3 " action="{{route('beneficiaries.update',$beneficiaries->id)}}" method="POST">
+                            @method('PUT')
                             @csrf
 
                             <div class="col-12">

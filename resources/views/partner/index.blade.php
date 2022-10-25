@@ -3,12 +3,12 @@
 
 
 @section('css')
-    
+
     <script src="{{ asset('js/provinciasActual.js') }}"></script>
     <script src="{{ asset('js/provinciasNac.js') }}"></script>
-    
+
     <link rel="stylesheet" href="dist/css/adminlte.min.css?v=3.2.0">
-    
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
@@ -22,7 +22,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header text-white" style="background-color:#004173">
-                        Panel de Socios 
+                        Panel de Socios
                     </div>
                     <div class="row">
 
@@ -34,8 +34,9 @@
                                         data-bs-target="#exampleModal">
                                         Agregar Socio
                                     </button>
-                                    <a href="{{ route('partners.pdf') }}"  target="_blank" class="btn btn-success">Exportar PDF</a>
-                                    <a href="{{ route('lista.fallecidos') }}" class="btn btn-danger">Socios Fallecidos</a>
+                                    <a href="{{ route('partners.pdf') }}" target="_blank" class="btn btn-success">Exportar
+                                        PDF</a>
+                                    <a href="{{ route('socioFallecidos.index') }}" class="btn btn-danger">Socios Fallecidos</a>
                                 </div>
                             </div>
                         </div>
@@ -47,10 +48,10 @@
                             <div class="card-header">
                                 Filtros de busqueda
                             </div>
-                            
+
                             <div class="card-body">
                                 <div class="row">
-                                    
+
 
                                     <div class="col-md-3">
                                         <label for="" class="form-label">Nombre o Apellido:</label>
@@ -65,13 +66,13 @@
                                         <label for="" class="form-label">Carné de socio:</label>
                                     </div>
 
-                                  
 
-                                    
-                                    
+
+
+
                                 </div>
                                 <div class="row mb-3">
-                                    
+
 
                                     <div class="col-md-3">
                                         <input type="text" name="user" id="nombre" class="form-control "
@@ -82,13 +83,13 @@
                                         <input type="text" name="user" id="dni" class="form-control "
                                             data-index="0" />
                                     </div>
-                                    
+
                                     <div class="col-md-3">
                                         <input type="text" name="user" id="carne" class="form-control "
                                             data-index="2" />
                                     </div>
-                                  
-                                    
+
+
 
                                 </div>
                             </div>
@@ -129,9 +130,9 @@
                                                 </button>
                                                 <a href="{{ route('partners.edit', $partner->id) }}"
                                                     class="btn btn-outline-success"><i class="far fa-edit"></i></a>
-                                                    
+
                                                 <a href="{{ route('partners.pdf_resumen', ['id' => $partner->id]) }} "
-                                                target="_blank" class="btn btn-outline-primary">
+                                                    target="_blank" class="btn btn-outline-primary">
                                                     <i class="far fa-file"></i></a>
                                             </form>
 
@@ -154,6 +155,13 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            @foreach ($errors->all() as $error)
+                                                {{ $error }} <br>
+                                            @endforeach
+                                        </div>
+                                    @endif
 
                                     <form action="{{ route('partners.store') }}" method="POST">
                                         @csrf
@@ -403,7 +411,9 @@
             var table;
             if (!$.fn.DataTable.isDataTable('#data')) {
                 table = $('#data').DataTable({
-                    "order": [[1, "desc" ]],
+                    "order": [
+                        [1, "desc"]
+                    ],
                     "language": {
                         "lengthMenu": "Mostrar _MENU_ registros por página",
                         "zeroRecords": "Nada encontrado - disculpa",
@@ -432,7 +442,7 @@
                 table.column($(this).data('index')).search(this.value).draw();
             })
 
-            
+
         })
     </script>
 

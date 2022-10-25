@@ -26,7 +26,8 @@ class CreateBeneficiariesTable extends Migration
             $table->date('fecha_de_ingreso');
 
             //Asignar a la llave creada, la relacion la tabla beneficiarios
-            $table->foreign('partner_id')->references('id')->on('partners');
+            $table->foreign('partner_id')->references('id')->on('partners')
+            ->onDelete('cascade');
 
             $table->timestamps();
         });

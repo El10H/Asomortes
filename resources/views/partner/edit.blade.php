@@ -140,7 +140,7 @@
                                                         aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form action="{{ route('socio.fallecido') }}" method="POST"
+                                                    <form action="{{ route('socioFallecidos.store') }}" method="POST"
                                                         enctype="multipart/form-data">
                                                         @csrf
     

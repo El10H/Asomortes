@@ -24,7 +24,7 @@
                             <div class="card">
                                 <div class="card-body">
 
-                                    <a href="{{ route('payment.indexNuevo') }}" class="btn btn-success">Registrar Pago</a>
+                                    <a href="{{ route('payments.index') }}" class="btn btn-success">Registrar Pago</a>
                                 </div>
                             </div>
                         </div>

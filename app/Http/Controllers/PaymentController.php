@@ -17,9 +17,9 @@ use function PHPUnit\Framework\isNull;
 
 class PaymentController extends Controller
 {
-    public function nuevoIndex()
+    public function index()
     {
-        return view('payment.indexNuevo');
+        return view('payment.index');
     }
 
     public function listaPagos(){
@@ -93,7 +93,7 @@ class PaymentController extends Controller
         }
         return $data;
     }
-    public function guardar(Request $request)
+    public function store(Request $request)
     {
         Payment::create([
             'partner_id' => $request->idNombre,
@@ -492,10 +492,10 @@ class PaymentController extends Controller
                 'fecha_habilitacion' => $request->castigadoGuardar
             ]);
         } else {
-            return view('payment.indexNuevo', ['mensaje' => 'Pago registrado correctamente']);
+            return view('payment.index', ['mensaje' => 'Pago registrado correctamente']);
         }
 
-        return view('payment.indexNuevo', ['mensaje' => 'Pago registrado correctamente']);
+        return view('payment.index', ['mensaje' => 'Pago registrado correctamente']);
     }
 
     public function boleta()
