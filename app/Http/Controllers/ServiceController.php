@@ -17,9 +17,11 @@ class ServiceController extends Controller
 {
 
     public function __construct(){
-        $this->middleware('can:services.store')->only('store');
-        $this->middleware('can:services.destroy')->only('destroy');
-        $this->middleware('can:services.update')->only('update');
+        $this->middleware('can:services')->only('destroy', 'store', 'update');
+        $this->middleware('can:services.index')->only('index');
+        //$this->middleware('can:services.store')->only('store');
+        //$this->middleware('can:services.destroy')->only('destroy');
+        //$this->middleware('can:services.update')->only('update');
     }
 
     public function index(Request $request){

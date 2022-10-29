@@ -92,7 +92,7 @@ Route::get('atributosCheck{id}','ProductController@checkAtributos')->name('atrib
 Route::resource('option_products','OptionProductController');
 Route::get('option_productList','OptionProductController@pdf')->name('option_products.pdf');
 Route::get('option_productsBuys','OptionProductController@select')->name('option_products.buysForm');
-Route::post('OptionProductsBuys','OptionProductController@create_buys')->name('option_products.create_buys');
+Route::post('OptionProductsBuys','OptionProductController@create_buys')->middleware('can:option_products.create_buys')->name('option_products.create_buys');
 Route::get('accederDatosProduct{id}', 'OptionProductController@acceder')->name('accederDatosProduct');
 Route::get('camposact{sku}', 'OptionProductController@camposActualizar')->name('camposact');
 Route::get('sku', 'OptionProductController@inputSku')->name('sku');
@@ -102,7 +102,7 @@ Route::get('sku', 'OptionProductController@inputSku')->name('sku');
 //Route::delete('option_productsEliminar{sku}','OptionProductController@destroy')->name('option_products.destroy');
 //Route::post('option_productGuardar','OptionProductController@create')->name('option_products.create');
 //buys
-Route::post('buys_productCancel{id}','OptionProductController@cancel')->name('buys_products.anular');
+Route::post('buys_productCancel{id}','OptionProductController@cancel')->middleware('can:buys_products.anular')->name('buys_products.anular');
 Route::get('buys_productList','OptionProductController@buysproductPdf')->name('buys_products.pdf');
 
 
@@ -116,16 +116,16 @@ Route::get('servicePdf','ServiceController@pdf')->name('services.pdf');
 //Rutas de opciones de servicios (ELIO)
 Route::resource('option_services','OptionServiceController')->only(['index', 'destroy', 'store', 'update']);
 Route::get('option_servicePdf','OptionServiceController@pdf')->name('option_services.pdf');
-Route::post('option_servicesBuys','OptionServiceController@create_buys')->name('option_services.create_buys');
+Route::post('option_servicesBuys','OptionServiceController@create_buys')->middleware('can:option_services.create_buys')->name('option_services.create_buys');
 Route::get('accederDatosService{id}', 'OptionServiceController@acceder')->name('accederDatosService');
 //Route::get('option_servicesUpdate{id}','OptionServiceController@edit')->name('option_services.updateForm'); ****
 //Route::get('option_servicesBuys','OptionServiceController@select')->name('option_services.buysForm');
 //Route::post('option_serviceActualizar{id}','OptionServiceController@update')->name('actualizar.option_service'); ****
 //Route::post('option_serviceGuardar','OptionServiceController@create')->name('option_services.create'); ****
 //buys_services
-Route::post('buys_serviceCancel{id}','OptionServiceController@cancel')->name('buys_services.anular');
+Route::post('buys_serviceCancel{id}','OptionServiceController@cancel')->middleware('can:buys_services.anular')->name('buys_services.anular');
 Route::get('buys_serviceList','OptionServiceController@buysservicePdf')->name('buys_services.pdf');
-Route::post('receptionDelivery','OptionServiceController@receptionDelivery')->name('recepcionEntrega');
+Route::post('receptionDelivery','OptionServiceController@receptionDelivery')->middleware('can:recepcionEntrega')->name('recepcionEntrega');
 
 
 //Rutas de proveedores (ELIO)
@@ -138,12 +138,11 @@ Route::get('providerPdf','ProviderController@pdf')->name('providers.pdf');
 
 //Rutas Entrega de Beneficio
 //Route::resource('benefitDelivery','BenefitDeliveryController');
-Route::get('entrega','BenefitDeliveryController@entrega')->name('entrega');
-Route::get('busadorEntrega','BenefitDeliveryController@buscadorEntrega')->name('buscadorEntrega');
-Route::get('llenarDatosEntrega{carne}','BenefitDeliveryController@llenarDatosEntrega')->name('llenarDatosEntrega');
-Route::get('serviciosProductos','BenefitDeliveryController@serviciosProd')->name('serviciosProd');
-
-Route::post('guardarEntrega','BenefitDeliveryController@guardarEntrega')->name('guardarEntrega');
+Route::get('entrega','BenefitDeliveryController@entrega')->middleware('can:entrega')->name('entrega');
+Route::get('busadorEntrega','BenefitDeliveryController@buscadorEntrega')->middleware('can:entrega')->name('buscadorEntrega');
+Route::get('llenarDatosEntrega{carne}','BenefitDeliveryController@llenarDatosEntrega')->middleware('can:entrega')->name('llenarDatosEntrega');
+Route::get('serviciosProductos','BenefitDeliveryController@serviciosProd')->middleware('can:entrega')->name('serviciosProd');
+Route::post('guardarEntrega','BenefitDeliveryController@guardarEntrega')->middleware('can:entrega')->name('guardarEntrega');
 
 //Rutas de datosConfig
 Route::get('datosConfig','datosConfigController@index')->name('datosConfig');
@@ -153,6 +152,10 @@ Route::post('datosConfigUpdate','datosConfigController@update')->name('datosConf
 Route::resource('users', 'UserController')->only(['index', 'destroy', 'store', 'update']);//->name('admin.users');
 //Route::post('userGuardar','UserController@create')->name('users.create');
 //Route::post('userActualizar{id}','UserController@update')->name('actualizar.user');
+
+
+//Rutas de roles (ELIO)
+Route::resource('roles', 'RoleController')->only(['index', 'destroy', 'store', 'update']);
 
 
 

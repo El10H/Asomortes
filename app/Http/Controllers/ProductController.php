@@ -18,9 +18,11 @@ class ProductController extends Controller
 {
 
     public function __construct(){
-        $this->middleware('can:products.store')->only('store');
-        $this->middleware('can:products.destroy')->only('destroy');
-        $this->middleware('can:products.update')->only('update');
+        $this->middleware('can:products')->only('destroy', 'store', 'update');
+        $this->middleware('can:products.index')->only('index');
+        //$this->middleware('can:products.store')->only('store');
+        //$this->middleware('can:products.destroy')->only('destroy');
+        //$this->middleware('can:products.update')->only('update');
     }
 
     public function index(Request $request){

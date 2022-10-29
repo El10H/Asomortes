@@ -250,10 +250,26 @@ return [
             'label_color' => 'info',
         ],
 
+        
+
         [
-            'text' => 'Usuarios',
-            'url'  => 'users',
-            'icon' => 'fas fa-fw fa-users',
+            'text'    => 'Panel de accesos',
+            'icon'    => 'fas fa-users-cog',
+            'submenu' => [
+                [
+                    'text' => 'Usuarios',
+                    'url'  => 'users',
+                    'icon' => 'fas fa-fw fa-users',
+                    'can' => 'users.index'
+                ],
+
+                [
+                    'text' => 'Roles',
+                    'url'  => 'roles',
+                    'icon' => 'fas fa-user-tag',
+                    //'can' => 'roles.index'
+                ],
+            ],
             'can' => 'users.index'
         ],
 
@@ -310,14 +326,17 @@ return [
                     'text' => 'Productos',
                     'icon_color' => 'blue',
                     'url'  => 'products',
+                    'can' => 'products.index'
                 ],
 
                 [
                     'text' => 'Opciones de Productos',
                     'icon_color' => 'blue',
                     'url'  => 'option_products',
+                    'can' => 'option_products.index'
                 ],
             ],
+            'can' => 'products.index'
         ],
 
         [
@@ -336,12 +355,14 @@ return [
                     'url'  => 'option_services',
                 ],
             ],
+            'can' => 'services.index'
         ],
 
         [
             'text' => 'Proveedores',
             'url'  => 'providers',
             'icon' => 'fas fa-fw fa-clipboard-list',
+            'can' => 'providers.index'
         ],
 
         [

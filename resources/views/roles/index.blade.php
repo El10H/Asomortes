@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'USUARIOS')
+@section('title', 'Roles')
 
 
 @section('css')
@@ -16,7 +16,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-dark text-white">
-                        Lista de Usuarios
+                        Lista de Roles
                     </div>
                     
                     <div class="row">
@@ -24,8 +24,8 @@
                             <div class="card">
                                 <div class="card-body">
                                     <button  type="button" class="btn btn-primary" data-bs-toggle="modal" 
-                                        data-bs-target="#agregarUsuario">
-                                        Agregar Usuario
+                                        data-bs-target="#agregarRol">
+                                        Agregar Rol
                                     </button>  
                                     <a href="{{ route('providers.pdf') }}" target="_blank" class="btn btn-success">Exportar PDF</a>
                                 </div>
@@ -59,21 +59,19 @@
                             <thead>
                                 <tr align="center">
                                     <th width= 10% scope="col">Id</th>
-                                    <th width= 30% scope="col">Nombre</th>
-                                    <th width= 40% scope="col">Email</th>
+                                    <th width= 30% scope="col">Rol</th>
                                     <th width= 20%></th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                @foreach ($users as $user)
+                                @foreach ($roles as $role)
                                     <tr>
-                                        <td align="left">{{ $user->id}}</td>
-                                        <td align="left">{{ $user->name}}</td>
-                                        <td align="left">{{ $user->email}}</td>
+                                        <td align="left">{{ $role->id}}</td>
+                                        <td align="left">{{ $role->name}}</td>
                                         
                                         <td align="center">
-                                            <form action="{{route('users.destroy', $user)}}" method="POST">
+                                            <form action="{{route('roles.destroy', $role)}}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
                                                  
@@ -82,55 +80,55 @@
                                                     <i class="far fa-trash-alt"></i>
                                                 </button>
 
-                                                <a data-bs-toggle="modal" data-bs-target="#actualizar{{ $user->id }}"
+                                                <a data-bs-toggle="modal" data-bs-target="#actualizar{{ $role->id }}"
                                                     class="btn btn-outline-success">
                                                     <i class="far fa-edit"></i>
                                                 </a> 
                                             </form>
 
-                                            <!-- Modal para editar Usuario -->
-                                            <div class="modal fade" id="actualizar{{ $user->id }}" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-s ">
+                                            <!-- Modal para editar Rol -->
+                                            <div class="modal fade" id="actualizar{{ $role->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered modal-s">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Editar
-                                                                Usuario</h5>
+                                                            <h5 class="modal-title" id="exampleModalLabel">Editar Rol</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
                                                         </div>
 
                                                         <div class="modal-body">
 
-                                                            <form class="row g-3 " action="{{ route('users.update', $user->id) }}" method="POST">
+                                                            <form class="row g-3 " action="{{ route('roles.update', $role->id) }}" method="POST">
                                                                 @method('PUT')
                                                                 @csrf
 
                                                                 <div class="col-12 ">
                                                                     <label for="disabledTextInput" class="form-label">nombre</label>
-                                                                    <input type="text" id="disabledTextInput" class="form-control" name="nombre"
-                                                                        value='{{$user->name}}'>
+                                                                    <input type="text" id="disabledTextInput" class="form-control" name="name"
+                                                                        value='{{$role->name}}'>
                                                                 </div>
 
-                                                                <div class="col-6">
-                                                                    <label for="disabledTextInput" class="form-label">Email</label>
-                                                                    <input type="text" id="disabledTextInput" class="form-control" name="email"
-                                                                        value='{{$user->email}}'>
-                                                                </div>
+                                                                <div class="col-12 ">
+                                            
+                                                                    <label for="disabledTextInput" class="form-label">Lista de permisos:</label></br>
 
-                                                                <div class="col-6">
-                                                                    <label for="inputEmail4" class="form-label">Rol</label>
-                                                                    <select class="custom-select" id="" name='rol'>
-
-                                                                        @foreach ($roles as $role)
-                                                                            @if ($user->hasRole($role))
-                                                                                <option value="{{ $role['id'] }}" selected="true">{{ $role['name'] }}</option>
+                                                                    @foreach($permissions as $permission)
+                                                                    
+                                                                        <div class="col-12 ml-3">
+                                                                            @if($role->hasPermissionTo($permission->id))
+                                                                                <input class="form-check-input" type="checkbox" id="" name="permissions[]" value= {{$permission->id}} checked>
                                                                             @else
-                                                                                <option value="{{ $role['id'] }}">{{ $role['name'] }}</option>
+                                                                                <input class="form-check-input" type="checkbox" id="" name="permissions[]" value= {{$permission->id}} >
                                                                             @endif
-                                                                        @endforeach
-                                                                    </select>
+
+                                                                            <label class="form-check-label" for="inlineCheckbox1">{{$permission->description}}</label>   
+                                                                        </div></br>
+                                                                    @endforeach
+
+                                                                    
                                                                 </div>
+
                                             
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-danger"
@@ -152,53 +150,47 @@
                     </div>
 
 
-                    <!-- Modal para agregar Usuario -->
-                    <div class="modal fade" id="agregarUsuario" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    <!-- Modal para agregar Rol -->
+                    <div class="modal fade" id="agregarRol" tabindex="-1" aria-labelledby="exampleModalLabel"
                         aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-dialog modal-dialog-centered modal-s">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Agregar Usuario</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Agregar Rol</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
 
                                 <div class="modal-body">
-                                    <form class="row g-3 " action="{{ route('users.store') }}" method="POST">
+                                    <form class="row g-3 " action="{{ route('roles.store') }}" method="POST">
                                         @csrf
 
-                                        <div class="col-6">
+                                        <div class="col-12">
                                             <label for="disabledTextInput" class="form-label">Nombre</label>
-                                            <input type="text" id="disabledTextInput" class="form-control" name="nombre">
+                                            <input type="text" id="disabledTextInput" class="form-control" name="name">
                                         </div>
 
-                                        <div class="col-6">
-                                            <label for="disabledTextInput" class="form-label">Email</label>
-                                            <input type="text" id="disabledTextInput" class="form-control" name="email">
-                                        </div>  
+                                        @error('name')
+                                            <small class="text-danger">
+                                                {{$message}}
+                                            </small>
+                                        @enderror
 
-                                        <div class="col-6">
-                                            <label for="disabledTextInput" class="form-label">Contraseña</label>
-                                            <input type="password" id="disabledTextInput" class="form-control" name="password">
-                                        </div>  
+                                        <div class="col-12">
+                                            
+                                            <label for="disabledTextInput" class="form-label">Lista de permisos:</label></br>
+
+                                            @foreach($permissions as $permission)
+                                                <div class="col-12 ml-3">
+                                                    <input class="form-check-input" type="checkbox" id="" name="permissions[]" value= {{$permission->id}} >
+                                                    <label class="form-check-label" for="inlineCheckbox1">{{$permission->description}}</label>   
+                                                </div></br>
+                                            @endforeach
+
+                                            
+                                        </div>
+
                                         
-                                        <div class="col-6">
-                                            <label for="inputEmail4" class="form-label">Rol</label>
-                                            <select class="custom-select" id="" name='rol'>
-                                                <option selected>-Seleccione-</option>
-
-                                                @foreach ($roles as $role)
-                                                        <option value="{{ $role['id'] }}">{{ $role['name'] }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <!--@foreach ($roles as $role)
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="rol" value= {{$role->id}} >
-                                                <label class="form-check-label" for="inlineCheckbox1">{{$role->name}}</label>
-                                            </div>
-                                        @endforeach-->
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>

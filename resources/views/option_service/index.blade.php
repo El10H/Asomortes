@@ -69,7 +69,7 @@
                                     </div>
 
                                     <div  class="float-right ">
-                                        @can('option_services')
+                                        @can('option_services.create_buys')
                                             <button  type="button" class="btn btn-primary" data-bs-toggle="modal" 
                                                 data-bs-target="#agregarCompraServicio">
                                                 Agregar Compras

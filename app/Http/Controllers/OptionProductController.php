@@ -13,6 +13,12 @@ use App\buys_product;
 
 class OptionProductController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('can:option_products')->only('destroy', 'store', 'update');
+        $this->middleware('can:option_products.index')->only('index');
+    }
+
     public function index(Request $request){
         $now=Carbon::now();
 

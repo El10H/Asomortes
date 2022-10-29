@@ -12,9 +12,10 @@ class ProviderController extends Controller
 {
 
     public function __construct(){
-        $this->middleware('can:providers.store')->only('store');
-        $this->middleware('can:providers.destroy')->only('destroy');
-        $this->middleware('can:providers.update')->only('update');
+        $this->middleware('can:providers')->only('destroy', 'store', 'update');
+        $this->middleware('can:providers.index')->only('index');
+        //$this->middleware('can:providers.destroy')->only('destroy');
+        //$this->middleware('can:providers.update')->only('update');
     }
 
     public function index(Request $request){

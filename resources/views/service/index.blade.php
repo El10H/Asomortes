@@ -24,7 +24,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div  class="float-left ">
-                                        @can('services.store')
+                                        @can('services')
                                             <button  type="button" class="btn btn-primary" data-bs-toggle="modal" 
                                                 data-bs-target="#agregarServicio">
                                                 Agregar Servicio
