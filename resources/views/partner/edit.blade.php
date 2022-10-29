@@ -8,7 +8,18 @@
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
     </script>
 @endsection
+<style>
+    label.error {
+        color: red;
+        font-size: 0.8em;
+    }
 
+    /*input.error {
+    border: 1px dashed red;
+    font-weight: 300;
+    color: red;
+}*/
+</style>
 
 
 @section('content')
@@ -72,7 +83,7 @@
                                                         <div class="col-12 mt-2">
     
     
-                                                            <form action="{{ route('asignar.directivo') }}" method="POST">
+                                                            <form action="{{ route('asignar.directivo') }}" method="POST" >
                                                                 @csrf
                                                                 <div>
                                                                     <input type="hidden" name="socio"
@@ -140,7 +151,7 @@
                                                         aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form action="{{ route('socio.fallecido') }}" method="POST"
+                                                    <form action="{{ route('socioFallecidos.store') }}" method="POST"
                                                         enctype="multipart/form-data">
                                                         @csrf
     
@@ -179,8 +190,8 @@
     
                         </div>
                     </div>
-                    <div class="p-4">
-                        <form class="row g-3 " action="{{ route('partners.update', $partner->id) }}" method="POST">
+                    <div class="p-4"> 
+                        <form class="row g-3 " action="{{ route('partners.update', $partner->id) }}" method="POST" id="form-socios">
                         @method('PUT')
                             @csrf
 
@@ -330,5 +341,189 @@
             </div>
         </div>
     </div>
+@section('js')
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+    <script>
+         $(document).ready(function() {
+            $.validator.addMethod("soloLetras", function(value, element) {
+                var pattern = /^[a-zA-ZÀ-ÿ\s]{1,50}$/;
+                return this.optional(element) || pattern.test(value);
+            }, "El campo no acepta números o signos");
 
+            $.validator.addMethod("soloNumeros", function(value, element) {
+                var pattern = /^([0-9]{9,9})$/;
+                return this.optional(element) || pattern.test(value);
+            }, "Ingrese un número válido de 9 dígitos");
+
+            $.validator.addMethod("dniValidar", function(value, element) {
+                var pattern = /^([0-9]{1,8})$/;
+                return this.optional(element) || pattern.test(value);
+            }, "Ingrese un número de DNI válido");
+
+            $.validator.addMethod("carneValidar", function(value, element) {
+                var pattern = /^([0-9]{1,5})$/;
+                return this.optional(element) || pattern.test(value);
+            }, "Ingrese un número de carné válido");
+
+            $.validator.addMethod("numerosLetras", function(value, element) {
+                var pattern =  /^[a-zA-Z0-9\_\-]{1,50}$/;
+                return this.optional(element) || pattern.test(value);
+            }, "No puede ingresar signos");
+            
+            $("#form-socios").validate({
+                rules: {
+                    nombre: {
+                        required: true,
+                        soloLetras: true
+                    },
+                    apellido_paterno: {
+                        required: true,
+                        soloLetras: true
+                    },
+                    apellido_materno:{
+                        required: true,
+                        soloLetras: true
+                    },
+                    profesion:{
+                        required:true,
+                        soloLetras:true 
+                    },
+                    grado_de_instruccion:{
+                        required:true,
+                        soloLetras:true  
+                    },
+                    actividad:{
+                        required:true ,
+                        soloLetras:true 
+                    },
+                    carne :{
+                        required: true ,
+                        carneValidar:true 
+                    },
+                    dni:{
+                        required: true ,
+                        dniValidar:true 
+                    },
+                    celular:{
+                        required: true ,
+                        soloNumeros: true
+                    },
+                    domicilio: {
+                        required : true ,
+                       
+                    },
+                    telefono : {
+                        required:true,
+                        soloNumeros:true,
+                        
+                    },
+                    email : {
+                        required : true ,
+                        email:true 
+                    }, 
+                    dpto_nac : {
+                        required:true 
+                    },
+                    provincia_nac : {
+                        required:true
+                    },
+                    distrito_nac : {
+                        required:true 
+                    },
+                    estado_civil: {
+                        required:true 
+                    },
+                    dpto_actual: {
+                        required:true 
+                    },
+                    provincia_actual:{
+                        required: true 
+                    },
+                    distrito_actual : {
+                        required: true 
+                    },
+                    fecha_de_ingreso: {
+                        required: true 
+                    },
+                    fecha_de_nac : {
+                        required: true 
+                    }
+
+
+                },
+                messages: {
+                    nombre: {
+                        required: "El campo nombre es obligatorio",
+                    },
+                    apellido_paterno: {
+                        required: "El campo apellido paternno es obligatorio"
+                    },
+                    apellido_materno :{
+                        required: "El campo apellido materno es obligatorio"
+                    },
+                    profesion:{
+                        required: "El campo profesión es obligatorio"
+                    },
+                    grado_de_instruccion:{
+                        required:  "El campo grado de instrucción e sobligatorio"
+                    },
+                    actividad:{
+                        required: "El campo actividad es obligatorio"
+                    },
+                    carne:{
+                        required: "El campo carne es obligatorio",
+                        maxlength: "Solo 5 caráctares como máximo",
+                    },
+                    dni :{
+                        required :"El campo DNI es obligatorio"
+                    },
+                    celular: {
+                        required: "El campo celular es obligatorio"
+                    },
+                    domicilio : {
+                        required: "El campo domicilio es obligatorio",
+                    },
+                    telefono :{
+                        required : "El campo teléfono es obligatorio",
+                    },
+                    email: {
+                        required : "El campo email es obligatorio",
+                        email: "El fomato no es válido"
+                    },
+                    dpto_nac:{
+                        required: "Eliga una opción"
+                    },
+                    provincia_nac:{
+                        required: "Eliga una opción"
+                    },
+                    distrito_nac: {
+                        required: "Eliga una opción"
+                    },
+                    estado_civil: {
+                        required:"Eliga una opción"
+                    },
+                    dpto_actual: {
+                        required:"Eliga una opción"
+                    },
+                    provincia_actual:{
+                        required: "Eliga una opción" 
+                    },
+                    distrito_actual : {
+                        required: "Eliga una opción" 
+                    },
+                    fecha_de_ingreso: {
+                        required: "El campo fecha de ingrese es obligatorio" 
+                    },
+                    fecha_de_nac : {
+                        required: "El campo fecha de nacimiento es obligatorio" 
+                    }
+
+
+                    
+                }
+            });
+        });
+    </script>
+@endsection
 @endsection

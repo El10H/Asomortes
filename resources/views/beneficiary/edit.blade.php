@@ -6,6 +6,13 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
 @endsection
 
+<style>
+    label.error {
+        color: red;
+        font-size: 0.8em;
+    }
+</style>
+
 @section('content')
     <div class="p-4">
         <div class="row justify-content-center">
@@ -34,7 +41,8 @@
 
                     <div class="p-4">
 
-                        <form class="row g-3 " action="{{route('beneficiaries.update',$beneficiaries->id)}}" method="POST">
+                        <form class="row g-3 " action="{{route('beneficiaries.update',$beneficiaries->id)}}" method="POST"  id="form_beneficiarios">
+                            @method('PUT')
                             @csrf
 
                             <div class="col-12">
@@ -94,5 +102,96 @@
             </div>
         </div>
     </div>
+    @section('js')
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 
+    <script>
+        $(document).ready(function() {
+            $.validator.addMethod("soloLetras", function(value, element) {
+                var pattern = /^[a-zA-ZÀ-ÿ\s]{1,50}$/;
+                return this.optional(element) || pattern.test(value);
+            }, "El campo no acepta números o signos");
+
+            $.validator.addMethod("soloNumeros", function(value, element) {
+                var pattern = /^([0-9]{9,9})$/;
+                return this.optional(element) || pattern.test(value);
+            }, "Ingrese un número válido de 9 dígitos");
+
+            $.validator.addMethod("dniValidar", function(value, element) {
+                var pattern = /^([0-9]{1,8})$/;
+                return this.optional(element) || pattern.test(value);
+            }, "Ingrese un número de DNI válido");
+
+            $.validator.addMethod("carneValidar", function(value, element) {
+                var pattern = /^([0-9]{1,5})$/;
+                return this.optional(element) || pattern.test(value);
+            }, "Ingrese un número de carné válido");
+
+            $.validator.addMethod("numerosLetras", function(value, element) {
+                var pattern = /^[a-zA-Z0-9\_\-]{1,50}$/;
+                return this.optional(element) || pattern.test(value);
+            }, "No puede ingresar signos");
+
+            $("#form_beneficiarios").validate({
+                rules: {
+                    nombres_apellidos: {
+                        required: true,
+                        soloLetras: true
+                    },
+                    
+                    dni: {
+                        required: true,
+                        dniValidar: true
+                    },
+                    celular: {
+                        required: true,
+                        soloNumeros: true
+                    }, 
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    
+                    fecha_de_ingreso: {
+                        required: true
+                    },
+                    parentesco: {
+                        required: true 
+                    }
+                    
+
+
+                },
+                messages: {
+                    nombres_apellidos: {
+                        required: "El campo nombre es obligatorio",
+                    },
+                    
+                    dni: {
+                        required: "El campo DNI es obligatorio"
+                    },
+                    celular: {
+                        required: "El campo celular es obligatorio"
+                    },
+                   
+                    email: {
+                        required: "El campo email es obligatorio",
+                        email: "El fomato no es válido"
+                    },
+                    
+                    fecha_de_ingreso: {
+                        required: "El campo fecha de ingrese es obligatorio"
+                    },
+                    parentesco: {
+                        required: "El campo fecha de nacimiento es obligatorio"
+                    }
+
+
+
+                }
+            });
+        });
+    </script>
+@endsection
 @endsection

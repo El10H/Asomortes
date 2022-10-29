@@ -26,7 +26,7 @@
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <a href="" class="btn btn-success">Exportar PDF</a>
+                                   
                                     <a href="{{route('vistaSocioRetirado')}}" class="btn btn-danger">Lista de Socios Retirados</a>
                                 </div>
                                

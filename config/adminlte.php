@@ -271,7 +271,7 @@ return [
         ],
         [
             'text' => 'Panel de Beneficiarios',
-            'url'  => '/beneficiariesIndex',
+            'url'  => '/beneficiaries',
             'icon' => 'fas fa-fw fa-user',
         ],
         
@@ -283,7 +283,7 @@ return [
                 [
                     'text' => 'Registrar pago',
                     'icon_color' => 'blue',
-                    'url'  => '/paymentNuevo',
+                    'url'  => '/payments',
                 ],
 
                 [
@@ -372,6 +372,19 @@ return [
             ],
         ],
         
+        [
+            'text'    => 'Reportes',
+            'icon'    => 'fas fa-fw fas fa-users',
+            'submenu' => [
+                [
+                    'text' => 'Gastos',
+                    'icon_color' => 'blue',
+                    'url'  => '/reportes',
+                ],
+                
+
+            ],
+        ],
     ],
 
     /*
