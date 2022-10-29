@@ -112,10 +112,10 @@ class PartnerController extends Controller
 
 
         $now = Carbon::now();
-     
-        $ultimoRegistro=partner::orderBy('created_at', 'DESC')
-        ->take(1)
-        ->firstOrFail();
+
+        $ultimoRegistro = partner::orderBy('created_at', 'DESC')
+            ->take(1)
+            ->firstOrFail();
 
 
         return view('beneficiary.form', ['partner' => $ultimoRegistro, 'now' => $now]);
@@ -222,6 +222,21 @@ class PartnerController extends Controller
         $directivos = executive::all();
         return view('partner.directivos', ['directivos' => $directivos]);
     }
+
+    public function directivosPdf()
+    {
+        $directivos = executive::all();
+
+        $data = compact('directivos');
+
+        //$view = \View::make('partner.ficha', compact())
+        $pdf = \PDF::loadView('partner.directivosPdf', $data);
+        //return $pdf->download('PartnerFile-'.$id.'.pdf');
+        return $pdf->setPaper('a4', 'landscape')->stream();
+
+        //return $data;
+    }
+
 
     public function resumenSocio()
     {
@@ -614,7 +629,7 @@ class PartnerController extends Controller
                 $fechaSocio = Carbon::parse($mes->año . '-' . $mesNum . '-' . '01');
 
 
-                if ($fechaSocio->format('Y') == $deuda2->format('Y')  && $fechaSocio->format('m') == $deuda2->format('m') ) {
+                if ($fechaSocio->format('Y') == $deuda2->format('Y')  && $fechaSocio->format('m') == $deuda2->format('m')) {
                     array_push($sociosDeuda2, $partner);
                     $boletaEnviar = $pago;
                     $mesEnviar = $mes;
@@ -638,9 +653,6 @@ class PartnerController extends Controller
         partner::where('id', $id)->update(['estado' => 'Retirado']);
         return back();
     }
-
-
-
     public function listaSociosRetirados()
     {
         $socios = partner::select('carne', 'Dni', 'celular', 'email', 'nombre', 'apellido_paterno', 'apellido_materno', 'fecha_retiro')
@@ -650,9 +662,28 @@ class PartnerController extends Controller
         return view('partner.sociosRetirados', ['socios' => $socios]);
     }
 
+    public function listaSociosSancionados()
+    {
+        $socios = partner::select('carne', 'Dni', 'celular', 'email', 'nombre', 'apellido_paterno', 'apellido_materno', 'fecha_pago', 'fecha_habilitacion')
+            ->join('sanctioneds', 'partner_id', '=', 'partners.id')
+            ->get();
 
+        return view('partner.sociosSancionados', ['socios' => $socios]);
+    }
 
+    public function listaSociosSancionados_Pdf()
+    {
+        $socios = partner::select('carne', 'Dni', 'celular', 'email', 'nombre', 'apellido_paterno', 'apellido_materno', 'fecha_pago', 'fecha_habilitacion')
+            ->join('sanctioneds', 'partner_id', '=', 'partners.id')
+            ->get();
 
+            $data = compact('socios');
+
+            //$view = \View::make('partner.ficha', compact())
+            $pdf = \PDF::loadView('partner.sancionadosPdf', $data);
+            //return $pdf->download('PartnerFile-'.$id.'.pdf');
+            return $pdf->setPaper('a4', 'landscape')->stream();
+    }
 
 
     //Métodos de entrega de beneficios
@@ -710,7 +741,7 @@ class PartnerController extends Controller
         $servicios = service::all();
         $productos = product::all();
 
-        $opcionesServicios = option_service::select('id','nombre', 'id_services', 'stock')
+        $opcionesServicios = option_service::select('id', 'nombre', 'id_services', 'stock')
             ->distinct('id_services')
             ->get();
 
@@ -728,7 +759,7 @@ class PartnerController extends Controller
             ->join('buys_products', 'buys_products.id', '=', 'option_products.id_vouchers')
             ->distinct('option_products.sku')
             ->get();
-        
+
         $opcionesProd = option_product::select(
             'option_products.sku',
             'buys_products.id_products',
@@ -756,7 +787,8 @@ class PartnerController extends Controller
         echo json_encode($datos);
     }
 
-    public function guardarEntrega(Request $request){
+    public function guardarEntrega(Request $request)
+    {
         return $request;
     }
 }

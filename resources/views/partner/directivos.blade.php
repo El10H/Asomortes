@@ -27,7 +27,7 @@
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <a href="{{ route('partners.pdf') }}" class="btn btn-success">Exportar PDF</a>
+                                    <a href="{{ route('directivosPdf') }}" class="btn btn-success">Exportar PDF</a>
                                 </div>
                             </div>
                         </div>

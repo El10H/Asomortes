@@ -11,9 +11,23 @@
 |
 */
 
+use App\Http\Controllers\reportesController;
+
 Route::get('/', function () {
     return view('home');
 });
+
+
+//Rutas de reportes
+Route::Resource('reportes','reportesController')->only(['index']);
+Route::get('filtrarMes','reportesController@filtrarMes')->name('filtrarMes');
+Route::get('filtrarFecha','reportesController@filtrarFecha')->name('filtrarFecha');
+Route::get('detallesFechasProductos','reportesController@detallesFechasProductos')->name('detallesFechasProductos');
+Route::get('detallesFechasServicios','reportesController@detallesFechasServicios')->name('detallesFechasServicios');
+Route::get('detallesMesAñoProductos','reportesController@detallesMesAñoProductos')->name('detallesMesAñoProductos');
+Route::get('detallesMesAñoServicios','reportesController@detallesMesAñoServicios')->name('detallesMesAñoServicios');
+Route::get('detalleFechaPagos','reportesController@detalleFechaPagos')->name('detalleFechaPagos');
+Route::get('detallesMesAñoPagos','reportesController@detallesMesAñoPagos')->name('detallesMesAñoPagos');
 
 //Rutas de socio
 Route::Resource('partners','PartnerController')->only(['index', 'destroy', 'store', 'edit', 'update']);
@@ -39,16 +53,20 @@ Route::get('deuda12','PartnerController@deuda12')->name('deuda12');
 Route::get('deuda2','PartnerController@deuda2')->name('deuda2');
 Route::get('socioRetirado{id}','PartnerController@socioRetirado')->name('socioRetirado');
 Route::get('vistaSocioRetirado','PartnerController@listaSociosRetirados')->name('vistaSocioRetirado');
+Route::get('vistaSocioSancionado','PartnerController@listaSociosSancionados')->name('vistaSociosSancionados');
+Route::get('socioSancionadoPdf','PartnerController@listaSociosSancionados_Pdf')->name('listaSociosSancionados_Pdf');
 
 //Ruta de panel administrativo
 Route::get('panel','panelController@index')->name('panel');
 
 //Ruta directivos
 Route::get('vistaExecutive','PartnerController@vistaDirectivo')->name('vistaDirectivo');
+Route::get('vistaExecutivePdf','PartnerController@directivosPdf')->name('directivosPdf');
 
 
 //Rutas de socio fallecido
 Route::Resource('socioFallecidos','PartnerDeceasedController')->only(['index', 'store']);
+Route::get('sociosFallecidosPdf','PartnerDeceasedController@pdf') ->name('sociosFallecidos_pdf');
 
 
 //Rutas de beneficiario

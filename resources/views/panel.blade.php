@@ -88,10 +88,10 @@
                         <div class="info-box-content">
                             <span class="info-box-text">Socios Sancionados</span>
                             <span class="info-box-number">
-                                <small></small>
-                                -
+                                
+                                {{count($sociosSancionados)}}
                             </span>
-                            <a href="{{ route('deuda12') }}" class="small-box-footer text-secondary">Ver lista <i
+                            <a href="{{ route('vistaSociosSancionados') }}" class="small-box-footer text-secondary">Ver lista <i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
 

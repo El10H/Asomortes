@@ -33,6 +33,31 @@ class PartnerDeceasedController extends Controller
         return view('partner.listadoFallecidos', ['fallecidos' => $fallecidos]);
     }
 
+    public function pdf()
+    {
+        $fallecidos = partner_deceased::select(
+            'nombre',
+            'apellido_paterno',
+            'apellido_materno',
+            'dni',
+            'carne',
+            'acta',
+            'certificado',
+
+        )
+            ->join('partners', 'partner_deceaseds.partner_id', '=', 'partners.id')
+            ->get();
+
+        $data = compact('fallecidos');
+
+        //$view = \View::make('partner.ficha', compact())
+        $pdf = \PDF::loadView('partner.fallecidosPdf', $data);
+        //return $pdf->download('PartnerFile-'.$id.'.pdf');
+        return $pdf->setPaper('a4', 'landscape')->stream();
+
+        //return $data;
+    }
+
 
 
     public function store(Request $request)

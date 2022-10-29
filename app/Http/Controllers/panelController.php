@@ -125,7 +125,9 @@ class panelController extends Controller
         ->get();
 
         //Socios retirados
-        $sociosRetirados = sanctioned::all();
+        $sociosRetirados = retired::all();
+        $sociosSancionados = sanctioned::all();
+        
 
         return view('panel', [
             'sociosDeuda12' => $sociosDeuda12, 
@@ -134,7 +136,10 @@ class panelController extends Controller
             'fallecidos' => $fallecidosContar , 
             'ultimosPagos' => $ultimosPagos ,
             'ultimosSocios' =>$ultimosSociosRegistrados,
-            'sociosRetirados' => $sociosRetirados
+            'sociosRetirados' => $sociosRetirados,
+            'sociosSancionados' => $sociosSancionados
              ] );
+
+      
     }
 }

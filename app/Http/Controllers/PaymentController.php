@@ -43,7 +43,7 @@ class PaymentController extends Controller
         //Llamamos a los datos de la configuracion:
         $datosConfig = datosConfig::Select('monto')->where('descripcion', 'cuota mensual')->first();
         $inscripcion = datosConfig::Select('monto')->where('descripcion', 'inscripcion')->first();
-        $socios = partner::where('carne', $dni)->select('id', 'Dni', 'nombre', 'apellido_paterno', 'apellido_materno', 'carne', 'estado')->first();
+        $socios = partner::where('carne', $dni)->select('id', 'Dni', 'nombre', 'apellido_paterno', 'apellido_materno', 'carne', 'estado','domicilio')->first();
 
         array_push($datos, $socios);
 
@@ -93,8 +93,10 @@ class PaymentController extends Controller
         }
         return $data;
     }
+
     public function store(Request $request)
     {
+ 
         Payment::create([
             'partner_id' => $request->idNombre,
             'fecha_de_pago' => $request->fecha_de_pago,

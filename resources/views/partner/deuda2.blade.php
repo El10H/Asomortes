@@ -28,11 +28,7 @@
                     <div class="row">
 
                         <div class="col-sm-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <a href="" class="btn btn-success">Exportar PDF</a>
-                                </div>
-                            </div>
+                           
                         </div>
                     </div>
 

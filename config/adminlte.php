@@ -372,6 +372,19 @@ return [
             ],
         ],
         
+        [
+            'text'    => 'Reportes',
+            'icon'    => 'fas fa-fw fas fa-users',
+            'submenu' => [
+                [
+                    'text' => 'Gastos',
+                    'icon_color' => 'blue',
+                    'url'  => '/reportes',
+                ],
+                
+
+            ],
+        ],
     ],
 
     /*
