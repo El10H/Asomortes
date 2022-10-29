@@ -16,21 +16,16 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header  text-white" style="background-color:#004173">
-                        Pagos realizados
+                        Pagos realizados el día: {{$fecha}}
                     </div>
 
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="card">
-                                <div class="card-body">
-
-                                    <a href="{{ route('payments.index') }}" class="btn btn-success">Registrar Pago</a>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
-
-
 
                     <div class="card-body">
 
@@ -51,15 +46,7 @@
                                     <div class="col-md-3">
                                         <label for="" class="form-label">Número de Boleta:</label>
                                     </div>
-
-                                    <div class="col-md-3">
-                                        <label for="" class="form-label">Fecha de pago:</label>
-                                    </div>
-
-                                  
-
-                                    
-                                    
+                  
                                 </div>
                                 <div class="row mb-3">
                                     
@@ -74,12 +61,6 @@
                                             data-index="0" />
                                     </div>
                                     
-                                    <div class="col-md-3">
-                                        <input type="date" name="user" id="fecha" class="form-control "
-                                            data-index="4" />
-                                    </div>
-                                  
-                                    
 
                                 </div>
                             </div>
@@ -91,7 +72,6 @@
                                     <th width=25% scope="col">Socio</th>
                                     <th width=10% scope="col">Carne</th>
                                     <th width=10% scope="col">Monto pagado</th>
-                                    <th width=15% scope="col">Fecha de pago</th>
                                     <th width=15% scope="col">Ver detalles</th>
 
                                 </tr>
@@ -105,7 +85,6 @@
                                         </td>
                                         <td>{{ $item->carne }}</td>
                                         <td>{{ $item->monto_total }}</td>
-                                        <td>{{ $item->fecha_de_pago }}</td>
                                         <td><button class="btn btn-outline-success mostrar btn-sm" type="button"
                                                 data-bs-toggle="modal"data-bs-target="#detalle"
                                                 value="{{ $item->id }}">Ver detalles</button></td>

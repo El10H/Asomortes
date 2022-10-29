@@ -82,16 +82,16 @@ return array (
     'normal' => $fontDir . '/nunito_normal_586f3f8a461df5c8635a870033365d5e',
   ),
   'font awesome 5 brands' => array(
-    'normal' => $fontDir . '/font_awesome_5_brands_normal_5a6de1b98d557f418d1b553ad91e2b1d',
+    'normal' => $fontDir . '/font_awesome_5_brands_normal_91647ba46fdde5ac1fd9e715f1a8a2f1',
   ),
   'font awesome 5 free' => array(
-    'normal' => $fontDir . '/font_awesome_5_free_normal_cc09182b55f8099e932cc8b2a120db3e',
-    '900' => $fontDir . '/font_awesome_5_free_900_8788107b2f0a7592f29785c711161124',
+    'normal' => $fontDir . '/font_awesome_5_free_normal_35bf6ab907383550c86e54a8ffa7e643',
+    '900' => $fontDir . '/font_awesome_5_free_900_cf490cc730df0fca7e32008c986c809d',
   ),
   'source sans pro' => array(
-    '300_italic' => $fontDir . '/source_sans_pro_300_italic_ebb52db9932043396b253d0e4735c586',
-    'italic' => $fontDir . '/source_sans_pro_italic_feb9e66c92ee0d9f2673971fede3db48',
-    '600_italic' => $fontDir . '/source_sans_pro_600_italic_5453f661fbe1392d1a07ec3b266c038a',
+    '300_italic' => $fontDir . '/source_sans_pro_300_italic_c7348df81e49066b772a98ae20e45811',
+    'italic' => $fontDir . '/source_sans_pro_italic_27672a92dcedb2218abd2dadee4fe950',
+    '600_italic' => $fontDir . '/source_sans_pro_600_italic_ef3fecfa74b416f01e1908b6dca4e4a4',
   ),
   'glyphicons halflings' => array(
     'normal' => $fontDir . '/glyphicons_halflings_normal_4ced20531a4f462a8c5c535d4debd2eb',

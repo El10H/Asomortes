@@ -56,7 +56,7 @@
                             </div>
                         @endif
                         
-                        <form action="{{ route('pagosguardar') }}" class="row g-3" method="POST">
+                        <form action="{{ route('payments.store') }}" class="row g-3" method="POST">
                             @csrf
                             <div class="col-md-6 mt-2">
                                 <label for="" class="form-label">Nombre:</label>
@@ -203,6 +203,7 @@
                     document.getElementById('apellidos').value = datos.apellido_paterno + ' ' + datos
                         .apellido_materno;
                     document.getElementById('codigo').value = datos.carne;
+                    document.getElementById('estado').value=datos.estado;
 
                     var inputId = document.createElement("input");
                     inputId.setAttribute("type", "hidden");
@@ -214,6 +215,11 @@
                     inputDni.setAttribute("name", "dni");
                     inputDni.value = datos.Dni;
 
+                    var inputDomicilio = document.createElement("input");
+                    inputDomicilio.setAttribute("type","hidden");
+                    inputDomicilio.setAttribute("name","domicilio");
+                    inputDomicilio.value = datos.domicilio;
+
                     var inputUnitario = document.createElement("input");
                     inputUnitario.setAttribute("type", "hidden");
                     inputUnitario.setAttribute("name", "monto_unitario");
@@ -223,6 +229,7 @@
                     holaNew.appendChild(inputId);
                     holaNew.appendChild(inputDni);
                     holaNew.appendChild(inputUnitario);
+                    holaNew.appendChild(inputDomicilio);
 
 
                     if (datos.estado == 'Retirado') {
@@ -231,8 +238,7 @@
                         spanNuevo.innerHTML =
                             'El socio ha sido retirado del sistema por falta de pagos';
                     }
-
-                    
+                
                     var mes = arrays[1];
                     var mesFun;
                     var añoFun;

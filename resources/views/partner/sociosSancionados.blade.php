@@ -1,10 +1,14 @@
 @extends('adminlte::page')
-@section('title', 'SOCIOS FALLECIDOS')
+@section('title', 'SOCIOS')
 
 
 @section('css')
-<link rel="stylesheet" href="dist/css/adminlte.min.css?v=3.2.0">
+    <script src="{{ asset('js/provinciasActual.js') }}"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+    </script>
+
 @endsection
 
 @section('content')
@@ -13,15 +17,16 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header text-white" style="background-color:#004173">
-                        Socios Fallecidos
+                        Socios Sancionados
                     </div>
                     <div class="row">
 
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <a href="{{route('sociosFallecidos_pdf')}}" class="btn btn-success">Exportar PDF</a>   
+                                    <a href="{{route('listaSociosSancionados_Pdf')}}" class="btn btn-success">Exportar PDF</a>
                                 </div>
+                               
                             </div>
                         </div>
                     </div>
@@ -31,52 +36,42 @@
                         <table class="table table-striped" style="width:100%" id="data">
                             <thead>
                                 <tr>
-
                                     <th scope="col">Dni</th>
-                                    <th scope="col">Carne</th>
                                     <th scope="col">Nombres y Apellidos</th>
-                                    <th scope="col">Fecha de fallecido</th>
-                                    <th scope="col">Acta de defunción</th>
-                                    <th scope="col">Certificado de defunción</th>
-                                    
-                                    <th></th>
-                                  
+                                    <th scope="col">Carné</th>
+                                    <th scope="col">Fecha de pago</th>
+                                    <th scope="col">Fecha de habilitación</th>
 
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($fallecidos as $item)
+                                @foreach ($socios as $socio)
                                     <tr>
-                                        <td>{{$item->dni}}</td>
-                                        <td>{{$item->carne}}</td>
-                                        <td>{{$item->nombre.' '.$item->apellido_paterno.' '.$item->apellido_materno}}</td>
-                                        <td>18/08/24</td>
-                                        <td><a href="{{url($item->acta)}}" class="btn btn-outline-secondary btn-sm">Ver acta</a> </td>
-                                        <td><a href="{{url($item->certificado)}}" class="btn btn-outline-secondary btn-sm">Ver certificado</a> </td>
-                                       
-                                        <td><button class="btn btn-primary ">Entregar Beneficios</button></td>
-                                    </tr>
-                                @endforeach
+                                        <td>{{ $socio->Dni }}</td>
+                                        <td>{{ $socio->nombre . ' ' . $socio->apellido_paterno . ' ' . $socio->apellido_materno }}
+                                        </td>
+                                        <td>{{ $socio->carne }}</td>
+                                        <td>{{ $socio->fecha_pago}}</td>
+                                        <td>{{$socio->fecha_habilitacion}}</td>
                              
+                                    </tr>
 
-
+                               
+                                @endforeach
 
                             </tbody>
                         </table>
-
-
-
                     </div>
-
-
-
 
                 </div>
             </div>
         </div>
     </div>
+    
 
 @section('js')
+
+
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
@@ -84,11 +79,11 @@
         if (!$.fn.DataTable.isDataTable('#data')) {
             $('#data').dataTable({
                 "language": {
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
+                    "lengthMenu": "Mostrar MENU registros por página",
                     "zeroRecords": "Nada encontrado - disculpa",
-                    "info": "Mostrando la página _PAGE_ de _PAGES_",
+                    "info": "Mostrando la página PAGE de PAGES",
                     "infoEmpty": "No records available",
-                    "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                    "infoFiltered": "(filtrado de MAX registros totales)",
                     "search": "Buscar",
                     "paginate": {
                         'next': 'Siguiente',
@@ -98,5 +93,6 @@
             });
         }
     </script>
+
 @endsection
 @endsection

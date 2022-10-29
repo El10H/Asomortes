@@ -32,34 +32,34 @@ class BeneficiaryController extends Controller
     }
 
 
-    public function form(partner $partner)
+    public function formulario(partner $partner)
     {
         $now = Carbon::now();
         return view('beneficiary.form', ['partner' => $partner, 'now' => $now]);
     }
 
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'nombres_apellidos' => ['required'],
             'dni' => ['required', 'numeric', 'min:8'],
             'celular' => ['required', 'numeric', 'min:9'],
             'parentesco' => ['required'],
-            'email' => ['required', 'email', 'unique:partners']
+            'email' => ['required', 'email']
         ]);
-
-
 
         beneficiary::create([
             'partner_id' => $request->id_partner,
-            'nombres_apellidos' => $request->nombre,
+            'nombres_apellidos' => $request->nombres_apellidos,
             'dni' => $request->dni,
             'celular' => $request->celular,
             'email' => $request->email,
             'parentesco'=>$request->parentesco,
             'fecha_de_ingreso' => $request->fecha_de_ingreso
         ]);
+
+
         return redirect('/beneficiariesIndex');
     }
 
@@ -95,7 +95,7 @@ class BeneficiaryController extends Controller
         $beneficiaries->save();
 
         //return back()->with('status','beneficiario actualizado correctamente');
-        return redirect('/beneficiariesIndex');
+        return redirect('/beneficiaries');
     }
 
     //Método para exportar PDF

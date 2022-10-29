@@ -11,9 +11,23 @@
 |
 */
 
+use App\Http\Controllers\reportesController;
+
 Route::get('/', function () {
     return view('home');
 });
+
+
+//Rutas de reportes
+Route::Resource('reportes','reportesController')->only(['index']);
+Route::get('filtrarMes','reportesController@filtrarMes')->name('filtrarMes');
+Route::get('filtrarFecha','reportesController@filtrarFecha')->name('filtrarFecha');
+Route::get('detallesFechasProductos','reportesController@detallesFechasProductos')->name('detallesFechasProductos');
+Route::get('detallesFechasServicios','reportesController@detallesFechasServicios')->name('detallesFechasServicios');
+Route::get('detallesMesAñoProductos','reportesController@detallesMesAñoProductos')->name('detallesMesAñoProductos');
+Route::get('detallesMesAñoServicios','reportesController@detallesMesAñoServicios')->name('detallesMesAñoServicios');
+Route::get('detalleFechaPagos','reportesController@detalleFechaPagos')->name('detalleFechaPagos');
+Route::get('detallesMesAñoPagos','reportesController@detallesMesAñoPagos')->name('detallesMesAñoPagos');
 
 //Rutas de socio
 Route::Resource('partners','PartnerController')->only(['index', 'destroy', 'store', 'edit', 'update']);
@@ -39,37 +53,39 @@ Route::get('deuda12','PartnerController@deuda12')->name('deuda12');
 Route::get('deuda2','PartnerController@deuda2')->name('deuda2');
 Route::get('socioRetirado{id}','PartnerController@socioRetirado')->name('socioRetirado');
 Route::get('vistaSocioRetirado','PartnerController@listaSociosRetirados')->name('vistaSocioRetirado');
+Route::get('vistaSocioSancionado','PartnerController@listaSociosSancionados')->name('vistaSociosSancionados');
+Route::get('socioSancionadoPdf','PartnerController@listaSociosSancionados_Pdf')->name('listaSociosSancionados_Pdf');
 
 //Ruta de panel administrativo
 Route::get('panel','panelController@index')->name('panel');
+
 //Ruta directivos
 Route::get('vistaExecutive','PartnerController@vistaDirectivo')->name('vistaDirectivo');
+Route::get('vistaExecutivePdf','PartnerController@directivosPdf')->name('directivosPdf');
+
 
 //Rutas de socio fallecido
-Route::post('socioFallecido','PartnerDeceasedController@guardar')->name('socio.fallecido');
-Route::get('listadoFallecidos','PartnerDeceasedController@index')->name('lista.fallecidos');
+Route::Resource('socioFallecidos','PartnerDeceasedController')->only(['index', 'store']);
+Route::get('sociosFallecidosPdf','PartnerDeceasedController@pdf') ->name('sociosFallecidos_pdf');
+
 
 //Rutas de beneficiario
-Route::get('beneficiariesIndex','BeneficiaryController@index')->name('beneficiaries.index');
-Route::get('beneficiaries{partner}','BeneficiaryController@form')->name('beneficiaries.form');
-Route::post('beneficiaries','BeneficiaryController@create')->name('beneficiaries.create');
-Route::delete('beneficiariesIndex{id}','BeneficiaryController@destroy')->name('beneficiary.destroy');
+Route::Resource('beneficiaries','BeneficiaryController')->only(['index','store','destroy','update']);
+Route::get('beneficiariesFormulario{partner}','BeneficiaryController@formulario')->name('beneficiaries.formulario'); //este es el form de crear
 Route::get('BeneficiariesActualizar{beneficiary}/{partnerId}','BeneficiaryController@edit')->name('beneficiaries.edit');
-Route::post('beneficiariesActualizar{id}','BeneficiaryController@update')->name('beneficiaries.update');
-Route::get('beneficiaries','BeneficiaryController@list')->name('beneficiaries.list');
+Route::get('beneficiariesPdf','BeneficiaryController@list')->name('beneficiaries.list');
 
 
 //Rutas de pagos
-//Route::get('/payment','PaymentController@Index')->name('payment.index');
-//Route::post('payment','PaymentController@create')->name('payment.create');
+Route::Resource('payments','PaymentController')->only(['index','store']);
 Route::get('/buscador','PaymentController@buscador')->name('buscador.payment');
 Route::get('/boleta','PaymentController@boleta')->name('boleta.payment');
 Route::get('/reportePagos{id}','PaymentController@reportePagos')->name('reportePagos');
-Route::get('/paymentNuevo','PaymentController@nuevoIndex')->middleware('can:payment.indexNuevo')->name('payment.indexNuevo');
+//Route::get('/paymentNuevo','PaymentController@nuevoIndex')->middleware('can:payment.indexNuevo')->name('payment.indexNuevo');
 Route::get('/datosSocio{dni}','PaymentController@datosSocio')->name('datosSocio');
-Route::post('/paymentguardar','PaymentController@guardar')->name('pagosguardar');
 Route::get('/listaPayment','PaymentController@listaPagos')->name('listaPagos');
 Route::get('/detallePagos{id}','PaymentController@detallePagos')->name('detallePagos');
+
 
 //Rutas de productos (ELIO)
 Route::Resource('products','ProductController')->only(['index', 'destroy', 'store', 'update']); //index, destroy. store, update

@@ -106,7 +106,7 @@
 
                                         <td>
                                             <form
-                                                action="{{ route('beneficiary.destroy', $beneficiary->beneficiary_id) }}"
+                                                action="{{ route('beneficiaries.destroy', $beneficiary->beneficiary_id) }}"
                                                 method="POST">
                                                 @method('DELETE')
                                                 @csrf
@@ -116,7 +116,7 @@
                                                     <i class="far fa-trash-alt"></i>
                                                 </button>
 
-                                                <a href="{{ route('beneficiaries.form', $beneficiary->id_partner) }}"
+                                                <a href="{{ route('beneficiaries.formulario', $beneficiary->id_partner) }}"
                                                     class="btn btn-outline-primary"><i class="fas fa-user-plus"></i></a>
 
 
