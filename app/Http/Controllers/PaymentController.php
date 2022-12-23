@@ -17,6 +17,10 @@ use function PHPUnit\Framework\isNull;
 
 class PaymentController extends Controller
 {
+    public function __construct(){
+        $this->middleware('can:payments')->only('index', 'store');
+    }
+
     public function index()
     {
         return view('payment.index');

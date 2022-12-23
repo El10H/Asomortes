@@ -139,15 +139,25 @@
                         <thead>
                             <tr>
                                 <th>Código</th>
-                                <th>Beneficiario</th>
+                                <th>Socio fallecido</th>
+                                <th>Tipo de beneficio</th>
                                 <th>Estado</th>
-
                             </tr>
                         </thead>
                         <tbody>
-
+                            @foreach ($ultimasEntregas as $item)
+                                <tr>
+                                    <td>{{$item->id}}</td>
+                                    <td>{{$item->nombre}} {{$item->apellido_paterno}} {{$item->apellido_materno}}</td>
+                                    <td>{{$item->tipo_beneficio}}</td>
+                                    <td>{{$item->estado}}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{{ route('verEntregas') }}" class="uppercase">Ver Más</a>
                 </div>
             </div>
 
@@ -197,6 +207,10 @@
 
                         </tbody>
                     </table>
+                    
+                </div>
+                <div class="card-footer text-center">
+                    <a href="javascript:void(0)" class="uppercase">Ver Más</a>
                 </div>
             </div>
         </div>
@@ -292,7 +306,7 @@
                 </div>
 
                 <div class="card-footer text-center">
-                    <a href="javascript:void(0)" class="uppercase">Ver Más</a>
+                    <a href="{{ route('listaPagos') }}" class="uppercase">Ver Más</a>
                 </div>
 
             </div>
@@ -325,7 +339,7 @@
                 </div>
 
                 <div class="card-footer text-center">
-                    <a href="javascript:void(0)" class="uppercase">Ver Más</a>
+                    <a href="{{ route('partners.index') }}" class="uppercase">Ver Más</a>
                 </div>
 
             </div>

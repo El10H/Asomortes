@@ -35,15 +35,20 @@
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-body">
+                                    @can('partners')
+                                        <button class="btn text-white btn-primary" type="button" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal">
+                                            Agregar Socio
+                                        </button>
+                                    @endcan
 
-                                    <button class="btn text-white btn-primary" type="button" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal">
-                                        Agregar Socio
-                                    </button>
                                     <a href="{{ route('partners.pdf') }}" target="_blank" class="btn btn-success">Exportar
                                         PDF</a>
-                                    <a href="{{ route('socioFallecidos.index') }}" class="btn btn-danger">Socios
-                                        Fallecidos</a>
+
+                                    @can('sociosFallecidos_pdf')
+                                        <a href="{{ route('socioFallecidos.index') }}" class="btn btn-danger">Socios
+                                            Fallecidos</a>
+                                    @endcan
                                 </div>
                             </div>
                         </div>
@@ -137,12 +142,17 @@
                                             <form action="{{ route('partners.destroy', $partner) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
-                                                <button type="submit" class="btn btn-outline-danger"
-                                                    onclick="return confirm('¿Desea eliminar?')">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </button>
-                                                <a href="{{ route('partners.edit', $partner->id) }}"
-                                                    class="btn btn-outline-success"><i class="far fa-edit"></i></a>
+                                                @can('partners')
+                                                    <button type="submit" class="btn btn-outline-danger"
+                                                        onclick="return confirm('¿Desea eliminar?')">
+                                                        <i class="far fa-trash-alt"></i>
+                                                    </button>
+                                                @endcan
+                                                
+                                                @can('partners')
+                                                    <a href="{{ route('partners.edit', $partner->id) }}"
+                                                        class="btn btn-outline-success"><i class="far fa-edit"></i></a>
+                                                @endcan
 
                                                 <a href="{{ route('partners.pdf_resumen', ['id' => $partner->id]) }} "
                                                     target="_blank" class="btn btn-outline-primary">

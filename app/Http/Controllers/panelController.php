@@ -15,6 +15,7 @@ use App\product;
 use App\retired;
 use App\service;
 use App\sanctioned;
+use App\benefit_delivery;
 use Illuminate\Auth\Events\Validated;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
@@ -117,6 +118,12 @@ class panelController extends Controller
         ->join('partners','partners.id','=','payments.partner_id')
         ->take(5)
         ->get();
+
+        $ultimasEntregas = Benefit_delivery::orderBy('benefit_deliveries.created_at', 'DESC')
+        ->select('benefit_deliveries.id','benefit_deliveries.id_partners', 'benefit_deliveries.tipo_beneficio', 'benefit_deliveries.estado','partners.nombre','partners.apellido_paterno', 'partners.apellido_materno')
+        ->join('partners','partners.id','=','benefit_deliveries.id_partners')
+        ->take(5)
+        ->get();
         
         //últimos socios registrados
 
@@ -135,6 +142,7 @@ class panelController extends Controller
             'sociosDeuda2' => $sociosDeuda2 , 
             'fallecidos' => $fallecidosContar , 
             'ultimosPagos' => $ultimosPagos ,
+            'ultimasEntregas' => $ultimasEntregas,
             'ultimosSocios' =>$ultimosSociosRegistrados,
             'sociosRetirados' => $sociosRetirados,
             'sociosSancionados' => $sociosSancionados

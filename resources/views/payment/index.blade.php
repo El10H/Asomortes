@@ -49,7 +49,7 @@
                         @if (isset($mensaje))
                             <div class="alert alert-success" role="alert" id="mensajeBoleta">
                                 <h4 class="alert-heading">Pago registrado correctamente</h4>
-                                <p> El reporte de pagos se actualizo y puede descargar la boleta</p>
+                                <p> El reporte de pagos se actualizó y puede descargar la boleta</p>
                                 <hr>
                                 <a href="{{ route('boleta.payment') }}" target="_blank" class="btn btn-success"
                                     role="button">Descargar Boleta de pago</a>

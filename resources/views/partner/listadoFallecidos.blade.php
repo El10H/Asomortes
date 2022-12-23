@@ -53,8 +53,10 @@
                                         <td>18/08/24</td>
                                         <td><a href="{{url($item->acta)}}" class="btn btn-outline-secondary btn-sm">Ver acta</a> </td>
                                         <td><a href="{{url($item->certificado)}}" class="btn btn-outline-secondary btn-sm">Ver certificado</a> </td>
-                                       
-                                        <td><button class="btn btn-primary ">Entregar Beneficios</button></td>
+                                        
+                                        @can('entrega')
+                                            <td><a href="{{ route('entrega') }}" class="btn btn-primary ">Entregar beneficio</a></td>
+                                        @endcan
                                     </tr>
                                 @endforeach
                              

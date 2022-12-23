@@ -292,7 +292,7 @@ class OptionProductController extends Controller
             'estado' => 'Anulada',
         ]);
 
-        return redirect('/option_products'); 
+        return view('option_product.verCompras');
     }
 
 
@@ -317,5 +317,26 @@ class OptionProductController extends Controller
 
         $pdf = \PDF::loadView('option_product.buys_product_Pdf', $data);
         return $pdf->setPaper('a4', 'landscape')->stream();
+    }
+
+    public function viewBuysProducts(){
+
+        $products=product::all();
+        $providers=provider::all();
+        $sku_option_products=option_product::all();
+        $option_products=option_product::all();
+        $buys_products=buys_product::all();
+       
+        $attribute_products=attribute_product::all();
+        $attribute_option_products=attribute_product::all();
+
+
+        $sku_option_products=option_product::distinct('sku')->select('sku', 'id_vouchers')->get();
+        $attribute_option_products=option_product::distinct('id_attribute_products')->select('id_attribute_products')->get();
+        
+        return view('option_product.verCompras', ['attribute_products'=>$attribute_products, 'attribute_option_products'=>$attribute_option_products, 'option_products'=>$option_products, 'buys_products'=>$buys_products,
+            'sku_option_products'=>$sku_option_products, 'products'=>$products, 'providers'=>$providers]); 
+
+        return view('option_product.verCompras');
     }
 }

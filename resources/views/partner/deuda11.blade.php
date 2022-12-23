@@ -87,21 +87,21 @@
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script>
         if (!$.fn.DataTable.isDataTable('#data')) {
-            $('#data').dataTable({
-                "language": {
-                    "lengthMenu": "Mostrar MENU registros por página",
-                    "zeroRecords": "Nada encontrado - disculpa",
-                    "info": "Mostrando la página PAGE de PAGES",
-                    "infoEmpty": "No records available",
-                    "infoFiltered": "(filtrado de MAX registros totales)",
-                    "search": "Buscar",
-                    "paginate": {
-                        'next': 'Siguiente',
-                        'previous': 'anterior'
+                $('#data').dataTable({
+                    "language": {
+                        "lengthMenu": "Mostrar _MENU_ registros por página",
+                        "zeroRecords": "Nada encontrado - disculpa",
+                        "info": "Mostrando la página _PAGE_ de _PAGES_",
+                        "infoEmpty": "No records available",
+                        "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                        "search": "Buscar",
+                        "paginate": {
+                            'next': 'Siguiente',
+                            'previous': 'anterior'
+                        }
                     }
-                }
-            });
-        }
+                });
+            }
     </script>
 
 @endsection

@@ -65,12 +65,13 @@
                                                 <td>{{$item->fecha_fin}}</td>
                                             @endif
                                             
-                                       
-                                        <td>
-                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                Quitar Cargo
-                                              </button>
-                                        </td>
+                                        @can('asignar.directivo')
+                                            <td>
+                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                    Quitar Cargo
+                                                </button>
+                                            </td>
+                                        @endcan
                                     </tr>
 
                                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

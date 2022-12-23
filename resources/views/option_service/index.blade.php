@@ -76,10 +76,12 @@
                                             </button>
                                         @endcan
 
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                        <a href="{{ route('vercompras_servicios') }}" class="btn btn-success">Ver Compras</a>
+
+                                        <!--<button type="button" class="btn btn-success" data-bs-toggle="modal"
                                             data-bs-target="#verComprasServicio">
                                             Ver Compras
-                                        </button>
+                                        </button>-->
 
                                         @can('recepcionEntrega')
                                             <button type="button" class="btn btn-success" data-bs-toggle="modal"

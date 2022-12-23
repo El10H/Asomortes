@@ -44,15 +44,15 @@
 
                     @if (session('status'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            Se asigno el cargo de forma correcta!
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            Se asignó el cargo de forma correcta.
+                            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
 
                     @if (session('fallecido'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            Se adeclaro a {{ $partner->nombre . ' ' . $partner->apellido_materno }} como fallecido.
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            Se adeclaró a {{ $partner->nombre . ' ' . $partner->apellido_materno }} como fallecido.
+                            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
 
@@ -63,10 +63,12 @@
                                 <div>
                                     <!-- Modal para asiganar Directivo -->
                                     <div>
-                                        <button type="button" class="btn btn-success mr-2" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal">
-                                            Asignar Cargo
-                                        </button>
+                                        @can('asignar.directivo')
+                                            <button type="button" class="btn btn-success mr-2" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal">
+                                                Asignar Cargo
+                                            </button>
+                                        @endcan
     
                                         <!-- Modal -->
                                         <div class="modal fade" id="exampleModal" tabindex="-1"

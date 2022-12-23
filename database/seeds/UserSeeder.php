@@ -32,6 +32,6 @@ class UserSeeder extends Seeder
         ])->assignRole('Directivo');
 
         
-        factory(App\User::class,9)->create();
+        factory(App\User::class,2)->create();
     }
 }

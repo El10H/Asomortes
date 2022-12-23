@@ -174,7 +174,7 @@ class OptionServiceController extends Controller
             'estado' => 'Anulada',
         ]);
 
-        return redirect('/option_services'); 
+        return view('option_service.verCompras');
     }
 
     public function buysservicePdf(){
@@ -229,5 +229,27 @@ class OptionServiceController extends Controller
         }
 
         return redirect('/option_services'); 
+    }
+
+
+
+    public function viewBuysServices(){
+
+        $now=Carbon::now();
+
+        $services=service::all();
+        $providers=provider::all();
+        $option_services=option_service::all();
+        $buys_services=buys_service::all();
+        $benefit_deliveries=benefit_delivery::all();
+        $benefit_services=benefit_service::all();
+
+
+
+            
+            return view('option_service.verCompras', ['option_services'=>$option_services, 'services'=>$services, 'buys_services'=>$buys_services, 'providers'=>$providers, 'benefit_deliveries'=>$benefit_deliveries, '$benefit_services'=>$benefit_services], ['now' => $now]);
+
+
+        return view('option_service.verCompras');
     }
 }

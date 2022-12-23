@@ -19,16 +19,18 @@
                         Pagos realizados
                     </div>
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="card">
-                                <div class="card-body">
+                    @can('payment')
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-body">
 
-                                    <a href="{{ route('payments.index') }}" class="btn btn-success">Registrar Pago</a>
+                                        <a href="{{ route('payments.index') }}" class="btn btn-success">Registrar Pago</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endcan
 
 
 

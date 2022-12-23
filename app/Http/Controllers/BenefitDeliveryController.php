@@ -286,4 +286,39 @@ class BenefitDeliveryController extends Controller
         
     }
 
+    public function pdf(){
+        $benefit_deliveries = benefit_delivery::latest()->first();
+        //return $benefit_deliveries;
+        //$partners = partner::where('id', '=', $benefit_deliveries->id_partners)->get();
+        $partners = partner::findOrFail($benefit_deliveries->id_partners);
+        $beneficiaries = beneficiary::findOrFail($benefit_deliveries->id_beneficiaries);
+        $benefit_products=benefit_product::all();
+        $benefit_services=benefit_service::all();
+        $benefit_cashes=benefit_cash::all();
+        $option_products=option_product::all();
+        $option_services=option_service::all();
+        $sku_option_products=option_product::all();
+        $products = product::all();
+        //$option_products = option_product::findOrFail($benefit_deliveries->id);
+        $attribute_products = attribute_product::all();
+        $data = compact('benefit_deliveries', 'partners', 'beneficiaries', 'benefit_products', 'option_products', 'sku_option_products', 'attribute_products', 'products', 'option_services', 'benefit_services', 'benefit_cashes');
+
+        //return $benefit_products;
+
+        $pdf = \PDF::loadView('entregaBeneficio.pdf', $data);
+        //return $pdf->stream();
+        return $pdf->setPaper('a4', 'vertical')->stream();
+    }
+
+    public function verEntregas(){
+        $ultimasEntregas = Benefit_delivery::orderBy('benefit_deliveries.created_at', 'DESC')
+        ->select('benefit_deliveries.id','benefit_deliveries.id_partners', 'benefit_deliveries.tipo_beneficio', 'benefit_deliveries.estado','partners.nombre','partners.apellido_paterno', 'partners.apellido_materno')
+        ->join('partners','partners.id','=','benefit_deliveries.id_partners')
+        ->take(5)
+        ->get();
+
+        return view('entregaBeneficio/verEntregas', ['ultimasEntregas'=>$ultimasEntregas]);
+        //return redirect('/verEntregas');  
+    }
+
 }

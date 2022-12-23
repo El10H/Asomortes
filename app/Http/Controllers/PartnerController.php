@@ -23,6 +23,10 @@ use Illuminate\Support\Arr;
 
 class PartnerController extends Controller
 {
+    public function __construct(){
+        $this->middleware('can:partners')->only('destroy', 'store', 'update');
+        $this->middleware('can:partners.index')->only('index');
+    }
 
     // Método para listar datos y buscar
     public function index()

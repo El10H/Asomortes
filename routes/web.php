@@ -31,22 +31,22 @@ Route::get('detallesMesAñoPagos','reportesController@detallesMesAñoPagos')->na
 
 //Rutas de socio
 Route::Resource('partners','PartnerController')->only(['index', 'destroy', 'store', 'edit', 'update']);
+Route::get('partnerFile{id}','PartnerController@pdf_resumen')->name('partners.pdf_resumen');
+Route::get('partnerList','PartnerController@pdf')->name('partners.pdf');
+Route::post('/directivosocio','PartnerController@cargoDirectivo')->middleware('can:asignar.directivo')->name('asignar.directivo');
+//Route::get('vistaExecutive','PartnerController@vistaDirectivo')->middleware('can:vistaDirectivo')->name('vistaDirectivo');
+Route::get('updateExecutive{id}','PartnerController@quitarCargo')->middleware('can:asignar.directivo')->name('quitarCargo');
+
+Route::get('resumenPartner','PartnerController@resumenSocio')->name('resumenSocio');
+Route::get('resumenDatos{nombre}','PartnerController@resumenDatos')->middleware('can:resumenSocio')->name('resumenDatos');
 //Route::get('partners','PartnerController@index')->name('partners.index');
 //Route::get('partnersNew','PartnerController@ViewCreate')->name('partners.create');
 //Route::post('partnersNew','PartnerController@create')->name('partners.form');
 //Route::delete('partners{partner}','PartnerController@destroy')->name('partners.destroy');
 //Route::get('partnersUpdate{id}','PartnerController@edit')->name('partners.updateForm');
 //Route::post('partnersUpdate{id}','PartnerController@update')->name('partner.update');
-Route::get('partnerFile{id}','PartnerController@pdf_resumen')->name('partners.pdf_resumen');
-Route::get('partnerList','PartnerController@pdf')->name('partners.pdf');
 //Route::post('/directivosocio','PartnerController@cargoDirectivo')->name('asignar.directivo');
 //Route::get('vistaExecutive','PartnerController@vistaDirectivo')->name('vistaDirectivo');
-Route::post('/directivosocio','PartnerController@cargoDirectivo')->name('asignar.directivo');
-Route::get('vistaExecutive','PartnerController@vistaDirectivo')->name('vistaDirectivo');
-Route::get('updateExecutive{id}','PartnerController@quitarCargo')->name('quitarCargo');
-
-Route::get('resumenPartner','PartnerController@resumenSocio')->name('resumenSocio');
-Route::get('resumenDatos{nombre}','PartnerController@resumenDatos')->name('resumenDatos');
 
 Route::get('deuda11','PartnerController@deuda11')->name('deuda11');
 Route::get('deuda12','PartnerController@deuda12')->name('deuda12');
@@ -57,16 +57,16 @@ Route::get('vistaSocioSancionado','PartnerController@listaSociosSancionados')->n
 Route::get('socioSancionadoPdf','PartnerController@listaSociosSancionados_Pdf')->name('listaSociosSancionados_Pdf');
 
 //Ruta de panel administrativo
-Route::get('panel','panelController@index')->name('panel');
+Route::get('panel','panelController@index')->middleware('can:panel')->name('panel');
 
 //Ruta directivos
-Route::get('vistaExecutive','PartnerController@vistaDirectivo')->name('vistaDirectivo');
+Route::get('vistaExecutive','PartnerController@vistaDirectivo')->middleware('can:vistaDirectivo')->name('vistaDirectivo');
 Route::get('vistaExecutivePdf','PartnerController@directivosPdf')->name('directivosPdf');
 
 
 //Rutas de socio fallecido
 Route::Resource('socioFallecidos','PartnerDeceasedController')->only(['index', 'store']);
-Route::get('sociosFallecidosPdf','PartnerDeceasedController@pdf') ->name('sociosFallecidos_pdf');
+Route::get('sociosFallecidosPdf','PartnerDeceasedController@pdf')->middleware('can:sociosFallecidos_pdf')->name('sociosFallecidos_pdf');
 
 
 //Rutas de beneficiario
@@ -78,13 +78,13 @@ Route::get('beneficiariesPdf','BeneficiaryController@list')->name('beneficiaries
 
 //Rutas de pagos
 Route::Resource('payments','PaymentController')->only(['index','store']);
-Route::get('/buscador','PaymentController@buscador')->name('buscador.payment');
-Route::get('/boleta','PaymentController@boleta')->name('boleta.payment');
-Route::get('/reportePagos{id}','PaymentController@reportePagos')->name('reportePagos');
+Route::get('/buscador','PaymentController@buscador')->middleware('can:payment')->name('buscador.payment');
+Route::get('/boleta','PaymentController@boleta')->middleware('can:payment')->name('boleta.payment');
+Route::get('/reportePagos{id}','PaymentController@reportePagos')->middleware('can:payment')->name('reportePagos');
 //Route::get('/paymentNuevo','PaymentController@nuevoIndex')->middleware('can:payment.indexNuevo')->name('payment.indexNuevo');
-Route::get('/datosSocio{dni}','PaymentController@datosSocio')->name('datosSocio');
-Route::get('/listaPayment','PaymentController@listaPagos')->name('listaPagos');
-Route::get('/detallePagos{id}','PaymentController@detallePagos')->name('detallePagos');
+Route::get('/datosSocio{dni}','PaymentController@datosSocio')->middleware('can:listaPagos')->name('datosSocio');
+Route::get('/listaPayment','PaymentController@listaPagos')->middleware('can:listaPagos')->name('listaPagos');
+Route::get('/detallePagos{id}','PaymentController@detallePagos')->middleware('can:listaPagos')->name('detallePagos');
 
 
 //Rutas de productos (ELIO)
@@ -120,6 +120,7 @@ Route::get('sku', 'OptionProductController@inputSku')->name('sku');
 //buys
 Route::post('buys_productCancel{id}','OptionProductController@cancel')->middleware('can:buys_products.anular')->name('buys_products.anular');
 Route::get('buys_productList','OptionProductController@buysproductPdf')->name('buys_products.pdf');
+Route::get('vercompras_productos','OptionProductController@viewBuysProducts')->name('vercompras_productos');
 
 
 //Rutas de servicios (ELIO)
@@ -142,6 +143,7 @@ Route::get('accederDatosService{id}', 'OptionServiceController@acceder')->name('
 Route::post('buys_serviceCancel{id}','OptionServiceController@cancel')->middleware('can:buys_services.anular')->name('buys_services.anular');
 Route::get('buys_serviceList','OptionServiceController@buysservicePdf')->name('buys_services.pdf');
 Route::post('receptionDelivery','OptionServiceController@receptionDelivery')->middleware('can:recepcionEntrega')->name('recepcionEntrega');
+Route::get('vercompras_servicios','OptionServiceController@viewBuysServices')->name('vercompras_servicios');
 
 
 //Rutas de proveedores (ELIO)
@@ -159,6 +161,8 @@ Route::get('busadorEntrega','BenefitDeliveryController@buscadorEntrega')->middle
 Route::get('llenarDatosEntrega{carne}','BenefitDeliveryController@llenarDatosEntrega')->middleware('can:entrega')->name('llenarDatosEntrega');
 Route::get('serviciosProductos','BenefitDeliveryController@serviciosProd')->middleware('can:entrega')->name('serviciosProd');
 Route::post('guardarEntrega','BenefitDeliveryController@guardarEntrega')->middleware('can:entrega')->name('guardarEntrega');
+Route::get('entregaPdf','BenefitDeliveryController@pdf')->middleware('can:entrega')->name('entrega.pdf');
+Route::get('verEntregas','BenefitDeliveryController@verEntregas')->name('verEntregas'); //partnerFile{id}
 
 //Rutas de datosConfig
 Route::get('datosConfig','datosConfigController@index')->name('datosConfig');

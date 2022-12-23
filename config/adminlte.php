@@ -279,11 +279,13 @@ return [
             'text' => 'Panel de Socios',
             'url'  => '/partners',
             'icon' => 'fas fa-fw fa-user',
+            'can' => 'partners.index'
         ],
         [
             'text' => 'Resumen Socios',
             'url'  => '/resumenPartner',
             'icon' => 'fas fa-fw fa-user',
+            'can' => 'resumenSocio'
         ],
         [
             'text' => 'Panel de Beneficiarios',
@@ -300,12 +302,14 @@ return [
                     'text' => 'Registrar pago',
                     'icon_color' => 'blue',
                     'url'  => '/payments',
+                    'can' => 'payments'
                 ],
 
                 [
                     'text' => 'Ver pagos',
                     'icon_color' => 'blue',
                     'url'  => '/listaPayment',
+                    'can' => 'listaPagos'
                 ],
             ],
         ],
@@ -335,6 +339,13 @@ return [
                     'url'  => 'option_products',
                     'can' => 'option_products.index'
                 ],
+
+                [
+                    'text' => 'Compras',
+                    'icon_color' => 'blue',
+                    'url'  => 'vercompras_productos',
+                    //'can' => 'option_products.index'
+                ],
             ],
             'can' => 'products.index'
         ],
@@ -353,6 +364,13 @@ return [
                     'text' => 'Opciones de servicios',
                     'icon_color' => 'blue',
                     'url'  => 'option_services',
+                ],
+
+                [
+                    'text' => 'Compras',
+                    'icon_color' => 'blue',
+                    'url'  => 'vercompras_servicios',
+                    //'can' => 'option_products.index'
                 ],
             ],
             'can' => 'services.index'
