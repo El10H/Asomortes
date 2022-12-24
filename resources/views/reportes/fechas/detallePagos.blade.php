@@ -215,12 +215,10 @@
         });
 
         function eliminar() {
-            $('#probando').remove();
-            $('#probando').remove();
-            $('#probando').remove();
-            $('#probando').remove();
-            $('#probando').remove();
-            $('#probando').remove();
+            for (var i=0 ; i<100 ; i++){
+                $('#probando').remove();
+            }
+            
         }
     </script>
 @endsection
