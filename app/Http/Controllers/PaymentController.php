@@ -504,6 +504,7 @@ class PaymentController extends Controller
         return view('payment.index', ['mensaje' => 'Pago registrado correctamente']);
     }
 
+    //Boleta de laura 
     public function boleta()
     {
         //Boleta a mostrar
