@@ -314,7 +314,6 @@ class BenefitDeliveryController extends Controller
         $ultimasEntregas = Benefit_delivery::orderBy('benefit_deliveries.created_at', 'DESC')
         ->select('benefit_deliveries.id','benefit_deliveries.id_partners', 'benefit_deliveries.tipo_beneficio', 'benefit_deliveries.estado','partners.nombre','partners.apellido_paterno', 'partners.apellido_materno')
         ->join('partners','partners.id','=','benefit_deliveries.id_partners')
-        ->take(5)
         ->get();
 
         return view('entregaBeneficio/verEntregas', ['ultimasEntregas'=>$ultimasEntregas]);

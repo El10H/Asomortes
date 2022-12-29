@@ -174,7 +174,8 @@ class OptionServiceController extends Controller
             'estado' => 'Anulada',
         ]);
 
-        return view('option_service.verCompras');
+        //return view('option_service.verCompras');
+        return back();
     }
 
     public function buysservicePdf(){

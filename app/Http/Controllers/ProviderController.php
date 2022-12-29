@@ -73,7 +73,9 @@ class ProviderController extends Controller
             'email' => $request->input('email'),
             
         ]);
+ 
+        //return back()->with('update',"Se actualizó el proveedor '$request->razon_social' correctamente.");
 
-        return back()->with('update',"Se actualizó el proveedor '$request->razon_social' correctamente.");
+        return back();
     }
 }

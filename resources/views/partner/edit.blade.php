@@ -13,12 +13,10 @@
         color: red;
         font-size: 0.8em;
     }
-
-    /*input.error {
-    border: 1px dashed red;
-    font-weight: 300;
-    color: red;
-}*/
+    .rojito {
+        color: red;
+        font-weight: 500;
+    }
 </style>
 
 
@@ -199,126 +197,147 @@
 
 
                             <div class="col-12 ">
-                                <label for="inputEmail4" class="form-label">Nombre</label>
+                                <label for="inputEmail4" class="form-label">Nombre <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name="nombre" id="nombre2"
                                     value='{{ $partner->nombre }}'>
 
                             </div>
 
                             <div class="col-md-6 mt-2">
-                                <label for="inputPassword4" class="form-label">Apellido Paterno</label>
+                                <label for="inputPassword4" class="form-label">Apellido Paterno <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name="apellido_paterno"
                                     value='{{ $partner->apellido_paterno }}'>
                             </div>
 
                             <div class="col-md-6 mt-2">
-                                <label for="inputPassword4" class="form-label">Apellido Materno </label>
+                                <label for="inputPassword4" class="form-label">Apellido Materno <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='apellido_materno'
                                     value='{{ $partner->apellido_materno }}'>
                             </div>
 
 
                             <div class="col-6 mt-2">
-                                <label for="inputEmail4" class="form-label">Carné</label>
+                                <label for="inputEmail4" class="form-label">Carné <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='carne' value='{{ $partner->carne }}'>
                             </div>
 
                             <div class="col-6 mt-2">
-                                <label for="inputEmail4" class="form-label">Fecha de ingreso</label>
+                                <label for="inputEmail4" class="form-label">Fecha de ingreso <span
+                                    class="rojito">(*)</span></label>
                                 <input type="datetime-local" class="form-control" name='fecha_de_ingreso'
                                     value='{{ date('Y-m-d\TH:i', strtotime($partner->fecha_de_ingreso)) }}'>
                             </div>
 
                             <div class="col-12 mt-2">
-                                <label for="inputEmail4" class="form-label">Fecha de nacimiento</label>
+                                <label for="inputEmail4" class="form-label">Fecha de nacimiento <span
+                                    class="rojito">(*)</span></label>
                                 <input type="date" class="form-control" name='fecha_de_nac'
                                     value='{{ date('Y-m-d', strtotime($partner->fecha_de_nac)) }}'>
                             </div>
 
                             <div class="col-4 mt-2">
-                                <label for="inputEmail4" class="form-label">Departamento de Nacimiento</label>
+                                <label for="inputEmail4" class="form-label">Departamento de Nacimiento <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='dpto_nac'
                                     value='{{ $partner->dpto_nac }}'>
                             </div>
 
                             <div class="col-4 mt-2">
-                                <label for="inputEmail4" class="form-label">Provincia de Nacimiento</label>
+                                <label for="inputEmail4" class="form-label">Provincia de Nacimiento <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='provincia_nac'
                                     value='{{ $partner->provincia_nac }}'>
                             </div>
 
                             <div class="col-4 mt-2">
-                                <label for="inputEmail4" class="form-label">Distrito de Nacimiento</label>
+                                <label for="inputEmail4" class="form-label">Distrito de Nacimiento <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='distrito_nac'
                                     value='{{ $partner->distrito_nac }}'>
                             </div>
 
                             <div class="col-4 mt-2">
-                                <label for="inputEmail4" class="form-label">Profesión</label>
+                                <label for="inputEmail4" class="form-label">Profesión <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='profesion'
                                     value='{{ $partner->profesion }}'>
                             </div>
 
                             <div class="col-4 mt-2">
-                                <label for="inputEmail4" class="form-label">Grado de Instrucción</label>
+                                <label for="inputEmail4" class="form-label">Grado de Instrucción <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='grado_de_instruccion'
                                     value='{{ $partner->grado_de_instruccion }}'>
                             </div>
 
                             <div class="col-4 mt-2">
-                                <label for="inputEmail4" class="form-label">Actividad</label>
+                                <label for="inputEmail4" class="form-label">Actividad <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='actividad'
                                     value='{{ $partner->actividad }}'>
                             </div>
 
                             <div class="col-6 mt-2">
-                                <label for="inputEmail4" class="form-label">Estado Civil</label>
+                                <label for="inputEmail4" class="form-label">Estado Civil <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='estado_civil'
                                     value='{{ $partner->estado_civil }}'>
                             </div>
 
                             <div class="col-6 mt-2">
-                                <label for="inputEmail4" class="form-label">Dni</label>
+                                <label for="inputEmail4" class="form-label">Dni <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='dni' value='{{ $partner->Dni }}'>
                             </div>
 
                             <div class="col-12 mt-2">
-                                <label for="inputEmail4" class="form-label">Domicilio</label>
+                                <label for="inputEmail4" class="form-label">Domicilio <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='domicilio'
                                     value='{{ $partner->domicilio }}'>
                             </div>
 
                             <div class="col-4 mt-2">
-                                <label for="inputEmail4" class="form-label">Departamento actual</label>
+                                <label for="inputEmail4" class="form-label">Departamento actual <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='dpto_actual'
                                     value='{{ $partner->dpto_actual }}'>
                             </div>
 
                             <div class="col-4 mt-2">
-                                <label for="inputEmail4" class="form-label">Provincia actual</label>
+                                <label for="inputEmail4" class="form-label">Provincia actual <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='provincia_actual'
                                     value='{{ $partner->provincia_actual }}'>
                             </div>
 
                             <div class="col-4 mt-2">
-                                <label for="inputEmail4" class="form-label">Distrito actual</label>
+                                <label for="inputEmail4" class="form-label">Distrito actual <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='distrito_actual'
                                     value='{{ $partner->distrito_actual }}'>
                             </div>
 
                             <div class="col-4 mt-2">
-                                <label for="inputEmail4" class="form-label">Celular</label>
+                                <label for="inputEmail4" class="form-label">Celular <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='celular' value='{{ $partner->celular }}'>
                             </div>
 
                             <div class="col-4 mt-2">
-                                <label for="inputEmail4" class="form-label">Teléfono</label>
+                                <label for="inputEmail4" class="form-label">Teléfono <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='telefono'
                                     value='{{ $partner->teléfono }}'>
                             </div>
 
                             <div class="col-4 mt-2">
-                                <label for="inputEmail4" class="form-label">Email</label>
+                                <label for="inputEmail4" class="form-label">Email <span
+                                    class="rojito">(*)</span></label>
                                 <input type="email" class="form-control" name='email' value='{{ $partner->email }}'>
                             </div>
 

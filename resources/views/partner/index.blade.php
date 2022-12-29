@@ -15,11 +15,10 @@
         font-size: 0.8em;
     }
 
-    /*input.error {
-    border: 1px dashed red;
-    font-weight: 300;
-    color: red;
-}*/
+    .rojito {
+        color: red;
+        font-weight: 500;
+    }
 </style>
 
 @section('content')
@@ -174,8 +173,8 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Agregar Socio</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span></button>
                                 </div>
                                 <div class="modal-body">
                                     @if ($errors->any())
@@ -190,19 +189,22 @@
                                         @csrf
                                         <div class="col-12 d-flex mt-3">
                                             <div class="col-4">
-                                                <label for="inputEmail4" class="form-label">Nombre</label>
+                                                <label for="inputEmail4" class="form-label">Nombre <span
+                                                    class="rojito">(*)</span></label>
                                                 <input type="text" class="form-control" name="nombre" id="nombre"
                                                     value='{{ old('nombre') }}'>
 
                                             </div>
                                             <div class="col-4">
-                                                <label for="inputEmail4" class="form-label">Apellido Paterno</label>
+                                                <label for="inputEmail4" class="form-label">Apellido Paterno <span
+                                                    class="rojito">(*)</span></label>
                                                 <input type="text" class="form-control" name="apellido_paterno"
                                                     id="apellido_paterno" value='{{ old('apellido_paterno') }}'>
                                             </div>
 
                                             <div class="col-4">
-                                                <label for="inputPassword4" class="form-label">Apellido Materno </label>
+                                                <label for="inputPassword4" class="form-label">Apellido Materno <span
+                                                    class="rojito">(*)</span> </label>
                                                 <input type="text" class="form-control" name='apellido_materno'
                                                     id='apellido_materno' value='{{ old('apellido_materno') }}'>
                                             </div>
@@ -210,19 +212,22 @@
 
                                         <div class="col-12 d-flex mt-3">
                                             <div class="col-4">
-                                                <label for="inputEmail4" class="form-label">Carné</label>
+                                                <label for="inputEmail4" class="form-label">Carné <span
+                                                    class="rojito">(*)</span></label>
                                                 <input type="text" class="form-control" name='carne' id="carne"
                                                     value='{{ old('carne') }}'>
                                             </div>
 
                                             <div class="col-4">
-                                                <label for="inputEmail4" class="form-label">Fecha de ingreso</label>
+                                                <label for="inputEmail4" class="form-label">Fecha de ingreso <span
+                                                    class="rojito">(*)</span></label>
                                                 <input type="date" class="form-control" name='fecha_de_ingreso'
                                                     id="fecha_de_ingreso" value="{{ $now->format('Y-m-d') }}">
                                             </div>
 
                                             <div class="col-4">
-                                                <label for="inputEmail4" class="form-label">Fecha de nacimiento</label>
+                                                <label for="inputEmail4" class="form-label">Fecha de nacimiento <span
+                                                    class="rojito">(*)</span></label>
                                                 <input type="date" class="form-control" name='fecha_de_nac'
                                                     id="fecha_de_nac" id="fecha_nac" value="{{ old('fecha_de_nac') }}">
                                             </div>
@@ -231,7 +236,8 @@
                                         <div class="col-12 d-flex mt-3">
                                             <div class="col-4">
                                                 <label for="inputEmail4" class="form-label">Departamento de
-                                                    Nacimiento</label>
+                                                    Nacimiento <span
+                                                    class="rojito">(*)</span></label>
                                                 <select class="custom-select" name="dpto_nac" onchange="cambia2()"
                                                     required="">
                                                     <option value="">Seleccione</option>
@@ -265,7 +271,8 @@
 
                                             <div class="col-4">
                                                 <label for="inputEmail4" class="form-label">Provincia de
-                                                    Nacimiento</label>
+                                                    Nacimiento <span
+                                                    class="rojito">(*)</span></label>
                                                 <select name="provincia_nac" onchange="cambiaDistrito2()" required=""
                                                     class="custom-select">
 
@@ -275,7 +282,8 @@
 
                                             <div class="col-4">
                                                 <label for="inputEmail4" class="form-label">Distrito de
-                                                    Nacimiento</label>
+                                                    Nacimiento <span
+                                                    class="rojito">(*)</span></label>
                                                 <select name="distrito_nac" required=""
                                                     class="custom-select"></select>
 
@@ -287,19 +295,22 @@
 
                                         <div class="col-12 d-flex mt-3">
                                             <div class="col-4">
-                                                <label for="inputEmail4" class="form-label">Profesión</label>
+                                                <label for="inputEmail4" class="form-label">Profesión <span
+                                                    class="rojito">(*)</span></label>
                                                 <input type="text" class="form-control" name='profesion'
                                                     id="profesion" value='{{ old('profesion') }}'>
                                             </div>
 
                                             <div class="col-4">
-                                                <label for="inputEmail4" class="form-label">Grado de Instrucción</label>
+                                                <label for="inputEmail4" class="form-label">Grado de Instrucción <span
+                                                    class="rojito">(*)</span></label>
                                                 <input type="text" class="form-control" name='grado_de_instruccion'
                                                     id="grado_de_instruccion" value='{{ old('grado_de_instruccion') }}'>
                                             </div>
 
                                             <div class="col-4">
-                                                <label for="inputEmail4" class="form-label">Actividad</label>
+                                                <label for="inputEmail4" class="form-label">Actividad <span
+                                                    class="rojito">(*)</span></label>
                                                 <input type="text" class="form-control" name='actividad'
                                                     id="actividad" value='{{ old('actividad') }}'>
                                             </div>
@@ -308,7 +319,8 @@
 
                                         <div class="col-12 d-flex mt-3">
                                             <div class="col-4">
-                                                <label for="inputEmail4" class="form-label">Estado Civil</label>
+                                                <label for="inputEmail4" class="form-label">Estado Civil <span
+                                                    class="rojito">(*)</span></label>
                                                 <select class="custom-select" name='estado_civil'>
                                                     <option selected>Seleccione</option>
                                                     <option value="soltero">Soltero</option>
@@ -319,13 +331,15 @@
                                             </div>
 
                                             <div class="col-4">
-                                                <label for="inputEmail4" class="form-label">Dni</label>
+                                                <label for="inputEmail4" class="form-label">Dni <span
+                                                    class="rojito">(*)</span></label>
                                                 <input type="text" class="form-control" name='dni' id="dni"
                                                     value='{{ old('dni') }}'>
                                             </div>
 
                                             <div class="col-4">
-                                                <label for="inputEmail4" class="form-label">Domicilio</label>
+                                                <label for="inputEmail4" class="form-label">Domicilio <span
+                                                    class="rojito">(*)</span></label>
                                                 <input type="text" class="form-control" name='domicilio'
                                                     id="domicilio" value='{{ old('domicilio') }}'>
                                             </div>
@@ -334,7 +348,8 @@
 
                                         <div class="col-12 d-flex mt-3">
                                             <div class="col-4">
-                                                <label for="inputEmail4" class="form-label">Departamento actual</label>
+                                                <label for="inputEmail4" class="form-label">Departamento actual <span
+                                                    class="rojito">(*)</span></label>
                                                 <select class="custom-select" name="dpto_actual" onchange="cambia()"
                                                     required="">
                                                     <option value="">Seleccione</option>
@@ -367,14 +382,16 @@
                                             </div>
 
                                             <div class="col-4">
-                                                <label for="inputEmail4" class="form-label">Provincia actual</label>
+                                                <label for="inputEmail4" class="form-label">Provincia actual <span
+                                                    class="rojito">(*)</span></label>
                                                 <select name="provincia_actual" onchange="cambiaDistrito()"
                                                     required="" class="custom-select"></select>
 
                                             </div>
 
                                             <div class="col-4">
-                                                <label for="inputEmail4" class="form-label">Distrito actual</label>
+                                                <label for="inputEmail4" class="form-label">Distrito actual <span
+                                                    class="rojito">(*)</span> </label>
                                                 <select name="distrito_actual" required=""
                                                     class="custom-select"></select>
 
@@ -383,19 +400,22 @@
 
                                         <div class="col-12 d-flex mt-3">
                                             <div class="col-4">
-                                                <label for="inputEmail4" class="form-label">Celular</label>
+                                                <label for="inputEmail4" class="form-label">Celular <span
+                                                    class="rojito">(*)</span></label>
                                                 <input type="text" class="form-control" name='celular' id="celular"
                                                     value='{{ old('celular') }}'>
                                             </div>
 
                                             <div class="col-4">
-                                                <label for="inputEmail4" class="form-label">Teléfono</label>
+                                                <label for="inputEmail4" class="form-label">Teléfono <span
+                                                    class="rojito">(*)</span></label>
                                                 <input type="text" class="form-control" name='telefono'
                                                     id="telefono" value='{{ old('teléfono') }}'>
                                             </div>
 
                                             <div class="col-4">
-                                                <label for="inputEmail4" class="form-label">Email</label>
+                                                <label for="inputEmail4" class="form-label">Email <span
+                                                    class="rojito">(*)</span></label>
                                                 <input type="email" class="form-control" name='email' id="email"
                                                     value='{{ old('email') }}'>
                                             </div>

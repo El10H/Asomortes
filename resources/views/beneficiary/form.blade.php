@@ -10,9 +10,13 @@
         color: red;
         font-size: 0.8em;
     }
+    .rojito {
+        color: red;
+        font-weight: 500;
+    }
 </style>
 @section('content')
-    <div class="container">
+    <div class="p-4">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
@@ -46,29 +50,34 @@
                             </div>
 
                             <div class="col-12 mt-5">
-                                <label for="" class="form-label">Nombres y Apellidos</label>
+                                <label for="" class="form-label">Nombres y Apellidos <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='nombres_apellidos'
                                     value="{{ old('apellido_paterno') }}">
                             </div>
 
 
                             <div class="col-6 mt-2">
-                                <label for="" class="form-label">Dni</label>
+                                <label for="" class="form-label">Dni <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='dni' value="{{ old('dni') }} ">
                             </div>
 
                             <div class="col-6 mt-2">
-                                <label for="" class="form-label">Celular</label>
+                                <label for="" class="form-label">Celular <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='celular' value="{{ old('celular') }} ">
                             </div>
 
                             <div class="col-6 mt-2">
-                                <label for="" class="form-label">Email</label>
+                                <label for="" class="form-label">Email <span
+                                    class="rojito">(*)</span></label>
                                 <input type="email" class="form-control" name='email' value="{{ old('email') }} ">
                             </div>
 
                             <div class="col-6 mt-2">
-                                <label for="" class="form-label">Parentesco:</label>
+                                <label for="" class="form-label">Parentesco: <span
+                                    class="rojito">(*)</span></label>
                                 <select class="custom-select" name='parentesco'>
                                     <option selected>Seleccione</option>
                                     <option value="hijo">Hijo</option>
@@ -79,7 +88,8 @@
                             </div>
 
                             <div class="col-6 mt-2">
-                                <label for="" class="form-label">Fecha de ingreso: </label>
+                                <label for="" class="form-label">Fecha de ingreso: <span
+                                    class="rojito">(*)</span> </label>
                                 <input type="date" class="form-control" name='fecha_de_ingreso'
                                     value="{{ $now->format('Y-m-d') }}">
                             </div>
