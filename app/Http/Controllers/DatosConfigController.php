@@ -17,7 +17,6 @@ class DatosConfigController extends Controller
    {
        return $request[1];
    
-       
 
        return redirect ('/datosConfig');
    }

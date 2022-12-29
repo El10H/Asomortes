@@ -49,6 +49,7 @@
                                     <th scope="col">T. Articulos</th>
                                     <th scope="col">Descripción</th>  
                                     <th scope="col">Estado</th> 
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>

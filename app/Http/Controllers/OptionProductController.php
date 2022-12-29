@@ -292,7 +292,8 @@ class OptionProductController extends Controller
             'estado' => 'Anulada',
         ]);
 
-        return view('option_product.verCompras');
+        //return view('option_product.verCompras');
+        return back();
     }
 
 
@@ -335,8 +336,9 @@ class OptionProductController extends Controller
         $attribute_option_products=option_product::distinct('id_attribute_products')->select('id_attribute_products')->get();
         
         return view('option_product.verCompras', ['attribute_products'=>$attribute_products, 'attribute_option_products'=>$attribute_option_products, 'option_products'=>$option_products, 'buys_products'=>$buys_products,
-            'sku_option_products'=>$sku_option_products, 'products'=>$products, 'providers'=>$providers]); 
+           'sku_option_products'=>$sku_option_products, 'products'=>$products, 'providers'=>$providers]); 
 
-        return view('option_product.verCompras');
+            //return back();
+        //return view('option_product.verCompras');
     }
 }

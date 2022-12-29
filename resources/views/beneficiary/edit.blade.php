@@ -11,6 +11,10 @@
         color: red;
         font-size: 0.8em;
     }
+    .rojito {
+        color: red;
+        font-weight: 500;
+    }
 </style>
 
 @section('content')
@@ -55,28 +59,33 @@
                             </div>
 
                             <div class="col-12 mt-5">
-                                <label for="inputEmail4" class="form-label">Beneficiario Nombres y Apellidos</label>
+                                <label for="inputEmail4" class="form-label">Beneficiario Nombres y Apellidos <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='nombre' value="{{$beneficiaries->nombres_apellidos}}">
                             </div>
 
 
                             <div class="col-6 mt-2">
-                                <label for="inputEmail4" class="form-label">Dni</label>
+                                <label for="inputEmail4" class="form-label">Dni <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='dni'value="{{$beneficiaries->dni}}">
                             </div>
 
                             <div class="col-6 mt-2">
-                                <label for="" class="form-label">Celular</label>
+                                <label for="" class="form-label">Celular <span
+                                    class="rojito">(*)</span></label>
                                 <input type="text" class="form-control" name='celular' value="{{$beneficiaries->celular}}">
                             </div>
 
                             <div class="col-6 mt-2">
-                                <label for="" class="form-label">Email</label>
+                                <label for="" class="form-label">Email <span
+                                    class="rojito">(*)</span></label>
                                 <input type="email" class="form-control" name='email' value="{{$beneficiaries->email}}" >
                             </div>
 
                             <div class="col-6 mt-2">
-                                <label for="" class="form-label">Parentesco:</label>
+                                <label for="" class="form-label">Parentesco: <span
+                                    class="rojito">(*)</span></label>
                                 <select class="custom-select" name='parentesco'>
                                     <option value="hijo">Hijo</option>
                                     <option value="hermano">Hermano</option>
@@ -86,7 +95,8 @@
                             </div>
 
                             <div class="col-6 mt-2">
-                                <label for="" class="form-label">Fecha de ingreso</label>
+                                <label for="" class="form-label">Fecha de ingreso <span
+                                    class="rojito">(*)</span></label>
                                 <input type="date" class="form-control" name='fecha_de_ingreso' value="{{date('Y-m-d', strtotime($beneficiaries->fecha_de_ingreso))}}">
                             </div>
 
