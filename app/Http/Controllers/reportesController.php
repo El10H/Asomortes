@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\buys_product;
 use App\buys_service;
-use App\Payment;
+use App\payment;
 use App\product;
 use App\provider;
 use App\service;
@@ -27,7 +27,7 @@ class reportesController extends Controller
     {
 
         $datos = array();
-        $pagos = Payment::select(
+        $pagos = payment::select(
             DB::raw('sum(monto_total) as montoTotal')
         )
             ->whereYear('created_at', $request->año)
@@ -59,7 +59,7 @@ class reportesController extends Controller
     public function filtrarFecha(Request $request)
     {
         $datos = array();
-        $pagos = Payment::select(
+        $pagos = payment::select(
             DB::raw('sum(monto_total) as montoTotal')
         )
             ->where('fecha_de_pago', $request->fecha)
@@ -103,7 +103,7 @@ class reportesController extends Controller
     }
 
     public function detalleFechaPagos(Request $request){
-        $pagos = Payment::orderBy('payments.created_at', 'DESC')
+        $pagos = payment::orderBy('payments.created_at', 'DESC')
         ->select('payments.id','payments.partner_id','payments.fecha_de_pago','payments.monto_total','partners.nombre','partners.apellido_paterno', 'partners.apellido_materno','partners.carne')
         ->where('fecha_de_pago', $request->fecha)
         ->join('partners','partners.id','=','payments.partner_id')
@@ -154,7 +154,7 @@ class reportesController extends Controller
         }
 
 
-        $pagos = Payment::orderBy('payments.created_at', 'DESC')
+        $pagos = payment::orderBy('payments.created_at', 'DESC')
         ->select('payments.id','payments.partner_id','payments.fecha_de_pago','payments.monto_total','partners.nombre','partners.apellido_paterno', 'partners.apellido_materno','partners.carne')
         ->whereYear('payments.created_at', $request->año)
         ->whereMonth('payments.created_at', $request->mes)

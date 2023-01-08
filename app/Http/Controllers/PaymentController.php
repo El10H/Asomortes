@@ -15,7 +15,7 @@ use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isNan;
 use function PHPUnit\Framework\isNull;
 
-class PaymentController extends Controller
+class paymentController extends Controller
 {
     public function __construct(){
         $this->middleware('can:payments')->only('index', 'store');
@@ -27,7 +27,7 @@ class PaymentController extends Controller
     }
 
     public function listaPagos(){
-        $pagos = Payment::orderBy('payments.created_at', 'DESC')
+        $pagos = payment::orderBy('payments.created_at', 'DESC')
         ->select('payments.id','payments.partner_id','payments.fecha_de_pago','payments.monto_total','partners.nombre','partners.apellido_paterno', 'partners.apellido_materno','partners.carne')
         ->join('partners','partners.id','=','payments.partner_id')
         ->get();
@@ -101,7 +101,7 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
  
-        Payment::create([
+        payment::create([
             'partner_id' => $request->idNombre,
             'fecha_de_pago' => $request->fecha_de_pago,
             'monto_total' => $request->monto,
@@ -577,6 +577,10 @@ class PaymentController extends Controller
                 'message' => 'BAD',
             ], 400);
             return $response_;
+
+            if($response_){
+                
+            }
         }
     }
 
