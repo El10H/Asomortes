@@ -77,14 +77,14 @@ Route::get('beneficiariesPdf','BeneficiaryController@list')->name('beneficiaries
 
 
 //Rutas de pagos
-Route::Resource('payments','PaymentController')->only(['index','store']);
-Route::get('/buscador','PaymentController@buscador')->middleware('can:payment')->name('buscador.payment');
-Route::get('/boleta','PaymentController@boleta')->middleware('can:payment')->name('boleta.payment');
-Route::get('/reportePagos{id}','PaymentController@reportePagos')->middleware('can:payment')->name('reportePagos');
-//Route::get('/paymentNuevo','PaymentController@nuevoIndex')->middleware('can:payment.indexNuevo')->name('payment.indexNuevo');
-Route::get('/datosSocio{dni}','PaymentController@datosSocio')->middleware('can:listaPagos')->name('datosSocio');
-Route::get('/listaPayment','PaymentController@listaPagos')->middleware('can:listaPagos')->name('listaPagos');
-Route::get('/detallePagos{id}','PaymentController@detallePagos')->middleware('can:listaPagos')->name('detallePagos');
+Route::Resource('payments','paymentController')->only(['index','store']);
+Route::get('/buscador','paymentController@buscador')->middleware('can:payment')->name('buscador.payment');
+Route::get('/boleta','paymentController@boleta')->middleware('can:payment')->name('boleta.payment');
+Route::get('/reportePagos{id}','paymentController@reportePagos')->middleware('can:payment')->name('reportePagos');
+//Route::get('/paymentNuevo','paymentController@nuevoIndex')->middleware('can:payment.indexNuevo')->name('payment.indexNuevo');
+Route::get('/datosSocio{dni}','paymentController@datosSocio')->middleware('can:listaPagos')->name('datosSocio');
+Route::get('/listapayment','paymentController@listaPagos')->middleware('can:listaPagos')->name('listaPagos');
+Route::get('/detallePagos{id}','paymentController@detallePagos')->middleware('can:listaPagos')->name('detallePagos');
 
 
 //Rutas de productos (ELIO)

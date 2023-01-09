@@ -308,7 +308,7 @@ return [
                 [
                     'text' => 'Ver pagos',
                     'icon_color' => 'blue',
-                    'url'  => '/listaPayment',
+                    'url'  => '/listapayment',
                     'can' => 'listaPagos'
                 ],
             ],

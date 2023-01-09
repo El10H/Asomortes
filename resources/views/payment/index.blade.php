@@ -245,7 +245,7 @@
 
                     var fechaActualInput = document.getElementById('fecha');
                     var actual = new Date();
-                    var year = actual.getFullYear();
+                    /*var year = actual.getFullYear();
                     actual.setMonth(actual.getMonth() + 1);
 
                     var today = new Date();
@@ -264,7 +264,7 @@
 
                     fechaActualInput.value = formatted_actual;
 
-
+¨*/
 
                     if (mes.length == 0) {
                         document.getElementById('labelMes').innerHTML = '';
