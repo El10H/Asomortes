@@ -11,7 +11,7 @@ use App\Month;
 use App\option_product;
 use App\option_service;
 use App\partner_deceased;
-use App\Payment;
+use App\payment;
 use App\product;
 use App\retired;
 use App\service;
@@ -36,12 +36,12 @@ class PartnerController extends Controller
         $arreglo = array();
 
         foreach ($partners as $partner) {
-            $boleta = Payment::orderBy('created_at', 'DESC')
+            $boleta = payment::orderBy('created_at', 'DESC')
                 ->select('partner_id')->where('partner_id', $partner->id)->take(1)
                 ->get();
 
             if (count($boleta) > 0) {
-                $pago = Payment::orderBy('created_at', 'DESC')
+                $pago = payment::orderBy('created_at', 'DESC')
                     ->select('partner_id')->where('partner_id', $partner->id)
                     ->take(1)
                     ->first();
@@ -258,7 +258,7 @@ class PartnerController extends Controller
             ->where('partner_id', $partner->id)
             ->get();
 
-        $payment = Payment::orderBy('created_at', 'DESC')
+        $payment = payment::orderBy('created_at', 'DESC')
             ->select('id')
             ->where('partner_id', $partner->id)
             ->take(1)
@@ -266,7 +266,7 @@ class PartnerController extends Controller
 
 
         if (count($payment) > 0) {
-            $pago = Payment::orderBy('created_at', 'DESC')
+            $pago = payment::orderBy('created_at', 'DESC')
                 ->select('id')
                 ->where('partner_id', $partner->id)
                 ->take(1)
@@ -345,12 +345,12 @@ class PartnerController extends Controller
         $sociosDeuda11 = array();
         $partners = partner::all();
         foreach ($partners as $partner) {
-            $boleta = Payment::orderBy('created_at', 'DESC')
+            $boleta = payment::orderBy('created_at', 'DESC')
                 ->select('partner_id')->where('partner_id', $partner->id)->take(1)
                 ->get();
 
             if (count($boleta) > 0) {
-                $pago = Payment::orderBy('created_at', 'DESC')
+                $pago = payment::orderBy('created_at', 'DESC')
                     ->select('id', 'partner_id')->where('partner_id', $partner->id)
                     ->take(1)
                     ->first();
@@ -423,12 +423,12 @@ class PartnerController extends Controller
         $sociosDeuda11 = array();
         $partners = partner::all();
         foreach ($partners as $partner) {
-            $boleta = Payment::orderBy('created_at', 'DESC')
+            $boleta = payment::orderBy('created_at', 'DESC')
                 ->select('partner_id')->where('partner_id', $partner->id)->take(1)
                 ->get();
 
             if (count($boleta) > 0) {
-                $pago = Payment::orderBy('created_at', 'DESC')
+                $pago = payment::orderBy('created_at', 'DESC')
                     ->select('id', 'partner_id')->where('partner_id', $partner->id)
                     ->take(1)
                     ->first();
@@ -498,12 +498,12 @@ class PartnerController extends Controller
         $sociosDeuda12 = array();
         $partners = partner::all();
         foreach ($partners as $partner) {
-            $boleta = Payment::orderBy('created_at', 'DESC')
+            $boleta = payment::orderBy('created_at', 'DESC')
                 ->select('partner_id')->where('partner_id', $partner->id)->take(1)
                 ->get();
 
             if (count($boleta) > 0) {
-                $pago = Payment::orderBy('created_at', 'DESC')
+                $pago = payment::orderBy('created_at', 'DESC')
                     ->select('id', 'partner_id')->where('partner_id', $partner->id)
                     ->take(1)
                     ->first();
@@ -574,12 +574,12 @@ class PartnerController extends Controller
         $sociosDeuda2 = array();
         $partners = partner::all();
         foreach ($partners as $partner) {
-            $boleta = Payment::orderBy('created_at', 'DESC')
+            $boleta = payment::orderBy('created_at', 'DESC')
                 ->select('partner_id')->where('partner_id', $partner->id)->take(1)
                 ->get();
 
             if (count($boleta) > 0) {
-                $pago = Payment::orderBy('created_at', 'DESC')
+                $pago = payment::orderBy('created_at', 'DESC')
                     ->select('id', 'partner_id')->where('partner_id', $partner->id)
                     ->take(1)
                     ->first();

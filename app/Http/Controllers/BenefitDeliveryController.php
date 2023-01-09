@@ -25,9 +25,7 @@ use Carbon\Carbon;
 class BenefitDeliveryController extends Controller
 {
 
-    public function __construct(){
-        $this->middleware('can:entrega');
-    }
+    
     
     //Métodos de entrega de beneficios
     public function entrega()
@@ -316,7 +314,7 @@ class BenefitDeliveryController extends Controller
         ->join('partners','partners.id','=','benefit_deliveries.id_partners')
         ->get();
 
-        return view('entregaBeneficio/verEntregas', ['ultimasEntregas'=>$ultimasEntregas]);
+        return view('entregaBeneficio.verEntregas', ['ultimasEntregas'=>$ultimasEntregas]);
         //return redirect('/verEntregas');  
     }
 

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\partner;
 use App\partner_deceased;
-use App\Payment;
+use App\payment;
 use App\Month;
 use App\sanctioned;
 use Carbon\Carbon;
@@ -82,7 +82,7 @@ class PartnerDeceasedController extends Controller
         $resta = $actual->subMonths(12);
 
         //datos para valida mes de pago
-        $boleta = Payment::orderBy('created_at', 'DESC')
+        $boleta = payment::orderBy('created_at', 'DESC')
             ->select('partner_id')->where('partner_id', $socio->id)->take(1)
             ->get();
 
@@ -90,7 +90,7 @@ class PartnerDeceasedController extends Controller
         if (count($boleta) > 0) {
             $fechaParaVlidarPagos= Carbon::now();
 
-            $pago = Payment::orderBy('created_at', 'DESC')
+            $pago = payment::orderBy('created_at', 'DESC')
                 ->select('id', 'partner_id')->where('partner_id', $socio->id)
                 ->take(1)
                 ->first();

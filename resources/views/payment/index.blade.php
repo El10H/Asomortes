@@ -56,6 +56,7 @@
                             </div>
                         @endif
 
+
                         <form action="{{ route('payments.store') }}" class="row g-3" method="POST">
                             @csrf
                             <div class="col-md-6 mt-2">
@@ -245,15 +246,20 @@
 
                     var fechaActualInput = document.getElementById('fecha');
                     var actual = new Date();
+                    var year = actual.getFullYear();
                     actual.setMonth(actual.getMonth() + 1);
 
+                    var today = new Date();
+                    
+                    console.log(year);
                     
 
                     if(actual.getMonth() == 0){
-                        var formatted_actual = actual.getFullYear() + "-" + '12' + "-" + actual
+                        var formatted_actual = year + "-" + '12' + "-" + actual
                         .getDate();
+
                     } else {
-                        var formatted_actual = actual.getFullYear() + "-" + actual.getMonth() + "-" + actual
+                        var formatted_actual = year + "-" + actual.getMonth() + "-" + actual
                         .getDate();
                     }
 

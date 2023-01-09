@@ -148,10 +148,8 @@
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger"
-                                    data-bs-dismiss="modal">Cancelar</button>
                                 <button type="submit" class="btn btn-success">Guardar</button>
                                 <button type="reset" class="btn btn-secondary">Limpiar formulario</button>
-                                <button type="button" class="btn btn-info">Imprimir</button>
                             </div>
 
 

@@ -10,8 +10,9 @@ use App\Month;
 use App\option_product;
 use App\option_service;
 use App\partner_deceased;
-use App\Payment;
+use App\payment;
 use App\product;
+use App\provider;
 use App\retired;
 use App\service;
 use App\sanctioned;
@@ -34,12 +35,12 @@ class panelController extends Controller
         $sociosDeuda2 = array();
         $partners = partner::all();
         foreach ($partners as $partner) {
-            $boleta = Payment::orderBy('created_at', 'DESC')
+            $boleta = payment::orderBy('created_at', 'DESC')
                 ->select('partner_id')->where('partner_id', $partner->id)->take(1)
                 ->get();
 
             if (count($boleta) > 0) {
-                $pago = Payment::orderBy('created_at', 'DESC')
+                $pago = payment::orderBy('created_at', 'DESC')
                     ->select('id', 'partner_id')->where('partner_id', $partner->id)
                     ->take(1)
                     ->first();
@@ -113,7 +114,7 @@ class panelController extends Controller
         $fallecidosContar = partner_deceased::all();
 
         //Últimos pagos:
-        $ultimosPagos = Payment::orderBy('payments.created_at', 'DESC')
+        $ultimosPagos = payment::orderBy('payments.created_at', 'DESC')
         ->select('payments.id','payments.partner_id','payments.fecha_de_pago','payments.monto_total','partners.nombre','partners.apellido_paterno', 'partners.apellido_materno')
         ->join('partners','partners.id','=','payments.partner_id')
         ->take(5)
@@ -124,12 +125,17 @@ class panelController extends Controller
         ->join('partners','partners.id','=','benefit_deliveries.id_partners')
         ->take(5)
         ->get();
+
+        $providers=provider::orderBy('id','DESC')
+        ->take(5)
+        ->get();
         
         //últimos socios registrados
 
         $ultimosSociosRegistrados=partner::orderBy('fecha_de_ingreso','DESC')
         ->take(5)
         ->get();
+
 
         //Socios retirados
         $sociosRetirados = retired::all();
@@ -143,6 +149,7 @@ class panelController extends Controller
             'fallecidos' => $fallecidosContar , 
             'ultimosPagos' => $ultimosPagos ,
             'ultimasEntregas' => $ultimasEntregas,
+            'providers' => $providers,
             'ultimosSocios' =>$ultimosSociosRegistrados,
             'sociosRetirados' => $sociosRetirados,
             'sociosSancionados' => $sociosSancionados
