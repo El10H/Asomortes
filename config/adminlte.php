@@ -253,7 +253,7 @@ return [
         
 
         [
-            'text'    => 'Panel de accesos',
+            'text'    => 'Accesos',
             'icon'    => 'fas fa-users-cog',
             'submenu' => [
                 [
@@ -273,29 +273,57 @@ return [
             'can' => 'users.index'
         ],
 
-        
-        ['header' => 'account_settings'],
         [
-            'text' => 'Panel de Socios',
-            'url'  => '/partners',
-            'icon' => 'fas fa-fw fa-user',
-            'can' => 'partners.index'
+            'text'    => 'Reportes',
+            'icon'    => 'fas fa-fw fas fa-users',
+            'submenu' => [
+                [
+                    'text' => 'Gastos',
+                    'icon_color' => 'blue',
+                    'url'  => '/reportes',
+                ],
+                
+
+            ],
         ],
-        [
-            'text' => 'Resumen Socios',
-            'url'  => '/resumenPartner',
-            'icon' => 'fas fa-fw fa-user',
-            'can' => 'resumenSocio'
-        ],
-        [
-            'text' => 'Panel de Beneficiarios',
-            'url'  => '/beneficiaries',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        
+
 
         [
-            'text'    => 'Panel de Pagos',
+            'text'    => 'Comunidad',
+            'icon'    => 'fas fa-fw fas fa-users',
+            'submenu' => [
+                [
+                    'text' => 'Directivos',
+                    'icon_color' => 'blue',
+                    'url'  => '/vistaExecutive',
+                ],
+                
+                [
+                    'text' => 'Socios',
+                    'url'  => '/partners',
+                    'icon' => 'fas fa-fw fa-user',
+                    'can' => 'partners.index'
+                ],
+
+                [
+                    'text' => 'Beneficiarios',
+                    'url'  => '/beneficiaries',
+                    'icon' => 'fas fa-fw fa-user',
+                ],
+
+                [
+                    'text' => 'Consultas',
+                    'url'  => '/resumenPartner',
+                    'icon' => 'fas fa-fw fa-user',
+                    'can' => 'resumenSocio'
+                ],
+
+            ],
+        ],
+
+
+        [
+            'text'    => 'Pagos',
             'icon'    => 'fas fa-fw fa-credit-card',
             'submenu' => [
                 [
@@ -308,19 +336,12 @@ return [
                 [
                     'text' => 'Ver pagos',
                     'icon_color' => 'blue',
-                    'url'  => '/listaPayment',
+                    'url'  => '/listapayment',
                     'can' => 'listaPagos'
                 ],
             ],
         ],
-     
-        
-        //fas fa-fw fa-credit-card
-        //fas fa-fw fa-box
-        //fas fa-fw fa-box
-
-       
-      
+    
                 
         [
             'text'    => 'Productos',
@@ -384,46 +405,12 @@ return [
         ],
 
         [
-            'text' => 'Gestionar entrega',
+            'text' => 'Entrega de Beneficio',
             'url'  => '/entrega',
             'icon' => 'fas fa-fw fa-boxes',
             'can' => 'entrega'
         ],
 
-
-        [
-            'text'    => 'Comunidad',
-            'icon'    => 'fas fa-fw fas fa-users',
-            'submenu' => [
-                [
-                    'text' => 'Directivos',
-                    'icon_color' => 'blue',
-                    'url'  => '/vistaExecutive',
-                ],
-                
-                
-                [
-                    'text' => 'Trabajadores',
-                    'icon_color' => 'blue',
-                    'url'  => '#',
-                ],
-
-            ],
-        ],
-        
-        [
-            'text'    => 'Reportes',
-            'icon'    => 'fas fa-fw fas fa-users',
-            'submenu' => [
-                [
-                    'text' => 'Gastos',
-                    'icon_color' => 'blue',
-                    'url'  => '/reportes',
-                ],
-                
-
-            ],
-        ],
     ],
 
     /*

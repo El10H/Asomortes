@@ -125,14 +125,7 @@
             <div class="card col-6 mr-1">
                 <div class="card-header border-0">
                     <h3 class="card-title">Últimas entregas realizadas</h3>
-                    <div class="card-tools">
-                        <a href="#" class="btn btn-tool btn-sm">
-                            <i class="fas fa-download"></i>
-                        </a>
-                        <a href="#" class="btn btn-tool btn-sm">
-                            <i class="fas fa-bars"></i>
-                        </a>
-                    </div>
+                    
                 </div>
                 <div class="card-body table-responsive p-0">
                     <table class="table table-striped table-valign-middle">
@@ -163,54 +156,32 @@
 
             <div class="card col-6">
                 <div class="card-header border-0">
-                    <h3 class="card-title">Últimas compras</h3>
-                    <div class="card-tools">
-                        <a href="#" class="btn btn-tool btn-sm">
-                            <i class="fas fa-download"></i>
-                        </a>
-                        <a href="#" class="btn btn-tool btn-sm">
-                            <i class="fas fa-bars"></i>
-                        </a>
-                    </div>
+                    <h3 class="card-title">Proveedores</h3>
+                    
                 </div>
                 <div class="card-body table-responsive p-0">
                     <table class="table table-striped table-valign-middle">
                         <thead>
                             <tr>
-                                <th>Boleta</th>
-                                <th>Estado</th>
-                                <th>Monto total</th>
-                                <th>Ver detalles</th>
+                                <th>Razón Social</th>
+                                <th>Ruc</th>
+                                <th>Dirección</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    001
-                                </td>
-                                <td>Recibida</td>
-                                <td>
-                                    <small class="text-success mr-1">
-                                        <i class="">S/</i>
-                                        2500
-                                    </small>
-
-                                </td>
-                                <td>
-                                    <a href="#" class="text-muted">
-                                        <i class="fas fa-search"></i>
-                                    </a>
-                                </td>
-                            </tr>
-
-
-
+                            @foreach ($providers as $item)
+                                <tr>
+                                    <td>{{$item->razon_social}}</td>
+                                    <td>{{$item->ruc}}</td>
+                                    <td>{{$item->direccion}}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                     
                 </div>
                 <div class="card-footer text-center">
-                    <a href="javascript:void(0)" class="uppercase">Ver Más</a>
+                    <a href="{{ route('providers.index') }}" class="uppercase">Ver Más</a>
                 </div>
             </div>
         </div>

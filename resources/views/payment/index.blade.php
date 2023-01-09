@@ -55,7 +55,7 @@
                                     role="button">Descargar Boleta de pago</a>
                             </div>
                         @endif
-                        
+
                         <form action="{{ route('payments.store') }}" class="row g-3" method="POST">
                             @csrf
                             <div class="col-md-6 mt-2">
@@ -196,14 +196,14 @@
 
                     var datosConfig = arrays[2]; //datos de cuota mensual monto
                     var inscripcion = arrays[3]; //datos de inscripcion monto
-  
 
-                  
+
+
                     document.getElementById('nombre').value = datos.nombre;
                     document.getElementById('apellidos').value = datos.apellido_paterno + ' ' + datos
                         .apellido_materno;
                     document.getElementById('codigo').value = datos.carne;
-                    document.getElementById('estado').value=datos.estado;
+                    document.getElementById('estado').value = datos.estado;
 
                     var inputId = document.createElement("input");
                     inputId.setAttribute("type", "hidden");
@@ -216,8 +216,8 @@
                     inputDni.value = datos.Dni;
 
                     var inputDomicilio = document.createElement("input");
-                    inputDomicilio.setAttribute("type","hidden");
-                    inputDomicilio.setAttribute("name","domicilio");
+                    inputDomicilio.setAttribute("type", "hidden");
+                    inputDomicilio.setAttribute("name", "domicilio");
                     inputDomicilio.value = datos.domicilio;
 
                     var inputUnitario = document.createElement("input");
@@ -238,17 +238,33 @@
                         spanNuevo.innerHTML =
                             'El socio ha sido retirado del sistema por falta de pagos';
                     }
-                
+
                     var mes = arrays[1];
                     var mesFun;
                     var añoFun;
 
                     var fechaActualInput = document.getElementById('fecha');
                     var actual = new Date();
-                    actual.setMonth(actual.getMonth() + 1)
-                    var formatted_actual = actual.getFullYear() + "-" + actual.getMonth() + "-" + actual
+                    var year = actual.getFullYear();
+                    actual.setMonth(actual.getMonth() + 1);
+
+                    var today = new Date();
+                    
+                    console.log(year);
+                    
+
+                    if(actual.getMonth() == 0){
+                        var formatted_actual = year + "-" + '12' + "-" + actual
                         .getDate();
+
+                    } else {
+                        var formatted_actual = year + "-" + actual.getMonth() + "-" + actual
+                        .getDate();
+                    }
+
                     fechaActualInput.value = formatted_actual;
+
+
 
                     if (mes.length == 0) {
                         document.getElementById('labelMes').innerHTML = '';
@@ -359,7 +375,7 @@
                         });
                     }
 
-                    
+
 
                     $('#monto').on('click', function() {
                         var select = document.getElementById('monto');
@@ -367,23 +383,25 @@
                         var labelValidacion = document.getElementById('labelMes');
                         var monto = document.getElementById('inputMonto');
 
-                        var montoInscripcion= inscripcion.monto;
+                        var montoInscripcion = inscripcion.monto;
 
                         if (valor === "1") {
                             if (labelValidacion.innerHTML == 'Mes actual:') {
-                                monto.value = datosConfig.monto * 1 + parseInt(montoInscripcion) ;
+                                monto.value = datosConfig.monto * 1 + parseInt(
+                                    montoInscripcion);
                                 unMesSinPagos(1, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
-                                monto.value = datosConfig.monto * 1 ;
+                                monto.value = datosConfig.monto * 1;
                                 unMesConPagos(1, mesFun, añoFun);
                             }
 
                         }
                         if (valor === "2") {
-                            
+
                             if (labelValidacion.innerHTML == 'Mes actual:') {
-                                monto.value = datosConfig.monto * 2 + parseInt(montoInscripcion)  ; 
+                                monto.value = datosConfig.monto * 2 + parseInt(
+                                    montoInscripcion);
                                 unMesSinPagos(2, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
@@ -392,9 +410,10 @@
                             }
                         }
                         if (valor === "3") {
-                            
+
                             if (labelValidacion.innerHTML == 'Mes actual:') {
-                                monto.value = datosConfig.monto * 3 + parseInt(montoInscripcion);
+                                monto.value = datosConfig.monto * 3 + parseInt(
+                                    montoInscripcion);
                                 unMesSinPagos(3, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
@@ -403,9 +422,10 @@
                             }
                         }
                         if (valor === "4") {
-                            
+
                             if (labelValidacion.innerHTML == 'Mes actual:') {
-                                monto.value = datosConfig.monto * 4 + parseInt(montoInscripcion);
+                                monto.value = datosConfig.monto * 4 + parseInt(
+                                    montoInscripcion);
                                 unMesSinPagos(4, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
@@ -414,9 +434,10 @@
                             }
                         }
                         if (valor === "5") {
-                            
+
                             if (labelValidacion.innerHTML == 'Mes actual:') {
-                                monto.value = datosConfig.monto *5 + parseInt(montoInscripcion);
+                                monto.value = datosConfig.monto * 5 + parseInt(
+                                    montoInscripcion);
                                 unMesSinPagos(5, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
@@ -425,9 +446,10 @@
                             }
                         }
                         if (valor === "6") {
-                            
+
                             if (labelValidacion.innerHTML == 'Mes actual:') {
-                                monto.value = datosConfig.monto *6 + parseInt(montoInscripcion);
+                                monto.value = datosConfig.monto * 6 + parseInt(
+                                    montoInscripcion);
                                 unMesSinPagos(6, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
@@ -436,9 +458,10 @@
                             }
                         }
                         if (valor === "7") {
-                            
+
                             if (labelValidacion.innerHTML == 'Mes actual:') {
-                                monto.value = datosConfig.monto *7 + parseInt(montoInscripcion);
+                                monto.value = datosConfig.monto * 7 + parseInt(
+                                    montoInscripcion);
                                 unMesSinPagos(7, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
@@ -447,9 +470,10 @@
                             }
                         }
                         if (valor === "8") {
-                            
+
                             if (labelValidacion.innerHTML == 'Mes actual:') {
-                                monto.value = datosConfig.monto *8 +parseInt(montoInscripcion) ;
+                                monto.value = datosConfig.monto * 8 + parseInt(
+                                    montoInscripcion);
                                 unMesSinPagos(8, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
@@ -458,9 +482,10 @@
                             }
                         }
                         if (valor === "9") {
-                           
+
                             if (labelValidacion.innerHTML == 'Mes actual:') {
-                                monto.value = datosConfig.monto *9 + parseInt(montoInscripcion);
+                                monto.value = datosConfig.monto * 9 + parseInt(
+                                    montoInscripcion);
                                 unMesSinPagos(9, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
@@ -469,9 +494,10 @@
                             }
                         }
                         if (valor === "10") {
-                            
+
                             if (labelValidacion.innerHTML == 'Mes actual:') {
-                                monto.value = datosConfig.monto *10 + parseInt(montoInscripcion) ;
+                                monto.value = datosConfig.monto * 10 + parseInt(
+                                    montoInscripcion);
                                 unMesSinPagos(10, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
@@ -481,9 +507,10 @@
 
                         }
                         if (valor === "11") {
-                           
+
                             if (labelValidacion.innerHTML == 'Mes actual:') {
-                                monto.value = datosConfig.monto *11 + parseInt(montoInscripcion);
+                                monto.value = datosConfig.monto * 11 + parseInt(
+                                    montoInscripcion);
                                 unMesSinPagos(11, mesFun, añoFun)
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
@@ -492,9 +519,10 @@
                             }
                         }
                         if (valor === "12") {
-                           
+
                             if (labelValidacion.innerHTML == 'Mes actual:') {
-                                monto.value = datosConfig.monto*12 + parseInt(montoInscripcion);
+                                monto.value = datosConfig.monto * 12 + parseInt(
+                                    montoInscripcion);
                                 unMesSinPagos(12, mesFun, añoFun);
                             }
                             if (labelValidacion.innerHTML == 'Último pago:') {
@@ -524,9 +552,9 @@
             holaNew.appendChild(mesesPagados);
 
             var boletaItem = document.createElement("input");
-            boletaItem.setAttribute("name","boletaItem");
+            boletaItem.setAttribute("name", "boletaItem");
             boletaItem.setAttribute("type", "hidden");
-            boletaItem.value="noGuardar";
+            boletaItem.value = "noGuardar";
             holaNew.appendChild(boletaItem);
 
             //console.log(arrays);
@@ -548,9 +576,9 @@
             holaNew.appendChild(mesesPagados);
 
             var boletaItem = document.createElement("input");
-            boletaItem.setAttribute("name","boletaItem");
+            boletaItem.setAttribute("name", "boletaItem");
             boletaItem.setAttribute("type", "hidden");
-            boletaItem.value="siGuardar";
+            boletaItem.value = "siGuardar";
             holaNew.appendChild(boletaItem);
 
         }
@@ -566,7 +594,7 @@
         function limpiarBuscador() {
             document.getElementById('buscador').value = '';
             document.getElementById('mensajeBoleta').remove();
-       
+
         }
 
         function estado(mes, año) {
